@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    &lt;!&ndash;加载外部配置 &ndash;&gt;-->
+<!--    <properties resource="jdbc.properties"></properties>-->
+    <!--配置别名：<typeAlias type="pojo.Book" alias="book"/> 给某个对象去别名 -->
+    <typeAliases>
+        <package name="com.cykj.stopcard.bean" /><!--这是给entity包下所有类取别名，在用完全限定命名的情况下可以通过类名直接调用，在这不区分大小写 -->
+    </typeAliases>
+
+    <mappers>
+<!--        加载SQL语句查询的配置文件，可能会很多-->
+<!--        <mapper resource="mapper/Word.xml" />-->
+    </mappers>
+</configuration>

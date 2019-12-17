@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个是要引用的SQL语句类型文件夹-->
+<mapper namespace="com.cykj.stopcard.dao.AdminLoginDao">
+
+
+
+
+<!--    后台管理员登录-->
+<resultMap id="Worker" type="Worker"></resultMap>
+ <select id="queryAdmin" parameterType="Worker" resultMap="Worker">
+
+ SELECT a.*,b.statename
+ FROM tbl_worker a,tbl_state b
+where workeraccount=#{workeraccount}
+and workerpass=#{workerpass} and a.stateid=b.stateid
+
+ </select>
+
+
+
+
+
+
+<!--    查询角色菜单-->
+<resultMap id="AdminMenu" type="AdminMenu"></resultMap>
+<select id="queryMenu" parameterType="Worker"  resultMap="AdminMenu">
+SELECT g.workerid,g.workeraccount,g.statename,g.menuname  fathername,h.menuname chilename from (SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
+where a.workerid=e.workerid
+and e.rolerid=c.roleid
+and c.roleid=d.roleid
+and d.menuid=b.menuid
+and a.stateid=f.stateid) g,(SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
+where a.workerid=e.workerid
+and e.rolerid=c.roleid
+and c.roleid=d.roleid
+and d.menuid=b.menuid
+and a.stateid=f.stateid) h
+where g.menuid=h.fatherid
+and g.workeraccount=#{workeraccount}
+</select>
+
+</mapper>

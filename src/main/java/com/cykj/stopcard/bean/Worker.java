@@ -1,0 +1,75 @@
+package com.cykj.stopcard.bean;
+//后台管理员实体类
+public class Worker
+{
+   private int workerid;
+   private String workeraccount;
+   private String workerpass;
+   private int stateid;
+   private String statename;
+
+
+
+	public Worker()
+	{
+	}
+
+	public Worker(int workerid, String workeraccount, String workerpass, int stateid, String statename)
+	{
+		this.workerid = workerid;
+		this.workeraccount = workeraccount;
+		this.workerpass = workerpass;
+		this.stateid = stateid;
+		this.statename = statename;
+	}
+
+	public int getWorkerid()
+	{
+		return workerid;
+	}
+
+	public void setWorkerid(int workerid)
+	{
+		this.workerid = workerid;
+	}
+
+	public String getWorkeraccount()
+	{
+		return workeraccount;
+	}
+
+	public void setWorkeraccount(String workeraccount)
+	{
+		this.workeraccount = workeraccount;
+	}
+
+	public String getWorkerpass()
+	{
+		return workerpass;
+	}
+
+	public void setWorkerpass(String workerpass)
+	{
+		this.workerpass = workerpass;
+	}
+
+	public int getStateid()
+	{
+		return stateid;
+	}
+
+	public void setStateid(int stateid)
+	{
+		this.stateid = stateid;
+	}
+
+	public String getStatename()
+	{
+		return statename;
+	}
+
+	public void setStatename(String statename)
+	{
+		this.statename = statename;
+	}
+}

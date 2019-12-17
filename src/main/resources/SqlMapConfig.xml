@@ -12,6 +12,6 @@
 
     <mappers>
 <!--        加载SQL语句查询的配置文件，可能会很多-->
-<!--        <mapper resource="mapper/Word.xml" />-->
+        <mapper resource="mapper/LoginSqlMap.xml" />
     </mappers>
 </configuration>

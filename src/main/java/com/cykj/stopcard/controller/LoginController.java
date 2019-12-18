@@ -95,7 +95,6 @@ public String onListStudent(HttpServletRequest request,
 				//					writer.print(result);
 				//					writer.close();
 				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(user);
-
 				httpSession.setAttribute("workeraccount",user.getWorkeraccount());
 				request.setAttribute("worker1",user);
 				request.setAttribute("map",map);

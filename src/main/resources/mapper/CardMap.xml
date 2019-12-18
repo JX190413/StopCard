@@ -5,12 +5,29 @@
 <!--这个是要引用的SQL语句类型文件夹-->
 <mapper namespace="com.cykj.stopcard.dao.CarDao">
 
-<insert id="CarIn">
-    insert into
-    tbl_inout (carnum,intime,portname,stateid)
-    values (#{carnum},#{intime},#{portname},#{stateid})
-</insert>
+    <!--    查询空闲车位-->
+    <select id="searchFreeCardPort" resultType="CardPort">
+    SELECT * FROM tbl_carport WHERE stateid='5';
+    </select>
 
+    <!--    车辆入场-->
+    <insert id="CarIn">
+        INSERT INTO
+        tbl_inout (carnum,intime,portname,stateid)
+        VALUES (#{carnum},#{intime},#{portname},#{stateid})
+    </insert>
+
+    <!--    修改车位状态-->
+    <update id="updatePortState">
+    UPDATE  tbl_carport SET stateid=#{stateid} WHERE portname=#{portname}
+    </update>
+
+    <!--    反向寻车-->
+    <select id="searchCardPort" resultType="CardPort">
+        SELECT A.* FROM tbl_carport A,tbl_inout B
+        WHERE A.portname=B.portname
+        AND  B.portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and outtime is null)
+    </select>
 
 
 </mapper>

@@ -5,83 +5,81 @@ import org.springframework.stereotype.Component;
 @Component
 public class CardPort
 {
-	private int id;
-	private String name;
-	private String area;
-	private int status;
-	private String x;
-	private String y;
+	private int portid;
+	private int portcardid;
+	private String portarea;
+	private String portname;
+	private int stateid;
+	private String portx;
+	private String porty;
 
-	public CardPort()
+	public int getPortid()
 	{
+		return portid;
 	}
 
-	public CardPort(String name, String area, int status, String x, String y)
+	public void setPortid(int portid)
 	{
-		this.name = name;
-		this.area = area;
-		this.status = status;
-		this.x = x;
-		this.y = y;
+		this.portid = portid;
 	}
 
-	public int getId()
+	public int getPortcardid()
 	{
-		return id;
+		return portcardid;
 	}
 
-	public void setId(int id)
+	public void setPortcardid(int portcardid)
 	{
-		this.id = id;
+		this.portcardid = portcardid;
 	}
 
-	public String getName()
+	public String getPortarea()
 	{
-		return name;
+		return portarea;
 	}
 
-	public void setName(String name)
+	public void setPortarea(String portarea)
 	{
-		this.name = name;
+		this.portarea = portarea;
 	}
 
-	public String getArea()
+	public String getPortname()
 	{
-		return area;
+		return portname;
 	}
 
-	public void setArea(String area)
+	public void setPortname(String portname)
 	{
-		this.area = area;
+		this.portname = portname;
 	}
 
-	public int getStatus()
+	public int getStateid()
 	{
-		return status;
+		return stateid;
 	}
 
-	public void setStatus(int status)
+	public void setStateid(int stateid)
 	{
-		this.status = status;
+		this.stateid = stateid;
 	}
 
-	public String getX()
+	public String getPortx()
 	{
-		return x;
+		return portx;
 	}
 
-	public void setX(String x)
+	public void setPortx(String portx)
 	{
-		this.x = x;
+		this.portx = portx;
 	}
 
-	public String getY()
+	public String getPorty()
 	{
-		return y;
+		return porty;
 	}
 
-	public void setY(String y)
+	public void setPorty(String porty)
 	{
-		this.y = y;
+		this.porty = porty;
 	}
 }

@@ -94,7 +94,12 @@ public String onListStudent(HttpServletRequest request,
 				// 发送给客户端
 				//					writer.print(result);
 				//					writer.close();
+				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(user);
 
+				httpSession.setAttribute("workeraccount",user.getWorkeraccount());
+				request.setAttribute("worker1",user);
+				request.setAttribute("map",map);
+				request.setAttribute("flage","1");
 
 				return "Admin";
 			}

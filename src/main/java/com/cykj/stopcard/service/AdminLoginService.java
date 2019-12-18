@@ -1,6 +1,7 @@
 package com.cykj.stopcard.service;
 
 import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.User;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.dao.AdminLoginDao;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,18 @@ public class AdminLoginService
 
 		return   adminLoginDao.queryMenu(worker);
 }
+//人脸识别
+	@Transactional
+	public  List<Worker>  selectAllUsers(){
+		return adminLoginDao.selectAllUsers();
+	}
+//插入数据库
+	@Transactional
+	public int save(Worker worker){
+		return adminLoginDao.saveUser(worker);
 
 
+
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.cykj.stopcard.dao;
 
 import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.User;
 import com.cykj.stopcard.bean.Worker;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,7 +19,9 @@ public interface AdminLoginDao
 	//后台用户获取菜单
 	ArrayList<AdminMenu> queryMenu(Worker worker);
 
-
+//人脸识别登录
+     List<Worker>  selectAllUsers();
+	int saveUser(Worker worker);
 
 
 

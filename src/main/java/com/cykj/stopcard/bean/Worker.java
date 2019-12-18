@@ -7,20 +7,20 @@ public class Worker
    private String workerpass;
    private int stateid;
    private String statename;
-
-
+	private byte[] face;
 
 	public Worker()
 	{
 	}
 
-	public Worker(int workerid, String workeraccount, String workerpass, int stateid, String statename)
+	public Worker(int workerid, String workeraccount, String workerpass, int stateid, String statename, byte[] face)
 	{
 		this.workerid = workerid;
 		this.workeraccount = workeraccount;
 		this.workerpass = workerpass;
 		this.stateid = stateid;
 		this.statename = statename;
+		this.face = face;
 	}
 
 	public int getWorkerid()
@@ -71,5 +71,15 @@ public class Worker
 	public void setStatename(String statename)
 	{
 		this.statename = statename;
+	}
+
+	public byte[] getFace()
+	{
+		return face;
+	}
+
+	public void setFace(byte[] face)
+	{
+		this.face = face;
 	}
 }

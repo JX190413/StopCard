@@ -19,11 +19,6 @@ and workerpass=#{workerpass} and a.stateid=b.stateid
 
  </select>
 
-
-
-
-
-
 <!--    查询角色菜单-->
 <resultMap id="AdminMenu" type="AdminMenu"></resultMap>
 <select id="queryMenu" parameterType="Worker"  resultMap="AdminMenu">
@@ -41,5 +36,18 @@ and a.stateid=f.stateid) h
 where g.menuid=h.fatherid
 and g.workeraccount=#{workeraccount}
 </select>
+<!-- 人脸识别-->
+
+ <!-- 查询所有的用户 -->
+ <select id="selectAllUsers" resultMap="Worker" >
+		select * from tbl_worker
+	</select>
+
+ <insert id="saveUser"  parameterType="Worker"  >
+		insert into tbl_worker (face) values (#{face,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
+	</insert>
+
+
+
 
 </mapper>

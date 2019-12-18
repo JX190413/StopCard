@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个是要引用的SQL语句类型文件夹-->
+<mapper namespace="com.cykj.stopcard.dao.CarDao">
+
+<insert id="CarIn">
+    insert into
+    tbl_inout (carnum,intime,portname,stateid)
+    values (#{carnum},#{intime},#{portname},#{stateid})
+
+</insert>
+
+
+
+</mapper>

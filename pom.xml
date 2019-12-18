@@ -100,7 +100,7 @@
         </dependency>
 
 
-        <!-- json伟杰新加 -->
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

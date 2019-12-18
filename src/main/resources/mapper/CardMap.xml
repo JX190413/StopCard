@@ -9,7 +9,6 @@
     insert into
     tbl_inout (carnum,intime,portname,stateid)
     values (#{carnum},#{intime},#{portname},#{stateid})
-
 </insert>
 
 

@@ -72,7 +72,7 @@ public class LoginController
 @RequestMapping("/facelogin.action")
 
 public String onListStudent(HttpServletRequest request,
-                            HttpServletResponse response,HttpSession httpSession, Model model) {
+                            HttpServletResponse response, Model model) {
 	// 获取前端页面传过来的参数
 	String base = request.getParameter("base");
 	ModelAndView mv = new ModelAndView();
@@ -94,12 +94,7 @@ public String onListStudent(HttpServletRequest request,
 				// 发送给客户端
 				//					writer.print(result);
 				//					writer.close();
-				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(user);
 
-				httpSession.setAttribute("workeraccount",user.getWorkeraccount());
-				request.setAttribute("worker1",user);
-				request.setAttribute("map",map);
-				request.setAttribute("flage","1");
 
 				return "Admin";
 			}

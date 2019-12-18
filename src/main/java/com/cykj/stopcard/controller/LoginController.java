@@ -38,6 +38,7 @@ public class LoginController
 	@RequestMapping("/Login")
 	public ModelAndView AdminLogin(Worker worker, HttpSession httpSession)
 	{
+		System.out.println("进来了吗");
 		ModelAndView mv = new ModelAndView();
 		Worker worker1 = adminLoginService.queryAdmin(worker);
 		if (worker1 != null)
@@ -55,7 +56,6 @@ public class LoginController
 				mv.setViewName("Admin");
 				return mv;
 
-
 			}else {
 
 				mv.addObject("flage","3");
@@ -70,7 +70,7 @@ public class LoginController
 	}
 //人脸识别的登录
 @RequestMapping("/facelogin.action")
-@ResponseBody
+
 public String onListStudent(HttpServletRequest request,
                             HttpServletResponse response, Model model) {
 	// 获取前端页面传过来的参数
@@ -81,13 +81,10 @@ public String onListStudent(HttpServletRequest request,
 		u.setFace(base.getBytes());
 		//把前端抓取到的图片保存到数据库
 //				      adminLoginService.save(u);
-
 		List<Worker> users = adminLoginService.selectAllUsers();
-
 		String base64 = "";
 		PrintWriter writer = response.getWriter();
 		response.reset();
-
 		for (Worker user : users) {
 			base64 = new String(user.getFace());
 			boolean result = getResult(base, base64);
@@ -98,7 +95,8 @@ public String onListStudent(HttpServletRequest request,
 				//					writer.print(result);
 				//					writer.close();
 
-				return "true";
+
+				return "Admin";
 			}
 			//				else {
 			//
@@ -114,7 +112,7 @@ public String onListStudent(HttpServletRequest request,
 		//			return "redirect:/page/404.jsp";
 	}
 
-	return "false";
+	return null;
 }
 
 	/** 人脸识别 比对 */

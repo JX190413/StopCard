@@ -113,7 +113,7 @@
 
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="Login">
+		<form id="login" action="Login">
 			<h1>人脸识别登录</h1>
 			<div class="social-container"> <a href="#" class="social">
 				<ion-icon name="logo-facebook"></ion-icon>
@@ -224,6 +224,7 @@
 
 				if(result===true){
                  alert("登录成功");
+					$("#login").submit();
 					window.location.href = "jsp/Admin.jsp"
 				} else {
 					alert("登录失败");

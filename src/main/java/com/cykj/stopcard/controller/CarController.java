@@ -1,7 +1,9 @@
 package com.cykj.stopcard.controller;
 
+import com.cykj.stopcard.bean.Area;
 import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
+import com.cykj.stopcard.bean.ResultEntity;
 import com.cykj.stopcard.service.CarService;
 import com.cykj.stopcard.util.CardNumberAnalyze.AuthService;
 import com.cykj.stopcard.util.CardNumberAnalyze.BaseImg64;
@@ -86,6 +88,73 @@ public class CarController
 
 		return cardService.searchCardPort(cardnum);
 	}
+
+	//查找数据库中所有车位的信息
+	@RequestMapping("/CardPort")
+	@ResponseBody
+	public List<CardPort> carport_query(){
+		return cardService.carPortQuery();
+	}
+
+	//查找被点击车位的信息
+	@RequestMapping("/carPortClick")
+	@ResponseBody
+	public CardPort carPortClick(int id){
+		System.out.println(id);
+		CardPort CardPort=cardService.carPortClick(id);
+
+		System.out.println(CardPort.getPortname());
+		System.out.println(CardPort.getPortarea());
+
+		return CardPort;
+	}
+
+	//获取分区标注
+	@RequestMapping("/carArea")
+	@ResponseBody
+	public List<Area> carArea(){
+		return cardService.carArea();
+	}
+
+	//动态修改分区信息
+	@RequestMapping("/changeArea")
+	@ResponseBody
+	public ResultEntity changeArea(String changeArea1,String changeArea2,String changeArea3,String changeArea4,String changeArea5){
+		System.out.println(changeArea1);
+		System.out.println(changeArea2);
+		System.out.println(changeArea3);
+		System.out.println(changeArea4);
+		System.out.println(changeArea5);
+
+		if (changeArea1!=null&&changeArea1.length()!=0){
+			cardService.changeArea(changeArea1,1);
+		}
+		if (changeArea2!=null&&changeArea2.length()!=0){
+			cardService.changeArea(changeArea2,2);
+		}
+		if (changeArea3!=null&&changeArea3.length()!=0){
+			cardService.changeArea(changeArea3,3);
+		}
+		if (changeArea4!=null&&changeArea4.length()!=0){
+			cardService.changeArea(changeArea4,4);
+		}
+		if (changeArea5!=null&&changeArea5.length()!=0){
+			cardService.changeArea(changeArea5,5);
+		}
+		ResultEntity res = new ResultEntity();
+		res.setMsg("修改成功");
+		return res;
+	}
+
+
+	@RequestMapping("/esmap")
+	public String testESMap1()
+	{
+		return "Parking";
+	}
+
+
+
 
 
 }

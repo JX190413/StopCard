@@ -1,9 +1,11 @@
 package com.cykj.stopcard.service;
 
+import com.cykj.stopcard.bean.Area;
 import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
 import com.cykj.stopcard.dao.CarDao;
 import com.cykj.stopcard.util.GetNowTime;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,7 +45,25 @@ public class CarService
 		return carDao.searchCardPort(cardnum);
 	}
 
+	//所有车位信息查询
+	public List<CardPort> carPortQuery(){
+		return carDao.carPortQuery();
+	}
 
+	//被点击车位信息查询
+	public CardPort carPortClick(int id){
+		return carDao.carPortClick(id);
+	}
+
+	//获取分区标注信息
+	public List<Area> carArea(){
+		return carDao.carArea();
+	}
+
+	//动态修改车辆分区
+	public int changeArea(String portArea,int belong){
+		return carDao.changeArea(portArea,belong);
+	}
 
 
 }

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个是要引用的SQL语句类型文件夹-->
+<mapper namespace="com.cykj.stopcard.dao.AdminDao">
+
+    <!--   角色表统计-->
+    <select id="queryRole" resultType="map">
+        SELECT * FROM tbl_role
+        <where>
+            <if test=" role!=null and role.length>0 ">
+                AND rolename =#{role}
+            </if>
+        </where>
+        <if test=" start!=null and pageSize!=null">
+            LIMIT #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    角色表统计-->
+    <select id="queryRoleCount" resultType="integer">
+        SELECT COUNT(*) FROM tbl_role
+        <where>
+            <if test=" role!=null and role.length>0 ">
+                AND rolename =#{role}
+            </if>
+        </where>
+    </select>
+
+    <!--通过登录人员查询树形组件一级菜单-->
+    <select id="selectTreeParent" resultType="map">
+        SELECT A.*
+        FROM  (	SELECT A.*
+        FROM tbl_menu A,tbl_worker B,tbl_rolemenu C,tbl_workeroler D
+        WHERE A.menuid=C.menuid
+        AND C.roleid=D.rolerid
+        AND D.workerid=B.workerid
+        AND B.workeraccount=#{admin})A
+        WHERE fatherid is NULL;
+    </select>
+
+    <!--通过登录人员查询树形组件子菜单-->
+    <select id="selectTreeChild" resultType="map">
+        SELECT A.*
+        FROM  (SELECT A.*
+        FROM tbl_menu A,tbl_worker B,tbl_rolemenu C,tbl_workeroler D
+        WHERE A.menuid=C.menuid
+        AND C.roleid=D.rolerid
+        AND D.workerid=B.workerid
+        AND B.workeraccount=#{admin})A
+        WHERE fatherid =#{fatherid};
+    </select>
+
+    <!--    树的数据回显-->
+    <!-- 根据角色查询其对应菜单 -->
+    <select id="queryTreeFather" resultType="Map">
+        SELECT A.* FROM tbl_menu A,tbl_rolemenu B,tbl_role C
+        WHERE A.menuid=B.menuid
+        AND B.roleid=C.roleid
+        AND C.rolename=#{role}
+    </select>
+
+    <!-- 根据角色查询其对应菜单 -->
+    <select id="queryTreeChild" resultType="Map">
+        select A.* from (SELECT A.* FROM tbl_menu A,tbl_rolemenu B,tbl_role C
+        WHERE A.menuid=B.menuid
+        AND B.roleid=C.roleid
+        AND C.rolename=#{role})A where fatherid=#{fatherid}
+    </select>
+
+    <!--    插入角色表-->
+    <insert id="addRole">
+        INSERT INTO
+        tbl_role(rolename,roledetails)
+        values (#{role},#{msg})
+    </insert>
+
+    <!--    角色表id查询-->
+    <select id="queryRolesID" resultType="map">
+        SELECT roleid FROM tbl_role WHERE  rolename =#{role}
+    </select>
+
+    <!--    插入角色-权限关系表-->
+    <insert id="addRoleMenu">
+        INSERT INTO tbl_rolemenu (roleid,menuid)
+        values
+        <foreach item="i" index="index" collection="menuid" separator=",">
+            (#{roleID},#{i})
+        </foreach>
+    </insert>
+
+    <!--    删除角色-->
+    <!--    查询是否有工作人员属于该角色，有的话提示不能删除-->
+    <select id="queryWokerByRoleId" resultType="map">
+        SELECT * FROM tbl_workeroler WHERE  roleid =#{roleid}
+    </select>
+
+    <!--    根据roleid删除角色-权限关系表-->
+    <insert id="deleteRoleMenu">
+       DELETE FROM tbl_rolemenu WHERE roleid=#{roleid}
+    </insert>
+
+
+    <!--    根据roleid修改角色表-->
+    <insert id="updateRole">
+       UPDATE tbl_role
+       SET rolename=#{rolename},roledetails=#{roledetails}
+       WHERE roleid=#{roleid}
+    </insert>
+
+
+
+</mapper>

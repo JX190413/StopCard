@@ -14,5 +14,6 @@
 <!--        加载SQL语句查询的配置文件，可能会很多-->
         <mapper resource="mapper/LoginSqlMap.xml" />
         <mapper resource="mapper/CardMap.xml" />
+        <mapper resource="mapper/AdminMap.xml" />
     </mappers>
 </configuration>

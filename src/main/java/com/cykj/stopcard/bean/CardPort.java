@@ -2,6 +2,7 @@ package com.cykj.stopcard.bean;
 
 import org.springframework.stereotype.Component;
 
+//停车位实体类
 @Component
 public class CardPort
 {

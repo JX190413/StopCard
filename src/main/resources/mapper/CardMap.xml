@@ -36,7 +36,12 @@
 
     <!--    被点击车位信息查询-->
     <select id="carPortClick" resultType="CardPort">
-        SELECT * FROM tbl_carport WHERE portcardid=#{ID}
+        SELECT T1.*,tbl_inout.carnum FROM
+        (SELECT * FROM tbl_carport WHERE portcardid=#{ID}) T1
+        LEFT JOIN
+        tbl_inout
+        ON
+        T1.portname=tbl_inout.portname
     </select>
 
     <!--    获取分区标注信息-->

@@ -13,6 +13,7 @@ public class CardPort
 	private int stateid;
 	private String portx;
 	private String porty;
+	private String carnum;
 
 	public int getPortid()
 	{
@@ -82,5 +83,15 @@ public class CardPort
 	public void setPorty(String porty)
 	{
 		this.porty = porty;
+	}
+
+	public String getCarnum()
+	{
+		return carnum;
+	}
+
+	public void setCarnum(String carnum)
+	{
+		this.carnum = carnum;
 	}
 }

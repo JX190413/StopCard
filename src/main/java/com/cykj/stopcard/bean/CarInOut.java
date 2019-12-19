@@ -2,6 +2,7 @@ package com.cykj.stopcard.bean;
 
 import org.springframework.stereotype.Component;
 
+//车辆进出场实体类
 @Component
 public class CarInOut
 {

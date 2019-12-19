@@ -1,5 +1,6 @@
 package com.cykj.stopcard.bean;
 
+//用户实体类
 public class User
 {
 

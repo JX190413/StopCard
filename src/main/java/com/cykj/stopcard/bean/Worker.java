@@ -8,13 +8,12 @@ public class Worker
    private int stateid;
    private String statename;
 	private byte[] face;
-  private boolean flage;
 
 	public Worker()
 	{
 	}
 
-	public Worker(int workerid, String workeraccount, String workerpass, int stateid, String statename, byte[] face, boolean flage)
+	public Worker(int workerid, String workeraccount, String workerpass, int stateid, String statename, byte[] face)
 	{
 		this.workerid = workerid;
 		this.workeraccount = workeraccount;
@@ -22,7 +21,6 @@ public class Worker
 		this.stateid = stateid;
 		this.statename = statename;
 		this.face = face;
-		this.flage = flage;
 	}
 
 	public int getWorkerid()
@@ -83,15 +81,5 @@ public class Worker
 	public void setFace(byte[] face)
 	{
 		this.face = face;
-	}
-
-	public boolean isFlage()
-	{
-		return flage;
-	}
-
-	public void setFlage(boolean flage)
-	{
-		this.flage = flage;
 	}
 }

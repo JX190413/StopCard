@@ -29,5 +29,24 @@
         AND  B.portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and outtime is null)
     </select>
 
+    <!--    所有车位信息查询-->
+    <select id="carPortQuery" resultType="CardPort">
+        SELECT * FROM tbl_carport
+    </select>
+
+    <!--    被点击车位信息查询-->
+    <select id="carPortClick" resultType="CardPort">
+        SELECT * FROM tbl_carport WHERE portcardid=#{ID}
+    </select>
+
+    <!--    获取分区标注信息-->
+    <select id="carArea" resultType="Area">
+        SELECT DISTINCT portarea,belong FROM tbl_carport order by belong
+    </select>
+
+    <!--    动态修改分区-->
+    <update id="changeArea">
+        UPDATE tbl_carport SET portarea=#{portarea} WHERE belong = #{belong}
+    </update>
 
 </mapper>

@@ -70,8 +70,8 @@ public class LoginController
 	}
 //人脸识别的登录
 @RequestMapping("/facelogin.action")
-
-public String onListStudent(HttpServletRequest request,
+@ResponseBody
+public Worker onListStudent(HttpServletRequest request,
                             HttpServletResponse response, Model model) {
 	// 获取前端页面传过来的参数
 	String base = request.getParameter("base");
@@ -89,19 +89,19 @@ public String onListStudent(HttpServletRequest request,
 			base64 = new String(user.getFace());
 			boolean result = getResult(base, base64);
 			if (result==true) {
+				Worker worker=new Worker();
+				worker.setWorkeraccount(user.getWorkeraccount());
+				worker.setWorkerpass(user.getWorkerpass());
+				worker.setFlage(true);
 				//					request.getSession().setAttribute("user", user);
 				// 把result转换成json格式字符串
 				// 发送给客户端
 				//					writer.print(result);
 				//					writer.close();
-				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(user);
 
-				httpSession.setAttribute("workeraccount",user.getWorkeraccount());
-				request.setAttribute("worker1",user);
-				request.setAttribute("map",map);
-				request.setAttribute("flage","1");
 
-				return "Admin";
+
+				return worker;
 			}
 			//				else {
 			//
@@ -109,7 +109,6 @@ public String onListStudent(HttpServletRequest request,
 			////					writer.print(result);
 			////					writer.close();
 			//				}
-
 		}
 
 	} catch (Exception e) {
@@ -194,7 +193,7 @@ public String onListStudent(HttpServletRequest request,
 
 		double resultList = jsonArray.getDouble("score");
 		if (resultList >= 90) {
-			System.out.println("tttt");
+
 			flag = true;
 
 		}

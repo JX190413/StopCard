@@ -113,7 +113,7 @@
 
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form id="login" action="Login">
+		<form  action="Login2">
 			<h1>人脸识别登录</h1>
 			<div class="social-container"> <a href="#" class="social">
 				<ion-icon name="logo-facebook"></ion-icon>
@@ -135,7 +135,7 @@
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="Login"    method="post">
+		<form id="login" action="Login"    method="post">
 			<h1>后台登录</h1>
 			<div class="social-container"> <a href="#" class="social">
 				<ion-icon name="logo-facebook"></ion-icon>
@@ -220,12 +220,12 @@
 			url:"${pageContext.request.contextPath}/facelogin.action",
 			data:{"base":base},
 			success:function(data){
-				var result = eval(data);
 
-				if(result===true){
-                 alert("登录成功");
+				if(data.flage===true){
+					$("#workeraccount").val(data.workeraccount);
+					$("#workerpass").val(data.workerpass);
 					$("#login").submit();
-					window.location.href = "jsp/Admin.jsp"
+
 				} else {
 					alert("登录失败");
 				}

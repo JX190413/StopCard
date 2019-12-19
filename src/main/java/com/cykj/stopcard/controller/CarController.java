@@ -100,7 +100,13 @@ public class CarController
 	@RequestMapping("/carPortClick")
 	@ResponseBody
 	public CardPort carPortClick(int id){
-		return cardService.carPortClick(id);
+		System.out.println(id);
+		CardPort CardPort=cardService.carPortClick(id);
+
+		System.out.println(CardPort.getPortname());
+		System.out.println(CardPort.getPortarea());
+
+		return CardPort;
 	}
 
 	//获取分区标注

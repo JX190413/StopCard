@@ -510,9 +510,9 @@
 				return;
 			$("#parking").css("fontSize", "18px").html();
 			$("#carid").css("color", "rgb(255, 255, 0)").html(event.name); //停车位ID
-			// console.log(event.ID);
-			// console.log(event.name);
-			// console.log(event.area);
+			console.log(event.ID);
+			console.log(event.name);
+			console.log(event.area);
 
 			//查找车位信息
 			$.post(

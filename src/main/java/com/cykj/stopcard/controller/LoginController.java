@@ -2,7 +2,8 @@ package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.AdminMenu;
 
-import com.cykj.stopcard.bean.MSG;
+
+import com.cykj.stopcard.bean.Msg;
 import com.cykj.stopcard.bean.User;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.service.AdminLoginService;
@@ -74,10 +75,10 @@ public class LoginController
 //添加后台管理员
     @RequestMapping("/addface")
     @ResponseBody
-    public MSG AddWorker(Worker worker){
+    public Msg AddWorker(Worker worker){
 
 	int i= adminLoginService.save(worker);
-	    MSG msg=new MSG();
+	    Msg msg=new Msg();
 	    if(i>0){
 
 		    msg.setMsg("1");
@@ -158,7 +159,7 @@ public String onListStudent(HttpServletRequest request,
 //查询所有的工作人员
 	@RequestMapping("/WorkerTable")
 	@ResponseBody
-   public MSG selectWorker(String workeraccount,String page){
+   public Msg selectWorker(String workeraccount,String page){
           Worker worker=new Worker();
 		int num=Integer.valueOf(page);
 		int newpage=(num-1)*5;
@@ -166,9 +167,9 @@ public String onListStudent(HttpServletRequest request,
 		worker.setPage(newpage);
 		List<Worker>	workerList=adminLoginService.queryWorker(worker);
 		List<Worker>	workers=adminLoginService.queryPage(worker);
-		MSG msg=new MSG();
-		msg.setCode(new BigDecimal(0));
-		msg.setCount(new BigDecimal(workers.size()));
+		Msg msg=new Msg();
+		msg.setCode(0);
+		msg.setCount(workers.size());
 		msg.setData(workerList);
 		return  msg;
 	}

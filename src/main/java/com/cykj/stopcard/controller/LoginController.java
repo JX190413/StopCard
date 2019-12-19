@@ -1,6 +1,8 @@
 package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.AdminMenu;
+
+import com.cykj.stopcard.bean.MSG;
 import com.cykj.stopcard.bean.User;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.service.AdminLoginService;
@@ -21,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ public class LoginController
 	private static String accessToken;
 	@Resource
 	private AdminLoginService adminLoginService;
-//账号密码的登录
+//后台账号密码的登录
 	@RequestMapping("/Login")
 	public ModelAndView AdminLogin(Worker worker, HttpSession httpSession)
 	{
@@ -68,14 +71,35 @@ public class LoginController
 		    mv.setViewName("AdminLogin");
               return mv;
 	}
-//人脸识别的登录
+//添加后台管理员
+    @RequestMapping("/addface")
+    @ResponseBody
+    public MSG AddWorker(Worker worker){
+
+	int i= adminLoginService.save(worker);
+	    MSG msg=new MSG();
+	    if(i>0){
+
+		    msg.setMsg("1");
+
+	    }else {
+		    msg.setMsg("2");
+	    }
+	    return msg;
+
+
+
+    }
+
+
+
+//后台人脸识别的登录
 @RequestMapping("/facelogin.action")
 @ResponseBody
 public Worker onListStudent(HttpServletRequest request,
                             HttpServletResponse response, Model model) {
 	// 获取前端页面传过来的参数
 	String base = request.getParameter("base");
-	ModelAndView mv = new ModelAndView();
 	try {
 		Worker u = new Worker();
 		u.setFace(base.getBytes());
@@ -118,6 +142,58 @@ public Worker onListStudent(HttpServletRequest request,
 
 	return null;
 }
+
+
+	//用户查询界面
+	@RequestMapping(value = "/WorkerView")
+	public String tableView(){
+		String index="Personnel";
+		return index;
+	}
+
+
+
+
+
+//查询所有的工作人员
+	@RequestMapping("/WorkerTable")
+	@ResponseBody
+   public MSG selectWorker(String workeraccount,String page){
+          Worker worker=new Worker();
+		int num=Integer.valueOf(page);
+		int newpage=(num-1)*5;
+		worker.setWorkeraccount(workeraccount);
+		worker.setPage(newpage);
+		List<Worker>	workerList=adminLoginService.queryWorker(worker);
+		List<Worker>	workers=adminLoginService.queryPage(worker);
+		MSG msg=new MSG();
+		msg.setCode(new BigDecimal(0));
+		msg.setCount(new BigDecimal(workers.size()));
+		msg.setData(workerList);
+		return  msg;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/** 人脸识别 比对 */
 	public boolean getResult(String imStr1, String imgStr2) {

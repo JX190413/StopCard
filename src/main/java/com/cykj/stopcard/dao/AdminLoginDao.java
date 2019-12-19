@@ -22,8 +22,10 @@ public interface AdminLoginDao
 //人脸识别登录
      List<Worker>  selectAllUsers();
 	int saveUser(Worker worker);
-
-
+//查询所有的工作人员信息
+	 List<Worker> queryWorker(Worker worker);
+	//查询所有的工作人员条数
+	List<Worker> queryPage(Worker worker);
 
 
 

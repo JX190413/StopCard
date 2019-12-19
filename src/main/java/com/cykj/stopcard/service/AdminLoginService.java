@@ -39,9 +39,19 @@ public class AdminLoginService
 	@Transactional
 	public int save(Worker worker){
 		return adminLoginDao.saveUser(worker);
-
+	}
+//查询工作人员用户信息
+	@Transactional
+	public List<Worker> queryWorker(Worker worker){
+		return  adminLoginDao.queryWorker(worker);
 
 
 	}
+	//查询工作人员用户条数
+	@Transactional
+	public List<Worker> queryPage(Worker worker){
+		return  adminLoginDao.queryPage(worker);
 
+
+	}
 }

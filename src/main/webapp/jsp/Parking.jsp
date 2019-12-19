@@ -510,6 +510,8 @@
 					pop(res);
 					$("#area").css("color", "rgb(0,0,0)").html(res.portarea);
 					$("#name").css("color", "rgb(0,0,0)").html(res.portname);
+					$("#carNum").css("color", "rgb(0,0,0)").html(res.carnum);
+
 				}
 			);
 			// 新增车位id、车位名、坐标
@@ -578,12 +580,12 @@
 				},
 				// className:"myPopMarker",  //自定义popMarker样式。在css里配置
 				//设置弹框的宽度
-				width: 150,
+				width: 180,
 				//设置弹框的高度
 				height: 100,
 				marginTop:1,  //弹框距离地面的高度
 				//设置弹框的内容
-				content: '<div><span id="area"></span><br><span id="name"></span>',
+				content: '<span id="area"></span><br><span id="name"></span><br>停放情况:<span id="carNum"></span>',
 				closeCallBack: function () {
 					//信息窗点击关闭操作
 					// alert('信息窗关闭了！');

@@ -100,12 +100,10 @@ public class CarController
 	@RequestMapping("/carPortClick")
 	@ResponseBody
 	public CardPort carPortClick(int id){
-		System.out.println(id);
 		CardPort CardPort=cardService.carPortClick(id);
-
-		System.out.println(CardPort.getPortname());
-		System.out.println(CardPort.getPortarea());
-
+		if (CardPort.getCarnum()==null){
+			CardPort.setCarnum("空闲");
+		}
 		return CardPort;
 	}
 
@@ -146,14 +144,12 @@ public class CarController
 		return res;
 	}
 
-
-	@RequestMapping("/esmap")
-	public String testESMap1()
+	//	停车场显示界面跳转
+	@RequestMapping("/Parking")
+	public String Parking()
 	{
 		return "Parking";
 	}
-
-
 
 
 

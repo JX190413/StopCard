@@ -51,5 +51,10 @@ public interface AdminDao
 	public  int updateRole(String rolename, String roledetails, String roleid);
 
 
+	//查询菜单
+	public  List<Map<String,Object>> queryMenu(@Param("menuname") String menuname, @Param("start") Integer start, @Param("pageSize") Integer pageSize);
+
+	//查询菜单表数量
+	public  Integer queryMenuCount(@Param("menuname") String menuname);
 
 }

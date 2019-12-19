@@ -53,16 +53,19 @@ public class CarController
 				JSONObject data = new JSONObject(result);
 				//1.车牌识别
 				Map map=(Map)data.toMap().get("words_result");
-				System.out.println(map.get("number"));
-				map1.put("code", 200);
-				map1.put("msg", map.get("number"));
-				String portname=searchFreeCarPort();
-				carInOut.setCarnum(map.get("number").toString());
-				carInOut.setPortname(portname);
-				//写入数据库
-				cardService.cardIn(carInOut);
-				//修改车位状态
-				cardService.updatePortState("6",portname);
+				if(null!=map){
+					System.out.println(map.get("number"));
+					map1.put("code", 200);
+					map1.put("msg", map.get("number"));
+//					String portname=searchFreeCarPort();
+//					carInOut.setCarnum(map.get("number").toString());
+//					carInOut.setPortname(portname);
+//					//写入数据库
+//					cardService.cardIn(carInOut);
+//					//修改车位状态
+//					cardService.updatePortState("6",portname);
+
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -70,15 +73,22 @@ public class CarController
 		}
 		return map1;
 	}
-
 	//模拟司机随机停车
-	public String searchFreeCarPort(){
-		//获取空闲车位
-		List<CardPort> list=cardService.searchFreeCardPort();
-		Random random=new Random();
-		//随机一个车位
-		int num=random.nextInt(list.size());
-		return list.get(num).getPortname();
+//	public String searchFreeCarPort(){
+//		//获取空闲车位
+//		List<CardPort> list=cardService.searchFreeCardPort();
+//		Random random=new Random();
+//		//随机一个车位
+//		int num=random.nextInt(list.size());
+//		return list.get(num).getPortname();
+//	}
+//
+	//查询空余车位
+	@RequestMapping("/searchFreeCarPort")
+	@ResponseBody
+	public  String searchFreeCarPort(){
+
+		return cardService.searchFreeCardPort().size()+"";
 	}
 
 	//通过车位或车牌获取停车位坐标（反向寻车）

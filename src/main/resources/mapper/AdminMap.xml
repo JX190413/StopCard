@@ -109,6 +109,32 @@
        WHERE roleid=#{roleid}
     </insert>
 
+<!--       &lt;!&ndash;    查询所有菜单&ndash;&gt;-->
+    <!--    <select id="queryMenu" resultType="map">-->
+    <!--        SELECT * FROM tbl_menu-->
+    <!--    </select>-->
 
 
+    <!--   角色表统计-->
+    <select id="queryMenu" resultType="map">
+        SELECT * FROM tbl_menu
+        <where>
+            <if test=" menuname!=null and menuname.length>0 ">
+                AND menuname  LIKE '%${menuname}%'
+            </if>
+        </where>
+        <if test=" start!=null and pageSize!=null">
+            LIMIT #{start},#{pageSize}
+        </if>
+    </select>
+
+    <!--    菜单表统计-->
+    <select id="queryMenuCount" resultType="integer">
+        SELECT COUNT(*) FROM tbl_menu
+        <where>
+            <if test=" menuname!=null and menuname.length>0 ">
+                AND menuname  LIKE '%${menuname}%'
+            </if>
+        </where>
+    </select>
 </mapper>

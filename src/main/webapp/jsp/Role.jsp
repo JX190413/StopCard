@@ -181,9 +181,7 @@
 									alert("服务器正忙!")
 								}
 							});
-
 						});
-
 						submit.trigger('click');
 					}
 				});
@@ -225,9 +223,7 @@
 									alert("服务器正忙!")
 								}
 							});
-
 						});
-
 						submit.trigger('click');
 					}
 				});

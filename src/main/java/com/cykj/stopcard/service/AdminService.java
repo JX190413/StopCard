@@ -19,6 +19,17 @@ public class AdminService
 	@Resource
 	private AdminDao adminDao;
 
+	//菜单表查询
+	public List<Map<String,Object>> queryMenu(String menuname, Integer start, Integer pageSize)
+	{
+		return adminDao.queryMenu( menuname, start, pageSize);
+	}
+
+	//菜单表数量查询
+	public int queryMenuCount(String menuname)
+	{
+		return adminDao.queryMenuCount( menuname);
+	}
 	//角色表查询
 	public List<Map<String,Object>> queryRole(String role, Integer start, Integer pageSize)
 	{

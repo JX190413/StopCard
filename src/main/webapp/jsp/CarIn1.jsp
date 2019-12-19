@@ -12,6 +12,8 @@
 <html>
 <head>
 	<title>Title</title>
+	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+	<script src="../layuiadmin/layui/layui.js"></script>
 	<link href="../ESMap/lib/bootstrap.min.css" rel="stylesheet" />
 	<link href="../ESMap/lib/bootstrap.min.css" rel="stylesheet" />
 	<link href="../ESMap/Case/Park/css/common.css" rel="stylesheet" />

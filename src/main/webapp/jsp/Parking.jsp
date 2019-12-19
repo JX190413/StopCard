@@ -497,7 +497,6 @@
 			$("#carid").css("color", "rgb(255, 255, 0)").html(event.name); //停车位ID
 			console.log(event.ID);
 			console.log(event.name);
-			console.log(event.area);
 
 			//查找车位信息
 			$.post(
@@ -514,20 +513,6 @@
 
 				}
 			);
-			// 新增车位id、车位名、坐标
-			// $.post(
-			// 	'carport.action',
-			// 	{
-			// 		id:event.ID,
-			// 		name:event.name,
-			// 		x:event.hitCoord.x,
-			// 		y:event.hitCoord.y
-			// 	},
-			// 	function(res){
-			//
-			// 	}
-			// );
-
 		});
 
 		//滚动字幕

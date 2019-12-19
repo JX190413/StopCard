@@ -188,22 +188,7 @@
 		<div class="container-fluid">
 			<h1>
 				停车场
-				<%--			<a href="/" title="室内地图-地图轨迹回放" target="_blank">易景室内三维地图引擎</a>（停车场车位占用例子定时5秒从后台获取数据）--%>
 			</h1>
-			<%--		<div class="tips-right">--%>
-			<%--			<span class="tip1"></span> <span class="tip2"></span>--%>
-			<%--		</div>--%>
-			<%--		<div class="tips-msg">--%>
-			<%--			<div class="msg msg1">--%>
-			<%--				<div class="erweima"></div>--%>
-			<%--				<p>手机扫一扫进入体验</p>--%>
-			<%--			</div>--%>
-			<%--			<div class="msg msg2">--%>
-			<%--				<h4>停车场车位占用</h4>--%>
-			<%--				<p>1. 停车场车位占用例子定时5秒从后台获取数据</p>--%>
-			<%--				<div style="display: none">停车场车位</div>--%>
-			<%--			</div>--%>
-			<%--		</div>--%>
 		</div>
 	</nav>
 

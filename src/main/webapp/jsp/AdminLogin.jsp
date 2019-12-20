@@ -25,6 +25,7 @@
 	<%--	<script type="text/javascript" src=<%=jsPath+"login.js" %>></script>--%>
 	<script type="text/javascript" src=<%=jsPath+"jquery-1.4.4.min.js" %>></script>
 	<link rel="stylesheet" type="text/css" href=<%=path+"/css/style1.css"%> />
+	<script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
 	<title>Title</title>
 	<style>
 		body {
@@ -113,7 +114,7 @@
 
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form id="login" action="Login">
+		<form  action="Login">
 			<h1>人脸识别登录</h1>
 			<div class="social-container"> <a href="#" class="social">
 				<ion-icon name="logo-facebook"></ion-icon>
@@ -135,7 +136,7 @@
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="Login"    method="post">
+		<form id="login" action="Login"    method="post">
 			<h1>后台登录</h1>
 			<div class="social-container"> <a href="#" class="social">
 				<ion-icon name="logo-facebook"></ion-icon>
@@ -197,7 +198,6 @@
 			height:1024,
 		}
 	};
-
 	//导航 获取用户媒体对象
 	navigator.mediaDevices.getUserMedia(con)
 		.then(function(stream){
@@ -214,18 +214,22 @@
 		context.drawImage(video,0,0,400,300);
 		var base = getBase64();
 
-
 		$.ajax({
 			type:"post",
 			url:"${pageContext.request.contextPath}/facelogin.action",
 			data:{"base":base},
 			success:function(data){
-				var result = eval(data);
+				alert(data)
+				// var result = eval(data);
 
-				if(result===true){
+				if(data.flage===true){
+					alert(	data.workeraccount)
+					alert(	data.workerpass)
 					alert("登录成功");
+					$("#workeraccount").val(data.workeraccount);
+					$("#workerpass").val(data.workerpass);
 					$("#login").submit();
-					window.location.href = "jsp/Admin.jsp"
+
 				} else {
 					alert("登录失败");
 				}

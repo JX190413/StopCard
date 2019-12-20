@@ -45,7 +45,19 @@
             AND carnum like '%${carnum}%'
         </if>
     </select>
-
+     <!--    用户注册-->
+    <insert id="insertUser" parameterType="UserManagement">
+          insert into  tbl_user
+              (username,userpass,userphone,useraddress,carnum,usertime)
+            values
+              (#{username},#{userpass},#{userphone},#{useraddress},#{carnum},#{usertime})
+    </insert>
+     <!--用户登录-->
+    <select id="selectUser" parameterType="UserManagement" resultType="UserManagement">
+           select * from
+           tbl_user
+           where username=#{username} and userpass=#{userpass}
+    </select>
 </mapper>
 
 

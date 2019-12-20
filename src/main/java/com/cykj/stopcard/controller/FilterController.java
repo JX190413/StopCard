@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 //过滤控制层
 @Controller
-public class Filter
+public class FilterController
 {
 
 	//jsp路径过滤

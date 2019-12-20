@@ -10,6 +10,12 @@ import java.util.List;
 @Mapper
 public interface UserDao
 {
+
+
+	//车主注册
+	public  int insertUser(UserManagement userManagement);
+   //车主登录
+	 public UserManagement selectUser(UserManagement userManagement);
 	//	用户数据查询
 	public List<UserManagement> userQuery(@Param("username") String username,@Param("carnum") String carnum,@Param("beginTime") String beginTime,@Param("endTime") String endTime,@Param("beginNumber") int beginNumber,@Param("limitNumber") int limitNumber);
 

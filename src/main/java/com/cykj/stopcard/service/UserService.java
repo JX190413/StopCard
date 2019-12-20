@@ -15,6 +15,17 @@ public class UserService
 	@Resource
 	private UserDao userDao;
 
+
+	//用户注册
+	public int insertUser(UserManagement userManagement){
+		return  userDao.insertUser(userManagement );
+	}
+	//用户登录
+	public UserManagement selectUser(UserManagement userManagement){
+		return userDao.selectUser(userManagement);
+	}
+
+
 	//	用户数据查询
 	public List<UserManagement> userQuery(String username,String carnum,String beginTime,String endTime,int beginNumber,int limitNumber){
 		return userDao.userQuery(username,carnum,beginTime,endTime,beginNumber,limitNumber);

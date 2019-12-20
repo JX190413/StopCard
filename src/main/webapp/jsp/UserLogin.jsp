@@ -20,6 +20,8 @@
 %>
 
 <link rel="stylesheet" href=<%=cssPath+"style3.css"%>>
+<script type="text/javascript" src=<%=jsPath+"UserLogin.js" %>></script>
+<script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
 <html>
 <head>
 	<title>Title</title>
@@ -28,18 +30,22 @@
 <div class="content">
 	<div class="form sign-in">
 		<h2>欢迎回来</h2>
+	<form id="userLogin" method="post" action=<%=servletPath+"/userLogin" %>>
 		<label>
-			<span>账号</span>
-			<input type="email" />
+			<span style="font-size: 24px;
+    font-family: cursive;">账号</span>
+			<input type="text" id="username1" name="username1" />
 		</label>
 		<label>
-			<span>密码</span>
-			<input type="password" />
+			<span style="font-size: 24px;
+    font-family: cursive;">密码</span>
+			<input type="password" id="userpass1" name="userpass1" />
 		</label>
 		<p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
-		<button type="button" class="submit">登 录</button>
-		<button type="button" class="fb-btn">使用 <span>facebook</span> 帐号登录</button>
+		<button type="button" class="submit" onclick="userLogin()">登 录</button>
+<%--		<button type="button" class="fb-btn">使用 <span>facebook</span> 帐号登录</button>--%>
 	</div>
+	</form>
 	<div class="sub-cont">
 		<div class="img">
 			<div class="img__text m--up">
@@ -55,23 +61,68 @@
 				<span class="m--in">登 录</span>
 			</div>
 		</div>
+	<form id="userRegist" method="post" action=<%=servletPath+"/userRegist"%> >
 		<div class="form sign-up">
 			<h2>立即注册</h2>
 			<label>
 				<span>用户名</span>
-				<input type="text" />
-			</label>
-			<label>
-				<span>邮箱</span>
-				<input type="email" />
+				<input type="text" id="username" name="username" />
 			</label>
 			<label>
 				<span>密码</span>
-				<input type="password" />
+				<input type="password" id="userpass" name="userpass"/>
 			</label>
-			<button type="button" class="submit">注 册</button>
-			<button type="button" class="fb-btn">使用 <span>facebook</span> 帐号注册</button>
+			<label>
+				<span>手机号</span>
+				<input type="text" id="userphone"  name="userphone"/>
+			</label>
+			<label>
+				<span>地址</span>
+				<input type="text" id="useraddress" name="useraddress"/>
+			</label>
+			<label>
+				<span>车牌号</span>
+				<input type="text" id="carnum" name="carnum"/>
+			</label>
+			<button type="button" class="submit" onclick="userRegist()">注 册</button>
+<%--			<button type="button" class="fb-btn">使用 <span>手机号</span> 帐号注册</button>--%>
 		</div>
+	</form>
+	</div>
+	<div style="display:none;">
+		<c:choose>
+			<c:when test="${requestScope.flage == '1'}">
+				out.print("<script type='text/javascript'>alert('注册成功');</script>");
+			</c:when>
+			<c:otherwise>
+				<%--			<span><a href="Admin.jsp">登录</a></span>--%>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${requestScope.flage == '2'}">
+				out.print("<script type='text/javascript'>alert('注册失败');</script>");
+			</c:when>
+			<c:otherwise>
+				<%--			<span><a href="Admin.jsp">登录</a></span>--%>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${requestScope.flage == '3'}">
+				out.print("<script type='text/javascript'>alert('登录成功');</script>");
+			</c:when>
+			<c:otherwise>
+				<%--			<span><a href="Admin.jsp">登录</a></span>--%>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${requestScope.flage == '4'}">
+				out.print("<script type='text/javascript'>alert('登录失败');</script>");
+			</c:when>
+			<c:otherwise>
+				<%--			<span><a href="Admin.jsp">登录</a></span>--%>
+			</c:otherwise>
+		</c:choose>
+
 	</div>
 </div>
 

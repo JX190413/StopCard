@@ -41,7 +41,7 @@
 		text-align: center;
 		position: absolute;
 		text-align: center;
-		margin-top: -100px;
+		margin-top: -50px;
 		left: 70%;
 		top: 50%;
 		-webkit-transform: translate(-50%, -50%);
@@ -85,7 +85,7 @@
 	<div class="layui-upload">
 		<button type="button" class="layui-btn" id="test1">上传图片</button>
 
-		<a class="layui-btn"  onclick="ulrHtml(this)"> 车库停车</a>
+		<a class="layui-btn" id="parking"  onclick="ulrHtml(this)"> 车库停车</a>
 		<div class="layui-upload-list">
 			<img class="layui-upload-img" id="demo1">
 			<p id="demoText"></p>
@@ -96,9 +96,9 @@
 
 	<p class="date">{{ date }}</p>
 	<p class="time">{{ time }}</p>
-	<br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br>
 	<p class="test">空闲车位：<span class="port" id="port"></span></p>
-	<br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br>
 	<p class="test">车牌号：<span  class="car" id="car"></span></p>
 
 </div>
@@ -113,6 +113,7 @@
 	}
 	//每5秒从数据库获取车位情况
 	$(function () {
+		$("#parking").hide();
 		freePort();
 		setInterval("freePort()",5000);
 	});
@@ -167,7 +168,8 @@
 				}
 				if (res.code > 0) {
 					console.log(res.msg);
-					$("#car").html(res.msg)
+					$("#car").html(res.msg);
+					$("#parking").show()
 				}
 			}
 			, error: function () {

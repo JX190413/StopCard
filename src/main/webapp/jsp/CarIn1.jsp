@@ -96,29 +96,7 @@
 		background-color: rgb(126, 172, 202);
 	}
 
-	.i-test-tip {
-		width: 360px;
-		height: 46px;
-		left: 470px;
-		bottom: 14px;
-		border-radius: 4px;
-		overflow: hidden;
-		/* position: relative; */
-		background-color: rgba(71, 92, 105, 0.8);
-		text-align: center;
-	}
 
-	.test-tip {
-		position: absolute;
-		top: 0;
-		left: 100%;
-		color: #fff;
-		font-size: 24px;
-		line-height: 46px;
-		white-space: nowrap;
-		word-break: keep-all;
-		text-overflow: ellipsis;
-	}
 
 	.test-tip span {
 		color: #0f0;
@@ -147,22 +125,7 @@
 		opacity: 0.7;
 	}
 
-	#tool-tip {
-		position: absolute;
-		color: #fff;
-		font-size: 18px;
-		height: 25px;
-		line-height: 25px;
-		padding: 0 5px;
-		z-index: 2;
-		pointer-events: none;
-		background-color: rgba(0, 0, 0, 0.3);
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
-		display: none;
-	}
+
 
 	.container-fluid h1 {
 		text-align: center;
@@ -170,13 +133,12 @@
 	.search {
 		position: absolute;
 		padding-left: 10px;
-		top: 200px;
-		left: 20px;
+		top: 100px;
+		left: 90%;
 		font-size: 13px;
 		height: auto;
-		border: 1px solid #e6e6e6;
-		background: #fff;
-		/* box-shadow: 3px 3px 5px #bdbdbd; */
+		/*border: 1px solid #e6e6e6;*/
+		/*background: #fff;*/
 		box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -184,15 +146,7 @@
 		border-radius: 4px;
 	}
 
-	.searchText {
-		width: 100px;
-		height: 20px;
-		outline: none;
-		border: none;
-		margin: 0 0 0 14px;
-		font-size: 13px;
-		-webkit-appearance: none;
-	}
+
 </style>
 
 <body ms-controller="ctrl" class="ms-controller">
@@ -208,14 +162,11 @@
 		</h1>
 	</div>
 </nav>
-<!-- 搜索 -->
+
 <div class="search">
-	<span id="btnSearch" class="glyphicon glyphicon-search" aria-hidden="true"></span>
-	<input id="searchText" type="text" class="searchText" placeholder="搜索车位/车牌"> |
-	<button type="button" id="search" class="btn btn-default" style="border: none">
-		<span id="btnNav" class="glyphicon glyphicon-map-marker"></span>
-		搜索
-	</button>
+	<a type="button" id="search" href="Reception.jsp" class="btn btn-default">
+		返回
+	</a>
 </div>
 <div id="description">
 	暂无导航提示信息
@@ -326,6 +277,7 @@
 	var lastCoord = null;
 	var curfnum = null;
 	var h = 1;
+	var carport;
 	//点击地图事件。开始选点开始后，点击地图一次为起点，第二次点击为终点
 	map.on('mapClickNode', function (event) {
 		if (event.nodeType == esmap.ESNodeType.NONE ||
@@ -338,12 +290,12 @@
 		//设置新的导航
 		navi.clearAll();
 		setStart();
-		console.log(event.ID );
 		$.post("<%=path+"/carPortClick"%>", { id:event.ID },
 			function(data){
 				console.log(data);
 				if(eval(data.stateid)===5){
 					setEnd(data.portx,data.porty);
+					carport=data.portname;
 				}else{
 					alert("该车位已经有车，请重新选择车位！")
 				}
@@ -428,9 +380,22 @@
 			showDis(data);
 		});
 
+		//导航完成
 		navi.on("complete", function () {
 			console.log("停止");
 			document.getElementById('description').innerText = "到达终点";
+			//2秒后删除导航信息
+			$.post("<%=path+"/parkCart"%>",{carnum:car,carport:carport},function (data) {
+				console.log(data);
+				//加载车位
+				CallLoadData();
+			});
+			setTimeout(function () {
+
+					alert("停车成功！");
+					clearNavi();
+				}
+				, 2000);
 		})
 	}
 

@@ -22,7 +22,7 @@
 	<meta name="viewport" content="width-device-width,initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="sie-edge" />
 	<link rel="stylesheet" type="text/css" href=<%=path+"/css/style.css"%> />
-<%--	<script type="text/javascript" src=<%=jsPath+"login.js" %>></script>--%>
+	<%--	<script type="text/javascript" src=<%=jsPath+"login.js" %>></script>--%>
 	<script type="text/javascript" src=<%=jsPath+"jquery-1.4.4.min.js" %>></script>
 	<link rel="stylesheet" type="text/css" href=<%=path+"/css/style1.css"%> />
 	<title>Title</title>
@@ -126,12 +126,12 @@
 				<video id="video" width="530" height="300" autoplay></video>
 				<canvas id="canvas" width="400" height="300"></canvas>
 			</div>
-						<dd>
-							<input type="button" onclick="query()" value="立即登录"
-							       class="submit_btn" />
-						</dd>
+			<dd>
+				<input type="button" onclick="query()" value="立即登录"
+				       class="submit_btn" />
+			</dd>
 
-<%--			<button  onclick="query()">登录</button>--%>
+			<%--			<button  onclick="query()">登录</button>--%>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
@@ -223,7 +223,7 @@
 				var result = eval(data);
 
 				if(result===true){
-                 alert("登录成功");
+					alert("登录成功");
 					$("#login").submit();
 					window.location.href = "jsp/Admin.jsp"
 				} else {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个是要引用的SQL语句类型文件夹-->
+<mapper namespace="com.cykj.stopcard.dao.UserDao">
+
+    <!--    用户数据查询-->
+    <select id="userQuery" resultType="UserManagement">
+        SELECT * FROM tbl_user WHERE 1=1
+        <if test="username != null and username != ''">
+            AND username like '%${username}%'
+        </if>
+        <if test="carnum != null and carnum != ''">
+            AND carnum like '%${carnum}%'
+        </if>
+        and tbl_user.usertime between #{beginTime} and #{endTime} LIMIT #{beginNumber},#{limitNumber}
+    </select>
+
+    <!--    用户数据统计条数-->
+    <select id="userCount" resultType="java.lang.Integer">
+        SELECT COUNT(tbl_user.userid) FROM tbl_user WHERE 1=1
+        <if test="username != null and username != ''">
+            AND username like '%${username}%'
+        </if>
+        <if test="carnum != null and carnum != ''">
+            AND carnum like '%${carnum}%'
+        </if>
+        and tbl_user.usertime between #{beginTime} and #{endTime}
+    </select>
+
+    <!--    白名单数据查询-->
+    <select id="whitelistQuery" resultType="Whitelist">
+        SELECT * FROM tbl_white WHERE 1=1
+        <if test="carnum != null and carnum != ''">
+            AND carnum like '%${carnum}%'
+        </if>
+        LIMIT #{beginNumber},#{limitNumber}
+    </select>
+
+    <!--    白名单数据统计条数-->
+    <select id="WhitelistCount" resultType="java.lang.Integer">
+        SELECT COUNT(tbl_white.whiteid) FROM tbl_white WHERE 1=1
+        <if test="carnum != null and carnum != ''">
+            AND carnum like '%${carnum}%'
+        </if>
+    </select>
+
+</mapper>
+
+
+
+
+

@@ -1,6 +1,7 @@
 package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.Msg;
+import com.cykj.stopcard.bean.ResultEntity;
 import com.cykj.stopcard.bean.UserManagement;
 import com.cykj.stopcard.bean.Whitelist;
 import com.cykj.stopcard.service.UserService;
@@ -118,6 +119,33 @@ public class UserController
 		mv.setViewName("UserLogin");
          return mv;
 
+	}
+
+	//	白名单数据删除
+	@RequestMapping("/delete")
+	@ResponseBody
+	public ResultEntity whitelistDelete(String carnum){
+
+		ResultEntity res = new ResultEntity();
+		if (userService.WhitelistDelete(carnum)>0){
+			res.setMsg("删除成功");
+		}else {
+			res.setMsg("删除失败");
+		}
+		return res;
+	}
+
+	//	白名单数据添加
+	@RequestMapping("/add")
+	@ResponseBody
+	public ResultEntity whitelistAdd(String carnum){
+		ResultEntity res = new ResultEntity();
+		if (userService.WhitelistAdd(carnum)>0){
+			res.setMsg("添加成功");
+		}else {
+			res.setMsg("添加失败");
+		}
+		return res;
 	}
 
 

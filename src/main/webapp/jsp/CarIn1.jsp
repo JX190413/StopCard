@@ -224,7 +224,7 @@
 	<button id="btn3D" class="btn btn-default"></button>
 </div>
 <div class="parking fix" id="parking">
-	<span id="carid"></span>车位情况：<span id="YorN"></span>
+	<span id="carid"></span><span id="YorN"></span>
 </div>
 <div class="codition fix">
 	<ul>
@@ -251,6 +251,12 @@
 <script src="../ESMap/lib/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+	//接受传来的车牌号
+	var car;
+	$(function () {
+		car = "<%=request.getParameter("car")%>";
+		console.log(car)
+	});
 	//定义全局map变量
 	var map;
 	var esmapID = 10005;
@@ -328,66 +334,24 @@
 			return;
 		$("#parking").css("fontSize", "18px").html();
 		$("#carid").css("color", "rgb(255, 255, 0)").html(event.name); //停车位ID
-		console.log(event.ID);
-		console.log(event.name);
-		console.log(event.area);
 
-		//查找车位信息
-		$.post(
-			'<%=path+"/carPortClick"%>',
-			{
-				id:event.ID
-			},
-			function(res){
-				// var parkData=res;
-				pop(res);
-				// $("#area").css("color", "rgb(0,0,0)").html(res.portarea);
-				$("#name").css("color", "rgb(0,0,0)").html(res.portname);
-				$("#carNum").css("color", "rgb(0,0,0)").html(res.carnum);
-			}
-		);
+		//设置新的导航
+		navi.clearAll();
+		setStart();
+		console.log(event.ID );
+		$.post("<%=path+"/carPortClick"%>", { id:event.ID },
+			function(data){
+				console.log(data);
+				if(eval(data.stateid)===5){
+					setEnd(data.portx,data.porty);
+				}else{
+					alert("该车位已经有车，请重新选择车位！")
+				}
+			});
 	});
 
-	//清除气泡
-	var popMarker;
-	function removeAll() {
-		popMarker && popMarker.close();
-	}
-	// 气泡标注
-	function pop(parkData) {
-		removeAll();
-		//添加信息窗
-		var popMarker2 = new esmap.ESPopMarker({
-			mapCoord: {
-				//设置弹框的x轴
-				x: parkData.portx,
-				//设置弹框的y轴
-				y: parkData.porty,
-				height: 4, //控制信息窗的高度
-				//设置弹框位于的楼层
-				fnum: 1
-			},
-			//设置弹框的宽度
-			width: 180,
-			//设置弹框的高度
-			height: 100,
-			marginTop:1,  //弹框距离地面的高度
-			//设置弹框的内容
-			content: '<span id="name"></span><br>停放情况:<span id="carNum"></span>',
-			closeCallBack: function () {
-				//信息窗点击关闭操作
-				// alert('信息窗关闭了！');
-			},
-			created: function (e) {
-				//创建完成钩子
-				$(".myPopClose").click(function(){
-					//关闭删除
-					popMarker2.close();
-				})
-			}
-		});
-		popMarker = popMarker2;
-	}
+
+
 	//设置起点
 	function setStart() {
 
@@ -403,26 +367,7 @@
 		}
 	}
 
-	$("#search").click(function () {
-		navi.clearAll();
-		setStart();
-		var cardnum= $("#searchText").val();
-		if(cardnum){
-		    $.post("<%=path+"/searchCardPort"%>", { cardnum:cardnum },
-		        function(data){
-		            console.log(data);
-		            if(data){
-			            setEnd(data.portx,data.porty);
-		            }else{
-		            	alert("未找到车牌为"+cardnum+"的车辆！请确认输入是否正确！");
-		            }
 
-		        });
-		}else{
-			alert("请输入车牌号码!")
-		}
-
-	});
 	//设置终点
 	function setEnd(x,y) {
 		if (navi) {

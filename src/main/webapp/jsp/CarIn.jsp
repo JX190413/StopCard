@@ -1,105 +1,151 @@
 <%--
   Created by IntelliJ IDEA.
   User: 14506
-  Date: 2019/12/14
-  Time: 12:04
+  Date: 2019/12/20
+  Time: 9:34
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
 	String path=application.getContextPath();
 %>
-<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
-<script src="../layuiadmin/layui/layui.js"></script>
-<script src="../js/jquery-3.4.1.js"></script>
 <html>
 <head>
 	<title>Title</title>
+	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+	<script src="../layuiadmin/layui/layui.js"></script>
+	<script src="../js/jquery-3.4.1.js"></script>
 </head>
-<body style="background-image: url('../img/bg1.jpg')">
 
+<style>
+	html, body {
+		height: 100%;
+	}
 
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-	<legend>匝道监控</legend>
-</fieldset>
+	body {
+		/*background: #0f3854;*/
+		/*!*background: -webkit-radial-gradient(center ellipse, #0a2e38 0%, #000000 70%);*!*/
+		/*background: radial-gradient(ellipse at center, #0a2e38 0%, #000000 70%);*/
+		/*background-size: 100%;*/
+		background-image: url("../images/onepgscr-3.jpg");
+	}
 
-<div class="layui-container">
-	<div class="layui-main" style="font-size: 30px" >
-		<div class="layui-form-item" >
-			车牌号：<span id="car"></span>
-		</div>
-		<div class="layui-form-item">
-			空闲车位数：<span id="port"></span>
-		</div>
-		<div class="layui-form-item">
-			当前时间：<span id="nowtime"></span>
+	p {
+		margin: 0;
+		padding: 0;
+	}
+
+	#clock {
+		font-family: 'Share Tech Mono', monospace;
+		color: #ffffff;
+		text-align: center;
+		position: absolute;
+		text-align: center;
+		margin-top: -100px;
+		left: 70%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		color: #daf6ff;
+		text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
+	}
+
+	#clock .time {
+		letter-spacing: 0.05em;
+		font-size: 80px;
+		padding: 5px 0;
+	}
+	#clock .date {
+		letter-spacing: 0.1em;
+		font-size: 24px;
+	}
+	#clock .test {
+		letter-spacing: 0.1em;
+		font-size: 40px;
+	}
+	#clock .port {
+		letter-spacing: 0.1em;
+		font-size: 40px;
+		color: #11ff2d;
+		text-shadow: 0 0 20px #1078e6, 0 0 20px rgba(10, 175, 230, 0);
+	}
+
+	#clock .car {
+		background-color: #1E9FFF;
+	}
+</style>
+
+</head>
+<body>
+
+<script type="text/javascript" src="../js/vue.min.js"></script>
+
+<div class="layui-fluid">
+	<br><br>
+	<div class="layui-upload">
+		<button type="button" class="layui-btn" id="test1">上传图片</button>
+
+		<a class="layui-btn"  onclick="ulrHtml(this)"> 车库停车</a>
+		<div class="layui-upload-list">
+			<img class="layui-upload-img" id="demo1">
+			<p id="demoText"></p>
 		</div>
 	</div>
 </div>
-<div class="layui-fluid">
+<div id="clock">
 
-		<div class="layui-upload">
-			<button type="button" class="layui-btn" id="test1">上传图片</button>
-			<a class="layui-btn" href="CarIn1.jsp">车库停车</a>
-			<div class="layui-upload-list">
-				<img class="layui-upload-img" id="demo1">
-				<p id="demoText"></p>
-			</div>
-		</div>
+	<p class="date">{{ date }}</p>
+	<p class="time">{{ time }}</p>
+	<br><br><br><br><br><br><br>
+	<p class="test">空闲车位：<span class="port" id="port"></span></p>
+	<br><br><br><br><br><br><br>
+	<p class="test">车牌号：<span  class="car" id="car"></span></p>
 
 </div>
 
 
 
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
 <script>
+	function ulrHtml(node) {
+		var toUrl = "CarIn1.jsp?car=" + $("#car").html();
+		window.open(toUrl);
+	}
+	//每5秒从数据库获取车位情况
 	$(function () {
 		freePort();
 		setInterval("freePort()",5000);
 	});
-	
 	function freePort(){
 		$.post("<%=path+"/searchFreeCarPort"%>",function (data) {
 			$("#port").html(data+"个")
 		})
 	}
-	//实时刷新时间
-	$(function () {
-		setInterval("NowTime()",1000);
+
+	var clock = new Vue({
+		el: '#clock',
+		data: {
+			time: '',
+			date: ''
+		}
 	});
-	//获取时间
-	function NowTime(){
-		//获取年月日
-		var time=new Date();
-		var year=time.getFullYear();
-		var month=time.getMonth();
-		var day=time.getDate();
 
-		//获取时分秒
-		var h=time.getHours();
-		var m=time.getMinutes();
-		var s=time.getSeconds();
-
-		//检查是否小于10
-		h=check(h);
-		m=check(m);
-		s=check(s);
-		document.getElementById("nowtime").innerHTML=year+"年"+month+"月"+day+"日  "+h+":"+m+":"+s;
-	}
-	//时间数字小于10，则在之前加个“0”补位。
-	function check(i){
-		//方法一，用三元运算符
-		var num;
-		i<10?num="0"+i:num=i;
-		return num;
-
-		//方法二，if语句判断
-		//if(i<10){
-		//    i="0"+i;
-		//}
-		//return i;
+	var week = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+	var timerID = setInterval(updateTime, 1000);
+	updateTime();
+	function updateTime() {
+		var cd = new Date();
+		clock.time = zeroPadding(cd.getHours(), 2) + ':' + zeroPadding(cd.getMinutes(), 2) + ':' + zeroPadding(cd.getSeconds(), 2);
+		clock.date = zeroPadding(cd.getFullYear(), 4) + '-' + zeroPadding(cd.getMonth()+1, 2) + '-' + zeroPadding(cd.getDate(), 2) + ' ' + week[cd.getDay()];
 	}
 
+	function zeroPadding(num, digit) {
+		var zero = '';
+		for(var i = 0; i < digit; i++) {
+			zero += '0';
+		}
+		return (zero + num).slice(-digit);
+	}
 	layui.use('upload', function () {
 		var $ = layui.jquery
 			, upload = layui.upload;
@@ -122,10 +168,7 @@
 				if (res.code > 0) {
 					console.log(res.msg);
 					$("#car").html(res.msg)
-				//	return layer.msg("上传成功！")
-
 				}
-
 			}
 			, error: function () {
 				//演示失败状态，并实现重传
@@ -136,8 +179,6 @@
 				});
 			}
 		});
-
-
 	});
 </script>
 </body>

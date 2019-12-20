@@ -26,9 +26,7 @@ public class CarService
 
 	//车辆入场
 	public void cardIn(CarInOut carInOut){
-		String nowDate=GetNowTime.getDate();
-		carInOut.setIntime(nowDate);
-		carInOut.setStateid(4);
+
 		int num=carDao.CarIn(carInOut);
 		if(num>0){
 			System.out.println("车辆入场成功！车牌："+carInOut.getCarnum()+","+carInOut.getPortname());

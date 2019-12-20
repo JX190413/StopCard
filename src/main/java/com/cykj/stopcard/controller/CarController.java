@@ -8,6 +8,7 @@ import com.cykj.stopcard.service.CarService;
 import com.cykj.stopcard.util.CardNumberAnalyze.AuthService;
 import com.cykj.stopcard.util.CardNumberAnalyze.BaseImg64;
 import com.cykj.stopcard.util.CardNumberAnalyze.HttpUtil;
+import com.cykj.stopcard.util.GetNowTime;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,12 +58,16 @@ public class CarController
 					System.out.println(map.get("number"));
 					map1.put("code", 200);
 					map1.put("msg", map.get("number"));
-//					String portname=searchFreeCarPort();
-//					carInOut.setCarnum(map.get("number").toString());
-//					carInOut.setPortname(portname);
-//					//写入数据库
-//					cardService.cardIn(carInOut);
-//					//修改车位状态
+					String nowDate= GetNowTime.getDate();
+					//入场时间
+					carInOut.setIntime(nowDate);
+					//缴费情况：4——未缴费
+					carInOut.setStateid(4);
+					//车牌号
+					carInOut.setCarnum(map.get("number").toString());
+					//写入数据库
+					cardService.cardIn(carInOut);
+					//修改车位状态
 //					cardService.updatePortState("6",portname);
 
 				}
@@ -83,6 +88,8 @@ public class CarController
 //		return list.get(num).getPortname();
 //	}
 //
+
+
 	//查询空余车位
 	@RequestMapping("/searchFreeCarPort")
 	@ResponseBody

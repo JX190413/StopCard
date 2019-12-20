@@ -191,6 +191,21 @@
 		font-size: 13px;
 		-webkit-appearance: none;
 	}
+	.return {
+		position: absolute;
+		padding-left: 10px;
+		top: 100px;
+		left: 90%;
+		font-size: 13px;
+		height: auto;
+		/*border: 1px solid #e6e6e6;*/
+		/*background: #fff;*/
+		box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		z-index: 999;
+		border-radius: 4px;
+	}
 </style>
 
 <body ms-controller="ctrl" class="ms-controller">
@@ -214,6 +229,11 @@
 		<span id="btnNav" class="glyphicon glyphicon-map-marker"></span>
 		搜索
 	</button>
+</div>
+<div class="return">
+	<a type="button" id="return" href="Reception.jsp" class="btn btn-default">
+		返回
+	</a>
 </div>
 <div id="description">
 	暂无导航提示信息
@@ -448,9 +468,9 @@
 			//初始化导航对象
 			navi = new esmap.ESNavigation({
 				map: map,
-				locationMarkerUrl: '../ESMap/Case/Park/image/card1.png',
+				locationMarkerUrl: '../ESMap/Case/Park/image/pointer.png',
 				locationMarkerSize: 150,
-				speed: 2,
+				speed: 1,
 				followAngle: true,
 				followPosition: true,
 				followGap: 1,

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CarDao
@@ -38,6 +39,17 @@ public interface CarDao
 
 	//9、绑定车牌车位
 	public int updateCarIn(@Param("portname") String portname,@Param("carnum") String carnum);
+
+	//白名单查询
+	public Map searchWhite(String carnum);
+	//缴费业务查询
+	public Map searchBusiness(String carnum);
+	//车辆出场查询车辆停放信息
+	public CarInOut searchCarInOut(String carnum);
+	//写入出场时间，停放时长，缴费类型，缴费金额
+	public int updateCarOut(CarInOut carInOut);
+	//缴费后修改缴费状态
+	public int updateCarOutState(@Param("stateid") String stateid,@Param("carnum") String carnum);
 
 
 }

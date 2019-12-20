@@ -14,10 +14,9 @@ public class ChargeController
 {
 	@Resource
 	private ChargeService chargeService;
+
 	//计算
-	@RequestMapping("/selmoney")
-	@ResponseBody
-	public   String selmoney(String minute){
+	public String selmoney(String minute){
 		int minte1=Integer.parseInt(minute);
 		String money="";
 		List<Product> list1=chargeService.selfasttime();

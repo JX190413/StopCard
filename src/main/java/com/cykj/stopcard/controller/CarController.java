@@ -5,11 +5,8 @@ import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
 import com.cykj.stopcard.bean.ResultEntity;
 import com.cykj.stopcard.service.CarService;
-import com.cykj.stopcard.util.CardNumberAnalyze.AuthService;
-import com.cykj.stopcard.util.CardNumberAnalyze.BaseImg64;
-import com.cykj.stopcard.util.CardNumberAnalyze.HttpUtil;
-import com.cykj.stopcard.util.GetNowTime;
-import org.json.JSONObject;
+import com.cykj.stopcard.util.CardNumberAnalyze.CarNumFind;
+import com.cykj.stopcard.util.TimeTool;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 //前端车辆数据交互控制层
 @Controller
@@ -31,34 +27,25 @@ public class CarController
 	private CarService cardService;
 	@Resource
 	private CarInOut carInOut;
+	@Resource
+	private ChargeController chargeController;
 
 	//车辆入场
-	//车牌识别
 	@RequestMapping("/cardIn")
 	@ResponseBody
 	public Map<String, Object> cardIn(HttpServletRequest request, MultipartFile file)
 	{
 		Map map1 = new HashMap<String, Object>();
-		// 1.车牌识别的接口
-		String otherHost = "https://aip.baidubce.com/rest/2.0/ocr/v1/license_plate";
+
+
 		if (!file.isEmpty()) {
-			try {
-				String params = BaseImg64.getImageUrlEncode(file);
-				/**
-				 * 线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
-				 */
-				String accessToken = AuthService.getAuth();
-				String result = HttpUtil.post(otherHost, accessToken, params);
-				System.out.println(result);
-				//解析JSON串
-				JSONObject data = new JSONObject(result);
-				//1.车牌识别
-				Map map=(Map)data.toMap().get("words_result");
+				//车牌识别的方法
+				Map map= CarNumFind.pictureFindCar(file);
 				if(null!=map){
 					System.out.println(map.get("number"));
 					map1.put("code", 200);
 					map1.put("msg", map.get("number"));
-					String nowDate= GetNowTime.getDate();
+					String nowDate= TimeTool.getDate();
 					//入场时间
 					carInOut.setIntime(nowDate);
 					//缴费情况：4——未缴费
@@ -67,16 +54,11 @@ public class CarController
 					carInOut.setCarnum(map.get("number").toString());
 					//写入数据库
 					cardService.cardIn(carInOut);
-
-
 				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 		return map1;
 	}
+
 	//车牌车位绑定
 	@RequestMapping("/parkCart")
 	@ResponseBody
@@ -92,6 +74,75 @@ public class CarController
 		return "停车成功！";
 	}
 
+	//车辆出场
+	@RequestMapping("/cardOut")
+	@ResponseBody
+	public Map<String, Object> cardOut(HttpServletRequest request, MultipartFile file)
+	{
+		Map map1 = new HashMap<String, Object>();
+		if (!file.isEmpty()) {
+			//车牌识别的方法
+			Map map= CarNumFind.pictureFindCar(file);
+			if(null!=map){
+				System.out.println(map.get("number"));
+				String carnum=map.get("number").toString();
+
+				//出场时间
+				String carOutTime= TimeTool.getDate();
+				//进场时间
+				String carInTime=cardService.searchCarInOut(carnum).getIntime();
+				//时间差
+				Long timeDiff= TimeTool.timeDiff(carInTime,carOutTime);
+				//判断是否白名单
+				Map map2=cardService.searchWhite(carnum);
+				String money="0";
+				String paytype="临时";
+				int payid=2;
+				if(null!=map2){
+					payid=3;
+					paytype="白名单";
+				}else{
+					//不是白名单判断是否月缴
+					Map map3=cardService.searchBusiness(carnum);
+					if(null!=map3){
+						payid=1;
+						paytype="月缴";
+						String paytime=map3.get("paytime").toString();
+						String pasttime=map3.get("pasttime").toString();
+						boolean isInPayTime=TimeTool.belongCalendar(carOutTime,paytime,pasttime);
+						if(!isInPayTime){
+							payid=2;
+							paytype="临时";
+							money=chargeController.selmoney(timeDiff.toString());
+						}
+					}else{
+						//临时用户
+						//计费
+						money=chargeController.selmoney(timeDiff.toString());
+
+					}
+				}
+				carInOut.setOuttime(carOutTime);
+				//车牌号
+				carInOut.setCarnum(carnum);
+				//缴费类型
+				carInOut.setPayid(payid);
+				//缴费金额
+				carInOut.setMoney(money);
+				carInOut.setStoptime(timeDiff.toString());
+				//写入数据库
+				int num=cardService.updateCarOut(carInOut);
+				if(num==0){
+					map1.put("code", 0);
+				}else{
+					map1.put("code", 200);
+				}
+				map1.put("msg", carInOut);
+				map1.put("paytype", paytype);
+			}
+		}
+		return map1;
+	}
 
 
 	//查询空余车位

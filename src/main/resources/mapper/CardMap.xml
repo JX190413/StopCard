@@ -32,8 +32,35 @@
     <select id="searchCardPort" resultType="CardPort">
         SELECT A.* FROM tbl_carport A,tbl_inout B
         WHERE A.portname=B.portname
-        AND  B.portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and outtime is null)
+        AND  B.portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and stateid='4')
     </select>
+
+    <!--    白名单-->
+    <select id="searchWhite" resultType="map">
+    SELECT * FROM `tbl_white` WHERE carnum=#{carnum}
+    </select>
+
+    <!--    缴费业务-->
+    <select id="searchBusiness" resultType="map">
+    SELECT * FROM `tbl_business` WHERE carnum=#{carnum}
+    </select>
+
+    <!--    车辆出场查询车辆停放信息-->
+    <select id="searchCarInOut" resultType="CarInOut">
+    SELECT * FROM `tbl_inout` WHERE carnum=#{carnum} and stateid='4'
+    </select>
+
+    <!--    写入出场时间，停放时长，缴费类型，缴费金额-->
+    <update id="updateCarOut">
+    UPDATE  tbl_inout SET outtime=#{outtime},outtime=#{outtime},payid=#{payid},money=#{money}
+    WHERE carnum=#{carnum} AND stateid='4'
+    </update>
+
+    <!--    缴费后修改缴费状态-->
+    <update id="updateCarOutState">
+    UPDATE  tbl_inout SET stateid=#{stateid}
+    WHERE carnum=#{carnum} AND stateid='4'
+    </update>
 
     <!--    所有车位信息查询-->
     <select id="carPortQuery" resultType="CardPort">

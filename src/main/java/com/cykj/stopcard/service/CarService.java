@@ -4,12 +4,11 @@ import com.cykj.stopcard.bean.Area;
 import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
 import com.cykj.stopcard.dao.CarDao;
-import com.cykj.stopcard.util.GetNowTime;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CarService
@@ -67,5 +66,31 @@ public class CarService
 	public int updateCarIn(String portname,String carnum){
 		return carDao.updateCarIn(portname,carnum);
 	}
+
+	//用车查白名单
+	public Map searchWhite(String carnum){
+		return carDao.searchWhite(carnum);
+	}
+	//用车查月缴查询
+	public Map searchBusiness(String carnum){
+		return carDao.searchBusiness(carnum);
+	}
+
+	//车辆出场查询车辆停放信息
+	public CarInOut searchCarInOut(String carnum){
+		return carDao.searchCarInOut(carnum);
+	}
+
+	//写入出场时间，停放时长，缴费类型，缴费金额
+	public int updateCarOut(CarInOut carInOut){
+		return carDao.updateCarOut(carInOut);
+	}
+
+	//缴费后修改缴费状态
+	public int updateCarOutState(String stateid,String carnum){
+		return carDao.updateCarOutState(stateid,carnum);
+	}
+
+
 
 }

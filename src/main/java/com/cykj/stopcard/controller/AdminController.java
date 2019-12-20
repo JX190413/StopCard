@@ -154,6 +154,24 @@ public class AdminController
 		return "1";
 	}
 
-  }
+
+	//菜单管理数据展示
+	@RequestMapping("/queryMenu")
+	@ResponseBody
+	public Msg queryMenu(String menuname, String page, String limit)
+	{
+		if (menuname == null)
+		{
+			menuname = "";
+		}
+		int b = Integer.valueOf(limit);
+		int a = (Integer.valueOf(page) - 1) * b;
+		List<Map<String, Object>> list = adminService.queryMenu(menuname, a, b);
+		int count = adminService.queryMenuCount(menuname);
+		Msg msg = new Msg(0, null, count, list);
+		return msg;
+	}
+
+}
 
 

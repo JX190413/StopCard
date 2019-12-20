@@ -15,5 +15,6 @@
         <mapper resource="mapper/LoginSqlMap.xml" />
         <mapper resource="mapper/CardMap.xml" />
         <mapper resource="mapper/AdminMap.xml" />
+        <mapper resource="mapper/UserMap.xml" />
     </mappers>
 </configuration>

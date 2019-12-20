@@ -195,7 +195,7 @@
 	<div class="viewmode-group">
 		<button id="btn3D" class="btn btn-default"></button>
 	</div>
-	<div class="parking fix" id="parking"><span id="carid"></span>车位情况：<span id="YorN"></span></div>
+	<div class="parking fix" id="parking"><span id="carid"></span>车位情况：<span id="msg"></span></div>
 	<div class="codition fix">
 		<ul>
 			<li><span class="codition-first"></span>占用车位</li>
@@ -497,7 +497,6 @@
 			$("#carid").css("color", "rgb(255, 255, 0)").html(event.name); //停车位ID
 			console.log(event.ID);
 			console.log(event.name);
-			console.log(event.area);
 
 			//查找车位信息
 			$.post(
@@ -511,23 +510,9 @@
 					$("#area").css("color", "rgb(0,0,0)").html(res.portarea);
 					$("#name").css("color", "rgb(0,0,0)").html(res.portname);
 					$("#carNum").css("color", "rgb(0,0,0)").html(res.carnum);
-
+					$("#msg").css("color", "rgb(255, 255, 0)").html(res.carnum);
 				}
 			);
-			// 新增车位id、车位名、坐标
-			// $.post(
-			// 	'carport.action',
-			// 	{
-			// 		id:event.ID,
-			// 		name:event.name,
-			// 		x:event.hitCoord.x,
-			// 		y:event.hitCoord.y
-			// 	},
-			// 	function(res){
-			//
-			// 	}
-			// );
-
 		});
 
 		//滚动字幕

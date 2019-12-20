@@ -16,5 +16,6 @@
         <mapper resource="mapper/CardMap.xml" />
         <mapper resource="mapper/AdminMap.xml" />
         <mapper resource="mapper/UserMap.xml" />
+        <mapper resource="mapper/Charge.xml" />
     </mappers>
 </configuration>

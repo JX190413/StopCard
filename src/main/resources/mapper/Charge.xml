@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cykj.stopcard.dao.ChargeDao">
+    <select id="selfasttime" resultType="com.cykj.stopcard.bean.Product">
+        SELECT * from tbl_rules c where c.mealid<![CDATA[<= ]]>4
+</select>
+</mapper>

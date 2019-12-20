@@ -36,5 +36,8 @@ public interface CarDao
 	//8、动态修改车辆分区
 	public int changeArea(@Param("portarea") String portArea,@Param("belong") int belong);
 
+	//9、绑定车牌车位
+	public int updateCarIn(@Param("portname") String portname,@Param("carnum") String carnum);
+
 
 }

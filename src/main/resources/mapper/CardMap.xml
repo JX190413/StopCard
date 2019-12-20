@@ -13,14 +13,20 @@
     <!--    车辆入场-->
     <insert id="CarIn">
         INSERT INTO
-        tbl_inout (carnum,intime,portname,stateid)
-        VALUES (#{carnum},#{intime},#{portname},#{stateid})
+        tbl_inout (carnum,intime,stateid)
+        VALUES (#{carnum},#{intime},#{stateid})
     </insert>
 
     <!--    修改车位状态-->
     <update id="updatePortState">
     UPDATE  tbl_carport SET stateid=#{stateid} WHERE portname=#{portname}
     </update>
+
+    <!--    绑定车牌车位欸-->
+    <update id="updateCarIn">
+    UPDATE  tbl_inout SET portname=#{portname} WHERE carnum=#{carnum} AND portname is NULL
+    </update>
+
 
     <!--    反向寻车-->
     <select id="searchCardPort" resultType="CardPort">

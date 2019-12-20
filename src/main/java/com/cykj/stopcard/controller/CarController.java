@@ -67,8 +67,7 @@ public class CarController
 					carInOut.setCarnum(map.get("number").toString());
 					//写入数据库
 					cardService.cardIn(carInOut);
-					//修改车位状态
-//					cardService.updatePortState("6",portname);
+
 
 				}
 
@@ -78,16 +77,21 @@ public class CarController
 		}
 		return map1;
 	}
-	//模拟司机随机停车
-//	public String searchFreeCarPort(){
-//		//获取空闲车位
-//		List<CardPort> list=cardService.searchFreeCardPort();
-//		Random random=new Random();
-//		//随机一个车位
-//		int num=random.nextInt(list.size());
-//		return list.get(num).getPortname();
-//	}
-//
+	//车牌车位绑定
+	@RequestMapping("/parkCart")
+	@ResponseBody
+	public String parkCart(String carnum,String carport){
+
+		//修改车位状态
+		cardService.updatePortState("6",carport);
+		//绑定车牌
+		int num=cardService.updateCarIn(carport,carnum);
+	if(num==0){
+		return "停车失败！";
+		}
+		return "停车成功！";
+	}
+
 
 
 	//查询空余车位
@@ -112,6 +116,7 @@ public class CarController
 	public List<CardPort> carport_query(){
 		return cardService.carPortQuery();
 	}
+
 
 	//查找被点击车位的信息
 	@RequestMapping("/carPortClick")

@@ -63,5 +63,9 @@ public class CarService
 		return carDao.changeArea(portArea,belong);
 	}
 
+	//绑定车牌车位
+	public int updateCarIn(String portname,String carnum){
+		return carDao.updateCarIn(portname,carnum);
+	}
 
 }

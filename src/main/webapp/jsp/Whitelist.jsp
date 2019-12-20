@@ -24,19 +24,29 @@
 
 </head>
 <body>
-
-<div class="demoTable" style="padding-left: 26%;padding-top: 8%;">
-	车牌号：
-	<div class="layui-inline">
-		<input class="layui-input" name="carnum" id="carnum" autocomplete="off">
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="demoTable" style="padding-left: 35%;padding-top: 8%;">
+					车牌号：
+					<div class="layui-inline">
+						<input class="layui-input" name="carnum" id="carnum" autocomplete="off">
+					</div>
+					<button class="layui-btn" data-type="reload">搜索</button>
+					<button class="layui-btn" data-type="add">白名单车牌号添加</button>
+				</div>
+			</div>
+		</div>
+		<div class="layui-card-body">
+			<table id="user" lay-filter="test"></table>
+		</div>
 	</div>
-	<button class="layui-btn" data-type="reload">搜索</button>
 </div>
 
-<div id="table" style="width: 26%;padding-left: 24%;padding-top: 0.5%;">
-	<table id="user" lay-filter="test"></table>
-</div>
-
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script>
 	layui.use('table', function(){
 		var table = layui.table;
@@ -54,8 +64,9 @@
 				,last: false //不显示尾页
 			}
 			,cols: [[
-				{field:'whiteid', width:150, title: '白名单ID'}
-				,{field:'carnum', width:182, title: '车牌号'}
+				{field:'whiteid',  title: '白名单ID',align: 'center'}
+				,{field:'carnum',  title: '车牌号',align: 'center'}
+				,{fixed: 'right', title:'操作', toolbar: '#barDemo',align: 'center'}
 			]]
 
 		});
@@ -76,6 +87,62 @@
 				}, 'data');
 			}
 		};
+		// 白名单新增车牌
+		var $ = layui.$, active = {
+			add: function(){
+				layer.prompt({
+					formType: 3,
+					title:"请输入白名单新增车牌",
+					yes: function(index, layero){
+						// 获取文本框输入的值
+						var value = layero.find(".layui-layer-input").val();
+						if (value) {
+							$.post(
+								'add',
+								{
+									carnum:value
+								},
+								function(res){
+									layer.msg(res.msg,function(index){
+										layer.closeAll(index); //关闭当前窗口
+										location.reload();
+									});
+								}
+							);
+							// alert("输入值为：" + value);
+							// layer.close(index);
+						} else {
+							alert("输入值不能为空");
+						}
+					}
+				})
+			}
+
+		};
+
+		//监听行工具事件
+		table.on('tool(test)', function(obj){
+
+			var data = obj.data;
+			if(obj.event === 'del'){
+				layer.confirm('确认删除？', function(index){
+					obj.del();
+					$.post(
+						'delete',
+						{
+							carnum:data.carnum
+						},
+						function(res){
+							layer.msg(res.msg,function(index){
+								layer.closeAll(index); //关闭当前窗口
+								location.reload();
+							});
+						}
+					);
+					layer.close(index);
+				});
+			}
+		});
 
 		$('.demoTable .layui-btn').on('click', function(){
 			var type = $(this).data('type');

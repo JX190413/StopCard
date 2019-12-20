@@ -25,31 +25,42 @@
 </head>
 <body>
 
-<div class="demoTable" style="padding-left: 20%;padding-top: 8%;">
-	用户名：
-	<div class="layui-inline">
-		<input class="layui-input" name="username" id="username" autocomplete="off">
-	</div>
-	注册时间：
-	<div class="layui-inline">
-		<input type="date" class="layui-input" name="usertime" id="beginTime" autocomplete="off">
-	</div>
-	至
-	<div class="layui-inline">
-		<input type="date" class="layui-input" name="usertime" id="endTime" autocomplete="off">
-	</div>
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="demoTable" style="padding-left: 15%;padding-top: 8%;">
+					用户名：
+					<div class="layui-inline">
+						<input class="layui-input" name="username" id="username" autocomplete="off">
+					</div>
+					注册时间：
+					<div class="layui-inline">
+						<input type="date" class="layui-input" name="usertime" id="beginTime" autocomplete="off">
+					</div>
+					至
+					<div class="layui-inline">
+						<input type="date" class="layui-input" name="usertime" id="endTime" autocomplete="off">
+					</div>
 
-	车牌号：
-	<div class="layui-inline">
-		<input class="layui-input" name="carnum" id="carnum" autocomplete="off">
+					车牌号：
+					<div class="layui-inline">
+						<input class="layui-input" name="carnum" id="carnum" autocomplete="off">
+					</div>
+					<button class="layui-btn" data-type="reload">搜索</button>
+				</div>
+			</div>
+		</div>
+		<div class="layui-card-body">
+			<table id="user" lay-filter="test"></table>
+		</div>
 	</div>
-	<button class="layui-btn" data-type="reload">搜索</button>
 </div>
+
+
+
 <%--<table class="layui-hide" id="user" style="width: 49%"></table>--%>
 
-<div id="table" style="width: 75%;padding-left: 16%;padding-top: 0.5%;">
-	<table id="user" lay-filter="test"></table>
-</div>
 
 <script>
 	layui.use('table', function(){
@@ -68,12 +79,12 @@
 				,last: false //不显示尾页
 			}
 			,cols: [[
-				{field:'username', width:150, title: '用户名'}
-				,{field:'userpass', width:150, title: '密码'}
-				,{field:'userphone', width:150, title: '手机号'}
-				,{field:'useraddress', width:232, title: '地址'}
-				,{field:'carnum', width:130, title: '车牌号'}
-				,{field:'usertime', width:150, title: '注册时间'}
+				{field:'username', title: '用户名',align: 'center'}
+				,{field:'userpass', title: '密码',align: 'center'}
+				,{field:'userphone', title: '手机号',align: 'center'}
+				,{field:'useraddress', title: '地址',align: 'center'}
+				,{field:'carnum', title: '车牌号',align: 'center'}
+				,{field:'usertime', title: '注册时间',align: 'center'}
 			]]
 
 		});

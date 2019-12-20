@@ -28,5 +28,10 @@ public interface UserDao
 	//	白名单数据统计条数
 	public int WhitelistCount(@Param("carnum") String carnum);
 
+	//	白名单删除
+	public int WhitelistDelete(@Param("carnum") String carnum);
+
+	//	白名单添加
+	public int WhitelistAdd(@Param("carnum") String carnum);
 
 }

@@ -43,6 +43,17 @@ public class UserService
 	public int WhitelistCount(String carnum){
 		return userDao.WhitelistCount(carnum);
 	}
+	//	白名单删除
+	public int WhitelistDelete(String carnum){
+		return userDao.WhitelistDelete(carnum);
+	}
+
+	//	白名单添加
+	public int WhitelistAdd(String carnum){
+		return userDao.WhitelistAdd(carnum);
+	}
+
+
 
 
 

@@ -458,10 +458,12 @@
 						total++;
 						// 区分状态
 						var status;
-						if (Number(m.stateid)%2===1) {
+						if (Number(m.stateid)%4===1) {
 							status=1;
-						}else {
+						}else if (Number(m.stateid)%4===2) {
 							status=2;
+						}else {
+							status=0;
 						}
 						d1.idlist1[status].push(m.portcardid);
 					}
@@ -485,7 +487,6 @@
 					$("#total").html(total);
 				}
 			);
-
 		}
 		//地图点击车位事件
 		map.on("mapClickNode", function (event) {

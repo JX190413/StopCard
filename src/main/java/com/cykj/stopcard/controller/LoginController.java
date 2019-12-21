@@ -1,11 +1,8 @@
 package com.cykj.stopcard.controller;
 
-import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.*;
 
 
-import com.cykj.stopcard.bean.Msg;
-import com.cykj.stopcard.bean.User;
-import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.util.GetTon;
 import net.sf.json.JSONObject;
@@ -27,7 +24,9 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -317,8 +316,257 @@ public Worker onListStudent(HttpServletRequest request,
 
 
 
+	//设备自助管理界面
+	@RequestMapping("/Devic")
+	//	@Log(operationType="设备自助管理界面",operationName="管理员打开设备自助管理界面")
+	public String Devic(){
+
+		return "Devic";
+	}
+
+	//月缴产品管理界面
+	@RequestMapping("/MonthlyPayment")
+//	@Log(operationType="月缴产品管理界面",operationName="管理员打开月缴产品管理界面")
+	public String MonthlyPayment(){
+
+		return "MonthlyPayment";
+	}
 
 
+
+	//自助设备管理表格显示
+	@RequestMapping("/Devic.action")
+	@ResponseBody
+//	@Log(operationType="自助设备管理表格显示",operationName="管理员打开自助设备管理表格显示方法")
+	public Msg Devic(Devic devic, String page){
+
+		Msg msg = new Msg();
+		devic.setPage((Integer.valueOf(page) -1)*5);
+
+		List<Devic>  list= adminLoginService.devictb(devic);
+		List<Devic>  pageList= adminLoginService.devictbzong(devic);
+//		System.out.println("list----------"+list.size());
+		int mun = pageList.size();
+		msg= new Msg(0,"",mun,list);
+		return msg;
+	}
+
+	//自助设备增加
+	@RequestMapping("/adddevic.action")
+	@ResponseBody
+//	@Log(operationType="增加",operationName="管理员进行增加用户")
+	public Msg adddevic(Devic devic)
+	{
+
+		//System.out.println("自助设备区域---------"+devic.getDevicearea());
+		//System.out.println("自助设备名字---------"+devic.getDevicname());
+		Msg msg =new Msg();
+
+		List<Devic> listrepeat=adminLoginService.repeatevic(devic);
+		if (listrepeat.size()>0){
+			msg.setMsg("3");
+		}else {
+			Date date = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String time =sdf.format(date);
+			devic.setDevictime(time);
+			int i =adminLoginService.adddevic(devic);
+
+			if (i>0){
+				msg.setMsg("1");
+			}else {
+				msg.setMsg("2");
+			}
+			return msg;
+		}
+
+
+		return msg;
+	}
+
+
+	//自助设备删除
+	@RequestMapping("/deletedevic.action")
+	@ResponseBody
+//	@Log(operationType="设备删除",operationName="管理员进行设备删除")
+	public Msg deletedevic(Devic devic)
+	{
+
+		int i =adminLoginService.deletedevic(devic);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+
+	//自助设备修改
+	@RequestMapping("/revisedevic.action")
+	@ResponseBody
+//	@Log(operationType="设备修改",operationName="管理员进行设备修改")
+	public Msg revisedevic(Devic devic)
+	{
+
+		int i =adminLoginService.revisedevic(devic);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+	//自助设备状态修改
+	@RequestMapping("/state.action")
+	@ResponseBody
+//	@Log(operationType="设备状态修改",operationName="管理员进行设备状态修改")
+	public Msg state(Devic devic)
+	{
+		//System.out.println("进入修改-------------"+devic.getStatename());
+
+		if(devic.getStatename().equals("启用")){
+			devic.setState(2);
+			//System.out.println("启用进去");
+		}else if (devic.getStatename().equals("禁用")){
+			devic.setState(1);
+		}
+		//System.out.println("setState------"+devic.getState());
+		int i =adminLoginService.state(devic);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+	//月缴产品管理表格显示
+	@RequestMapping("/MonthlyPayment.action")
+	@ResponseBody
+//	@Log(operationType="自助设备管理表格显示",operationName="管理员打开自助设备管理表格显示方法")
+	public Msg MonthlyPayment(Combo combo, String page){
+
+		Msg msg = new Msg();
+		combo.setPage((Integer.valueOf(page) -1)*5);
+		List<Combo>  list= adminLoginService.MonthlyPaymenttb(combo);
+		List<Combo>  pageList= adminLoginService.MonthlyPaymentzong(combo);
+
+		int mun = pageList.size();
+		msg= new Msg(0,"",mun,list);
+		return msg;
+	}
+
+
+	//月缴产品增加
+	@RequestMapping("/addMonthlyPayment.action")
+	@ResponseBody
+//	@Log(operationType="增加",operationName="管理员进行增加用户")
+	public Msg addMonthlyPayment(Combo combo)
+	{
+		//		Date date = new Date();
+		//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//		String time =sdf.format(date);
+		//		devic.setDevictime(time);
+		Msg msg =new Msg();
+		List<Combo> listrepeat=adminLoginService.repeatMonthlyPayment(combo);
+		if (listrepeat.size()>0){
+			msg.setMsg("3");
+		}else {
+
+			int i =adminLoginService.addMonthlyPayment(combo);
+
+			if (i>0){
+				msg.setMsg("1");
+			}else {
+				msg.setMsg("2");
+			}
+			return msg;
+		}
+
+
+		return msg;
+	}
+
+	//月缴产品删除
+	@RequestMapping("/deMonthlyPayment.action")
+	@ResponseBody
+//	@Log(operationType="设备删除",operationName="管理员进行设备删除")
+	public Msg deMonthlyPayment(Combo combo)
+	{
+
+		int i =adminLoginService.deMonthlyPayment(combo);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+	@RequestMapping("ECharsDemo")
+	//    @ResponseBody()
+//	@Log(operationType="南丁格尔玫瑰图界面",operationName="南丁格尔玫瑰图界面显示方法")
+	public ModelAndView ECharsDemo(){
+		//		String index="ECharsDemo";
+		//		return index;
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("ECharsDemo");
+		return mv;
+	}
+
+
+
+
+	//南丁格尔玫瑰图显示
+	@RequestMapping("/ECharts.action")
+	@ResponseBody
+//	@Log(operationType="南丁格尔玫瑰图数据",operationName="南丁格尔玫瑰图数据显示方法")
+	public Cost ECharts(){
+
+		Cost cost = new Cost();
+//		List<Cost> list2=new ArrayList<Cost>();
+		List<Cost>  list= adminLoginService.ECharts();
+
+		List<Cost>  monthlist= adminLoginService.EChartsmonth();
+		//		System.out.println("----------------"+monthlist.size());
+		int sum=0;
+		for (int i = 0; i < list.size(); i++)
+		{
+			sum+=list.get(i).getMoney();
+
+		}
+		cost.setMoney(sum);
+		cost.setPaytype("临时缴费");
+
+		int sum2=0;
+		for (int i1 = 0; i1 < monthlist.size(); i1++)
+		{
+			sum2+=monthlist.get(i1).getSellmoney();
+
+		}
+		cost.setSellmoney(sum2);
+		cost.setMonthpaytype("月缴产品");
+
+		System.out.println("临时停车总收入"+cost.getMoney());
+		System.out.println("收入类型-----"+cost.getPaytype());
+
+
+		System.out.println("月缴产品总收入"+cost.getSellmoney());
+		System.out.println("收入类型-----"+cost.getMonthpaytype());
+
+		//	    for (list2.size()){}
+
+		return cost;
+	}
 
   }
 

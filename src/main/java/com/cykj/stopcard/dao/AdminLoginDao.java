@@ -1,8 +1,6 @@
 package com.cykj.stopcard.dao;
 
-import com.cykj.stopcard.bean.AdminMenu;
-import com.cykj.stopcard.bean.User;
-import com.cykj.stopcard.bean.Worker;
+import com.cykj.stopcard.bean.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
@@ -28,6 +26,56 @@ public interface AdminLoginDao
 	List<Worker> queryPage(Worker worker);
 
 
+	//自助设备表格分页查询与带条件搜索
+	public List<Devic> devictb(Devic devic);
 
 
+	//自助设备表格查询
+	public List<Devic> devictbzong(Devic devic);
+
+	//自助设备添加重复查询
+	public List<Devic> repeatevic(Devic devic);
+
+	//自助设备增加
+	public int adddevic(Devic devic);
+
+	//自助设备删除
+	public int deletedevic(Devic devic);
+
+	//自助设备修改
+	public int revisedevic(Devic devic);
+
+	//自助设备状态修改
+	public int state(Devic devic);
+
+
+
+	//月缴产品管理表格分页查询与带条件搜索
+
+	public List<Combo> MonthlyPaymenttb(Combo combo);
+
+
+	//月缴产品管理表格总条数查询
+
+	public List<Combo> MonthlyPaymentzong(Combo combo);
+
+
+	//月缴产品添加重复查询
+
+	public List<Combo> repeatMonthlyPayment(Combo combo);
+
+	//月缴产品增加
+	public int addMonthlyPayment(Combo combo);
+
+
+	//月缴产品删除
+	public int deMonthlyPayment(Combo combo);
+
+	//临时停车缴费图
+
+	public List<Cost> ECharts();
+
+	//月缴产品缴费图
+
+	public List<Cost> EChartsmonth();
 }

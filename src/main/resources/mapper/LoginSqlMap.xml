@@ -82,4 +82,112 @@ and g.workeraccount=#{workeraccount}
         </where>
     </select>
 
+
+    <!--    自助设备表格分页查询与带条件搜索-->
+    <select id="devictb" parameterType="devic" resultType="devic">
+        select a.deviceid devicid,a.devicearea,a.devicname,a.devictime,b.statename
+        from tbl_devic a, tbl_state b
+        <where>a.devicstate=b.stateid
+            <if test="devicname != null and devicname != ''">
+                and a.devicname LIKE #{devicname}
+            </if>
+        </where>
+        limit #{page},5
+    </select>
+
+    <!--    //自助设备表格查询-->
+    <select id="devictbzong" parameterType="devic" resultType="devic">
+        SELECT a.deviceid devicid,a.devicearea,a.devicname,a.devictime,b.statename
+        from tbl_devic a, tbl_state b
+        <where>a.devicstate=b.stateid</where>
+    </select>
+
+    <!--    //自助设备添加重复查询-->
+    <select id="repeatevic" parameterType="devic" resultType="devic">
+        select a.devicearea,a.devicname
+        from tbl_devic a
+        where a.devicearea=#{devicearea}
+        and a.devicname=#{devicname}
+    </select>
+
+    <!--    //自助设备增加-->
+    <insert id="adddevic" parameterType="devic" >
+     insert into tbl_devic (devicearea,devicname,devicstate,devictime)
+     values (#{devicearea},#{devicname},1,#{devictime})
+    </insert>
+
+    <!--    //自助设备删除-->
+    <delete id="deletedevic" parameterType="devic" >
+           delete from tbl_devic where deviceid=#{devicid}
+    </delete>
+
+
+    <!--    //自助设备修改-->
+    <update id="revisedevic" parameterType="devic" >
+          update tbl_devic
+        set devicearea=#{devicearea} ,devicname=#{devicname} where deviceid=#{devicid}
+
+    </update>
+
+
+    <!--    //自助设备状态修改-->
+    <update id="state" parameterType="devic" >
+        update tbl_devic
+        set devicstate=#{state} where deviceid=#{devicid}
+    </update>
+
+
+    <!--    //月缴产品管理表格分页查询与带条件搜索-->
+    <select id="MonthlyPaymenttb" parameterType="combo" resultType="combo">
+        select *
+        from tbl_combo a
+        <where>a.comboid=a.comboid
+            <if test="combotime != null and combotime != ''">
+                and a.combotime LIKE #{combotime}
+            </if>
+        </where>
+        limit #{page},5
+    </select>
+
+    <!--    //月缴产品管理表格总条数查询-->
+    <select id="MonthlyPaymentzong" parameterType="combo" resultType="combo">
+        select *
+        from tbl_combo a
+
+    </select>
+
+    <!--    //月缴产品添加重复查询-->
+    <select id="repeatMonthlyPayment" parameterType="combo" resultType="combo">
+        select a.combotime
+        from tbl_combo a
+        where a.combotime=#{combotime}
+
+    </select>
+
+    <!--    //月缴产品增加-->
+    <insert id="addMonthlyPayment" parameterType="combo" >
+     insert into tbl_combo(combotime,combomoney)
+     values (#{combotime},#{combomoney})
+    </insert>
+
+    <!--    //月缴产品删除-->
+    <delete id="deMonthlyPayment" parameterType="combo" >
+           delete from tbl_combo where comboid=#{comboid}
+    </delete>
+
+<!--    临时停车缴费收支查询-->
+    <select id="ECharts" resultType="Cost">
+      SELECT b.paytype,a.money
+      FROM tbl_inout a,tbl_pay b
+      WHERE a.payid=b.payid
+      AND a.payid=2
+    </select>
+
+<!--    月产品收入查询-->
+    <select id="EChartsmonth" resultType="Cost">
+      SELECT a.sellmoney,b.combotime
+      FROM tbl_sell a,tbl_combo b
+      WHERE a.comboid=b.comboid
+
+    </select>
 </mapper>

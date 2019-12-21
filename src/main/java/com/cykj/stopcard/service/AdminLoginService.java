@@ -175,4 +175,14 @@ public class AdminLoginService
 		return  adminLoginDao.EChartsmonth();
 	}
 
+
+	//停车缴费表格总条数查询
+	@Transactional
+	public void Paygai(Pay pay)
+	{
+
+		adminLoginDao.Paygai(pay);
+	}
+
+
 }

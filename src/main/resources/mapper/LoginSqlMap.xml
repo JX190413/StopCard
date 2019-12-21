@@ -190,4 +190,12 @@ and g.workeraccount=#{workeraccount}
       WHERE a.comboid=b.comboid
 
     </select>
+
+<!--    //车辆离场缴费状态修改-->
+    <update id="Paygai"  parameterType="pay">
+        update tbl_inout
+        set  stateid=5 where inoutid=#{out_trade_no}
+    </update>
+
+
 </mapper>

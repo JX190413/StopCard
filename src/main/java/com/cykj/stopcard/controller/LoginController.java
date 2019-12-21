@@ -1,5 +1,10 @@
 package com.cykj.stopcard.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
 
 
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,24 +23,33 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 //后台端控制层
 @Controller
 public class LoginController
 {
 	private static String accessToken;
+	private final String APP_ID = "2016101600697321";
+	private final String APP_PRIVATE_KEY = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCKOCt4RTZ88ldF3MNVpgIgANL3I1NW8JWHTEouQCmmN5MFzgYrgAlzCPwWmHjTgXdDGXdUkDUrtTEg84T+Z0z4BTpLgO9I/hPegiubhfCvY/z5VbPA/rMrfl04sCUofDNoLp5/vCeTuo1JKQmxpn7xlNwaQffVKVZ1mouZWsaMhi2M8gCGt+12Zd87x7Q+3QXy0tQUcLIdQfY0E3FGNtj+35eI95x2TIdH7Aj1jxRWnINmQTV8MCiOmEQWObqG6raAlzzFg+MwpUwGDCD7Gjqiyp8lExqGudFaohu784xrSZt+0ifj7QbmAbZbusN358oNbJ99mPh4UaNUbjjN96nRAgMBAAECggEAfL83VIQ7Kkfaxp352jpLHrE/tne2hvf6LLOJG/ci3/a2hf2tCeO0I5PPWWFhY5sslW3Nio/gvUL6RUAkHywChrLJK04CKQHP0vnu+53GXbXDoxFbe+sksDOLVVd9Ie3+w5+Xw7eAjM9JJueX7TNUzRrKEBTL5iI5+0hxiAYqvrYhDTkqYi1JJUH0QW9BtYH4C0GV6Dhdw/zYmsH2WNi8ZLpyuRIvhK5vWQVJtwWXTzYh3QP7qMlt498ZkRkwh+KJvccC8WrosKu9ed9qDxxSK+rHaDebAqXmQ3gO9LzgZql7GLIJV7c0X0o2laUAswGAFknfd+QJ9ugeniYn681vVQKBgQDU5E1CxinCwFLHjgCFqrtFt08UaO6GEQwQuA10YjzJJqgO08Mwr9XUjKbP2LA0H+motdt+xyxhAm+czq1E1RYGjQWJqo/fde0EuBu550dKebDNOgJQksq3r1BWUShMtZUC/rFXTkVUO8pD2LhW779lLA/nbCSfRZrRitsLb5YIPwKBgQCmNRD2KH/RZSpgDQO/g17lLzYq64GXmA01zUaa8Fmwbj/juF+QlxobpnQ8TRwZWn1fRz948UPkb5ozzCpkWhD2HdD7No7ig21WcPq+HveRzbtGz29rt5IugvNFRwKknJccFwDnZP4OH4jarPVwNNMYrV15IFc+LsDsV9oa5HRJ7wKBgFsoPqTe8TbA3zEvbq3Ng07AxQ26OJgTaJUoGirBfcGr2b4vkp6gS/EtIKhS4nAPUh+5bvkEE86eGmiMXsjgbQP1Em/2JpDKj+i7ZLPfgjkzji7yLdeOY1rvqHitW5ItFlcn84usqib9SwhuHdCr68pIaa7wMWY5iac7y7tD1nxFAoGAUu61qO4qYRRmoYi87wmhByCYma/rePXg2ZC1A0icqCFK9digrqgG2fcjlpcvRyNU3X7SmAlixBA/1EqyeGJMhlH4XfEqOLI1k2VKaCVRiMosATguM4Rkh5rFwjKdif+sktKTm+JTtj5b7ilRSozBLFYNBwxxG9D+aK+pX7PQprcCgYA5Lo8inqoBhxNr4EEcSuSS887j/ivbslrShwA2yRjw9R8RjYl25bEuW9WekXgN3Pe8NZZJyXngVfuJS/Ns0iBkLT1yi7UI/yfc7V3dkvh7Q+eV9XylR+/zKGL0MLztj5BiAoSRcGuxhMfe06mZ/yRN51LDMcaIx2wTEmRDBvPnsQ==";
+	private final String CHARSET = "UTF-8";
+	private final String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApKhxMVHzVFsSnlvICg/98bGq12VFzamp0jxIDpi89bLPvXJVTusRDU7jRoRRjPjKCprxwDvT2lHJV8sAPQbXn7NfMPbhdit4Xz4+0+yOxxtUpal+iRwmNeGKT+s+6n5SFuEnCleNJVWrlObwZDhYBwmBB8kf5I2/IYEiTZf/yhHfxAFbksJcHlMslB1BJvkCyrz0dCtpUVrwwKlUnxzWPNFUAC9p4hD7knlsLSGm1G+pgxxNGvrzjQ0DBbwyOF4F08h2uYdbitikrHoBFNoCkA14yD1iHAfI8y1kweVWZEDEhVgvsehVwFtICXjgO3qjdEQNo282H084HXyinBzz8wIDAQAB";
+	//这是沙箱接口路径,正式路径为https://openapi.alipay.com/gateway.do
+	private final String GATEWAY_URL ="https://openapi.alipaydev.com/gateway.do";
+	private final String FORMAT = "JSON";
+	//签名方式
+	private final String SIGN_TYPE = "RSA2";
+	//支付宝异步通知路径,付款完毕后会异步调用本项目的方法,必须为公网地址
+	private final String NOTIFY_URL = "http://公网地址/notifyUrl";
+	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
+	private final String RETURN_URL = "http://localhost:8080/demo5/returnUrl";
+
+
 	@Resource
 	private AdminLoginService adminLoginService;
 //后台账号密码的登录
@@ -568,6 +583,125 @@ public Worker onListStudent(HttpServletRequest request,
 		return cost;
 	}
 
-  }
+
+	@RequestMapping(value = "/alipay.action" )
+//	@ResponseBody
+//	@Log(operationType="支付",operationName="支付宝")
+	public void alipay(Integer orderId, HttpServletResponse httpResponse,CarInOut carInOut) throws IOException
+	{
+		System.out.println("支付宝进入");
+		//实例化客户端,填入所需参数
+		AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+		AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+		//在公共参数中设置回跳和通知地址
+		request.setReturnUrl(RETURN_URL);
+		request.setNotifyUrl(NOTIFY_URL);
+//		System.out.println("订单号1---------"+carInOut.getInoutid());
+//		System.out.println("金额1---------"+carInOut.getMoney());
+
+		//		//根据订单编号,查询订单相关信息
+		//		Order order = payService.selectById(orderId);
+		//商户订单号，商户网站订单系统中唯一订单号，必填
+		int out_trade_no =carInOut.getInoutid();
+		//付款金额，必填
+		String total_amount = carInOut.getMoney();
+		//订单名称，必填
+		//		String subject = order.getOrderName();
+		//		商品描述，可空
+		System.out.println("订单号2---------"+out_trade_no);
+		System.out.println("金额2---------"+total_amount);
+		String body = "";
+		request.setBizContent("{\"out_trade_no\":\""+ 99999999 +"\","
+				+ "\"total_amount\":\""+ 99999999 +"\","
+				+ "\"subject\":\""+"伟斌娱乐" +"\","
+				//				+ "\"body\":\""+ body +"\","
+				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+
+		String form = "";
+		try {
+			form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+		} catch (AlipayApiException e) {
+			e.printStackTrace();
+		}
+
+		httpResponse.setContentType("text/html;charset=" + CHARSET);
+		httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+		httpResponse.getWriter().flush();
+		httpResponse.getWriter().close();
+
+
+	}
+
+	//订单成功界面
+	@RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
+	//	@ResponseBody
+//	@Log(operationType="订单返回",operationName="订单成功返回")
+	public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, AlipayApiException
+	{
+		System.out.println("=================================同步回调=====================================");
+		// 获取支付宝GET过来反馈信息
+		System.out.println("支付成功, 进入同步通知接口...");
+		//获取支付宝GET过来反馈信息
+		Map<String,String> params = new HashMap<String,String>();
+		Map<String,String[]> requestParams = request.getParameterMap();
+		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i]
+						: valueStr + values[i] + ",";
+			}
+			//乱码解决，这段代码在出现乱码时使用
+			valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+			params.put(name, valueStr);
+		}
+
+		System.out.println(params);//查看参数都有哪些
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET, SIGN_TYPE); // 调用SDK验证签名
+		//验证签名通过
+		if (signVerified)
+		{
+			Pay pay=new Pay();
+			// 商户订单号
+			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"), "UTF-8");
+
+			// 支付宝交易号
+			String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"), "UTF-8");
+
+			// 付款金额
+			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"), "UTF-8");
+
+			System.out.println("商户订单号=" + out_trade_no);
+			System.out.println("支付宝交易号=" + trade_no);
+			System.out.println("付款金额=" + total_amount);
+			pay.setOut_trade_no(out_trade_no);
+			pay.setTotal_amount(total_amount);
+			pay.setTrade_no(trade_no);
+
+			adminLoginService.Paygai(pay);
+			//			ModelAndView modelAndView=new Mp
+			//支付成功，修复支付状态
+			//			payService.updateById(Integer.valueOf(out_trade_no));
+			ModelAndView mv = new ModelAndView();
+			//			String index="alipaySuccess";
+			mv.addObject("out_trade_no", out_trade_no);
+			mv.addObject("trade_no", trade_no);
+			mv.addObject("total_amount", total_amount);
+			mv.addObject("flag", "success");
+			mv.setViewName("alipaySuccess");
+			return mv;
+
+			//			return "alipaySuccess";//跳转付款成功页面
+		} else
+		{
+			ModelAndView mv = new ModelAndView("demo5/0000");
+			return mv;//跳转付款失败页面
+		}
+	}
+
+
+}
 
 

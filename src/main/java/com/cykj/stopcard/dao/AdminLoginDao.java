@@ -51,17 +51,14 @@ public interface AdminLoginDao
 
 
 	//月缴产品管理表格分页查询与带条件搜索
-
 	public List<Combo> MonthlyPaymenttb(Combo combo);
 
 
 	//月缴产品管理表格总条数查询
-
 	public List<Combo> MonthlyPaymentzong(Combo combo);
 
 
 	//月缴产品添加重复查询
-
 	public List<Combo> repeatMonthlyPayment(Combo combo);
 
 	//月缴产品增加
@@ -72,10 +69,13 @@ public interface AdminLoginDao
 	public int deMonthlyPayment(Combo combo);
 
 	//临时停车缴费图
-
 	public List<Cost> ECharts();
 
 	//月缴产品缴费图
-
 	public List<Cost> EChartsmonth();
+
+
+	//车辆离场缴费状态修改
+	public void Paygai(Pay pay);
+
 }

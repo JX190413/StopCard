@@ -60,6 +60,17 @@ public class AdminService
 		return adminDao.addRole(role,msg);
 	}
 
+	//删除角色
+	public  int deleteRole(String roleid){
+
+		//删除角色-权限
+		adminDao.deleteRoleMenu(roleid);
+			//删除角色-人员
+		adminDao.deleteWorkerRole(roleid);
+				//删除角色
+		return adminDao.deleteRole(roleid);
+	}
+
 
 	//查询角色ID
 	public  Map queryRolesID(String role){
@@ -76,7 +87,6 @@ public class AdminService
 		if(adminDao.updateRole( rolename, roledetails, roleid)>0){
 			adminDao.deleteRoleMenu(roleid);
 			return 1;
-
 		}
 		return 0;
 	}

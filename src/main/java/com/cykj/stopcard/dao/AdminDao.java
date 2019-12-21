@@ -46,6 +46,11 @@ public interface AdminDao
 
 	//<!-- 根据roleid删除角色-权限关系表 -->
 	public  int deleteRoleMenu(String roleid);
+	//<!-- 根据roleid删除角色-人员关系表 -->
+	public  int deleteWorkerRole(String roleid);
+
+	//<!-- 根据roleid删除角色表 -->
+	public  int deleteRole(String roleid);
 
 	//<!-- 根据roleid删除角色-权限关系表 -->
 	public  int updateRole(String rolename, String roledetails, String roleid);

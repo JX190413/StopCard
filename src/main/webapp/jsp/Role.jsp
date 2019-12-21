@@ -38,13 +38,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/html" id="buttonTpl">
-	{{#  if(d.check == true){ }}
-	<button class="layui-btn layui-btn-xs">已审核</button>
-	{{#  } else { }}
-	<button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
-	{{#  } }}
-</script>
+
 <script type="text/html" id="barDemo">
 
 	{{#  if(d.rolename == '超级管理员'){ }}
@@ -121,19 +115,22 @@
 			var data = obj.data;//获得当前行数据
 			// console.log(data.rolename);
 			if (obj.event === 'detail') {
-				layer.msg('用户名：' + data.ROLE_NAME + ' 的查看操作');
+				layer.msg('用户名：' + data.rolename + ' 的查看操作');
 			} else if (obj.event === 'del') {
-				layer.confirm('真的删除行么', function (index) {
+				layer.confirm('真的删除'+data.rolename+'么?', function (index) {
 					$.ajax({
-						url: "",
-						data: "userId=" + data['userId'],
+						url: "/StopCard/deleteRole",
+						data: "roleid=" + data.roleid,
 						type: "Post",
 						dataType: "json",
 						success: function (data) {
 							console.log(data);
-							if (data.code == 200) {
-								obj.del();
-								return layer.msg(data.msg);
+							if (eval(data)===1) {
+								table.reload('testReload');
+								return layer.msg("删除成功！");
+
+							}else {
+								return layer.msg("删除失败！");
 							}
 						},
 						error: function (data) {
@@ -142,7 +139,9 @@
 					});
 					layer.close(index);
 				});
-			} else if (obj.event === 'edit') {
+			}
+			//编辑角色事件
+			else if (obj.event === 'edit') {
 				layer.open({
 					type: 2
 					, title: '修改角色'

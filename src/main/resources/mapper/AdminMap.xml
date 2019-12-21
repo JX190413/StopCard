@@ -90,16 +90,20 @@
         </foreach>
     </insert>
 
+
+    <!--   删除角色-->
+    <delete id="deleteWorkerRole" >
+        DELETE FROM tbl_workeroler WHERE rolerid=#{roleid}
+    </delete>
     <!--    删除角色-->
-    <!--    查询是否有工作人员属于该角色，有的话提示不能删除-->
-    <select id="queryWokerByRoleId" resultType="map">
-        SELECT * FROM tbl_workeroler WHERE  roleid =#{roleid}
-    </select>
+    <delete id="deleteRole" >
+        DELETE FROM tbl_role WHERE roleid=#{roleid}
+    </delete>
 
     <!--    根据roleid删除角色-权限关系表-->
-    <insert id="deleteRoleMenu">
+    <delete id="deleteRoleMenu">
        DELETE FROM tbl_rolemenu WHERE roleid=#{roleid}
-    </insert>
+    </delete>
 
 
     <!--    根据roleid修改角色表-->
@@ -127,6 +131,8 @@
             LIMIT #{start},#{pageSize}
         </if>
     </select>
+
+
 
     <!--    菜单表统计-->
     <select id="queryMenuCount" resultType="integer">

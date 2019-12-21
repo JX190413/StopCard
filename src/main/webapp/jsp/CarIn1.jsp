@@ -234,6 +234,7 @@
 		},
 		imgURL: "../ESMap/Case/Park/image/wedgets/"
 	});
+	//地图加载
 	map = new esmap.ESMap({
 		container: $("#map-container")[0], // 渲染dom
 		mapDataSrc: "../ESMap/data", //地图数据位置
@@ -296,8 +297,10 @@
 				if(eval(data.stateid)===5){
 					setEnd(data.portx,data.porty);
 					carport=data.portname;
-				}else{
+				}else if(eval(data.stateid)===6){
 					alert("该车位已经有车，请重新选择车位！")
+				}else{
+					alert("该车位不可用！")
 				}
 			});
 	});

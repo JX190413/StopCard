@@ -52,7 +52,7 @@
 
     <!--    写入出场时间，停放时长，缴费类型，缴费金额-->
     <update id="updateCarOut">
-    UPDATE  tbl_inout SET outtime=#{outtime},outtime=#{outtime},payid=#{payid},money=#{money}
+    UPDATE  tbl_inout SET outtime=#{outtime},stoptime=#{stoptime},payid=#{payid},money=#{money}
     WHERE carnum=#{carnum} AND stateid='4'
     </update>
 

@@ -104,19 +104,31 @@
 	<p class="test">应缴费用：<span class="port" id="money"></span></p>
 	<br><br><br><br><br><br>
 	<p class="test">车牌号：<span  class="car" id="car"></span></p>
+	<br><br><br><br><br><br>
+	<button class="layui-btn" id="pay" onclick="pay()"> 缴费</button>
 </div>
 
 
 
 
 <script>
+	var carnum;
+	var money;
+	var inoutid;
+	// $("#pay").click(function () {
+	// 	$.post("/StopCard/alipay.action",{carnum:carnum,money:money,inoutid:inoutid})
+	// });
+	function pay() {
+		$.post("/StopCard/alipay.action",{carnum:carnum,money:money,inoutid:inoutid})
+	}
+
 	function ulrHtml(node) {
 		var toUrl = "CarIn1.jsp?car=" + $("#car").html();
 		window.open(toUrl);
 	}
 	//每5秒从数据库获取车位情况
 	$(function () {
-		$("#parking").hide();
+		$("#pay").hide();
 		freePort();
 		setInterval("freePort()",5000);
 	});
@@ -171,10 +183,15 @@
 				}
 				if (res.code > 0) {
 					console.log(res.msg);
-					$("#car").html(res.msg.carnum);
+					carnum=res.msg.carnum;
+					money=res.msg.money;
+					inoutid=res.msg.inoutid;
+					$("#car").html(carnum);
 					$("#time").html(res.msg.stoptime+"分钟");
-					$("#money").html(res.msg.money+"元("+res.paytype+")");
-
+					$("#money").html(money+"元("+res.paytype+")");
+					if(eval(res.msg.money)!==0){
+						$("#pay").show();
+					}
 				}
 			}
 			, error: function () {

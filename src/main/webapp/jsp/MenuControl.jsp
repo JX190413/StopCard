@@ -32,36 +32,26 @@
 					</div>
 				</div>
 				<div class="layui-inline">
+					<button class="layui-btn layuiadmin-btn-useradmin"  id="clear">
+						清除
+					</button>
+				</div>
+				<div class="layui-inline">
 					<button class="layui-btn layuiadmin-btn-useradmin" id="search" lay-submit
 					        lay-filter="LAY-user-front-search">
 						<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
 					</button>
 				</div>
-				<div class="layui-inline">
-					<button class="layui-btn" onclick="clear()" id="clear">
-						清除
-					</button>
-				</div>
+
 			</div>
 		</div>
 
 		<div class="layui-card-body">
-<%--			<div style="padding-bottom: 10px;">--%>
-<%--				<div class="layui-upload">--%>
-<%--					<button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>--%>
-<%--					<button type="button" class="layui-btn" id="test9">开始上传</button>--%>
-<%--					<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>--%>
-<%--				</div>--%>
-<%--			</div>--%>
 			<table id="demo" lay-filter="test"></table>
 		</div>
 	</div>
 </div>
 <script>
-	//清除搜索条件
-	function clear(){
-		$("#menuname").val("")
-	}
 
 	layui.use('laydate', function () {
 		var laydate = layui.laydate;
@@ -85,6 +75,20 @@
 <script>
 	layui.use('table', function () {
 		var table = layui.table;
+		//清除搜索条件
+		$("#menuname").val("");
+		// $("#clear").click(function () {
+		//
+		// 	table.reload('testReload', {
+		// 		page: {
+		// 			curr: 1 //重新从第 1 页开始
+		// 		}
+		// 		, where: {
+		// 			menuname: ""
+		// 		}
+		// 	});
+		// });
+
 		//第一个实例
 		table.render({
 			elem: '#demo'

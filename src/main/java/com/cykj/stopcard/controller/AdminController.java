@@ -100,7 +100,7 @@ public class AdminController
 
 	}
 
-	//添加角色
+	//添加/修改角色
 	@RequestMapping("/addRole")
 	@ResponseBody
 	public String addRole(String field,String roleid)
@@ -123,15 +123,15 @@ public class AdminController
 			int num = adminService.addRole(role, msg);
 			if(num>0){
 				Map map1=adminService.queryRolesID(role);
-				System.out.println("roleID=" + map1.get("roleid"));
+//				System.out.println("roleID=" + map1.get("roleid"));
 				adminService.addRoleMenu(map1.get("roleid").toString(),list);
 				return "添加成功！";
 			}
 			return "添加失败！";
 		}else{//修改角色
 			if(adminService.editRole(role,msg,roleid)>0){
-				System.out.println("-------------------"+roleid);
-				System.out.println("*******************"+list);
+//				System.out.println("-------------------"+roleid);
+//				System.out.println("*******************"+list);
 				adminService.addRoleMenu(roleid,list);
 				return "修改成功！";
 			}
@@ -152,6 +152,15 @@ public class AdminController
 		}
 		//不存在（可添加）
 		return "1";
+	}
+	//删除角色判断角色是否绑定了用户，是不能删
+	@RequestMapping("/deleteRole")
+	@ResponseBody
+	public String deleteRole(String roleid)
+	{
+		System.out.println(roleid);
+		//不存在（可添加）
+		return adminService.deleteRole(roleid)+"";
 	}
 
 

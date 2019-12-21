@@ -90,7 +90,9 @@ public class CarController
 				//出场时间
 				String carOutTime= TimeTool.getDate();
 				//进场时间
-				String carInTime=cardService.searchCarInOut(carnum).getIntime();
+				CarInOut carInOut=cardService.searchCarInOut(carnum);
+				String carInTime=carInOut.getIntime();
+				int inoutid=carInOut.getInoutid();
 				//时间差
 				Long timeDiff= TimeTool.timeDiff(carInTime,carOutTime);
 				//判断是否白名单
@@ -129,6 +131,9 @@ public class CarController
 				carInOut.setPayid(payid);
 				//缴费金额
 				carInOut.setMoney(money);
+				if(money.equals("0")){
+					carInOut.setStateid(5);
+				}
 				carInOut.setStoptime(timeDiff.toString());
 				//写入数据库
 				int num=cardService.updateCarOut(carInOut);
@@ -139,6 +144,7 @@ public class CarController
 				}
 				map1.put("msg", carInOut);
 				map1.put("paytype", paytype);
+				map1.put("inoutid", inoutid);
 			}
 		}
 		return map1;

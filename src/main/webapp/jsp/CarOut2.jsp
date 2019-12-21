@@ -27,7 +27,7 @@
 		/*!*background: -webkit-radial-gradient(center ellipse, #0a2e38 0%, #000000 70%);*!*/
 		/*background: radial-gradient(ellipse at center, #0a2e38 0%, #000000 70%);*/
 		/*background-size: 100%;*/
-		background-image: url("../images/onepgscr-3.jpg");
+		background-image: url("<%=path+"/images/onepgscr-3.jpg"%>");
 	}
 
 	p {
@@ -82,30 +82,21 @@
 
 <div style="padding-right: 50px;position: absolute;margin-left: 20;">
 	<br><br>
-	<div class="layui-upload">
-		<button type="button" class="layui-btn" id="test1">上传图片</button>
-
-		<div class="layui-upload-list">
-			<img class="layui-upload-img" id="demo1">
-			<p id="demoText"></p>
-		</div>
-	</div>
 </div>
 <div style="left: 95%;padding-left: 10px;position: absolute;">
 	<br><br>
-	<a type="button" class="layui-btn" href="Reception.jsp">返回</a>
+	<a type="button" class="layui-btn" href="jsp/Reception.jsp">返回</a>
 </div>
 <div id="clock">
 	<p class="date">{{ date }}</p>
 	<p class="time">{{ time }}</p>
 	<br><br><br><br><br><br><br><br><br><br>
-	<p class="test">停车时长：<span class="port" id="time"></span></p>
+	<p class="test"><span class="port" id="time">一路顺风！</span></p>
 	<br><br><br><br><br><br>
-	<p class="test">应缴费用：<span class="port" id="money"></span></p>
+	<p class="test">应缴费用：<span class="port" id="money">缴费成功！</span></p>
 	<br><br><br><br><br><br>
-	<p class="test">车牌号：<span  class="car" id="car"></span></p>
+	<p class="test">车牌号：<span  class="car" id="car">${carNum}</span></p>
 	<br><br><br><br><br><br>
-	<button class="layui-btn" id="pay" onclick="pay()"> 缴费</button>
 </div>
 
 <form method="post" id="myform" action="<%=path+"/alipay.action"%>">
@@ -116,31 +107,8 @@
 
 
 <script>
-	var carnum;
-	var money;
-	var inoutid;
-	function pay() {
-		$("#carnum1").val(carnum);
-		$("#money1").val(money);
-		$("#inoutid1").val(inoutid);
-		$("#myform").submit()
-	}
 
-	function ulrHtml(node) {
-		var toUrl = "CarIn1.jsp?car=" + $("#car").html();
-		window.open(toUrl);
-	}
-	//每5秒从数据库获取车位情况
-	$(function () {
-		$("#pay").hide();
-		freePort();
-		setInterval("freePort()",5000);
-	});
-	function freePort(){
-		$.post("<%=path+"/searchFreeCarPort"%>",function (data) {
-			$("#port").html(data+"个")
-		})
-	}
+
 
 	var clock = new Vue({
 		el: '#clock',
@@ -166,48 +134,7 @@
 		}
 		return (zero + num).slice(-digit);
 	}
-	layui.use('upload', function () {
-		var $ = layui.jquery
-			, upload = layui.upload;
 
-		//普通图片上传
-		var uploadInst = upload.render({
-			elem: '#test1'
-			, url: '<%=path+"/cardOut"%>'
-			, before: function (obj) {
-				//预读本地文件示例，不支持ie8
-				obj.preview(function (index, file, result) {
-					$('#demo1').attr('src', result); //图片链接（base64）
-				});
-			}
-			, done: function (res) {
-				//如果上传失败
-				if (res.code == 0) {
-					return layer.msg("上传失败！")
-				}
-				if (res.code > 0) {
-					console.log(res.msg);
-					carnum=res.msg.carnum;
-					money=res.msg.money;
-					inoutid=res.msg.inoutid;
-					$("#car").html(carnum);
-					$("#time").html(res.msg.stoptime+"分钟");
-					$("#money").html(money+"元("+res.paytype+")");
-					if(eval(res.msg.money)!==0){
-						$("#pay").show();
-					}
-				}
-			}
-			, error: function () {
-				//演示失败状态，并实现重传
-				var demoText = $('#demoText');
-				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-				demoText.find('.demo-reload').on('click', function () {
-					uploadInst.upload();
-				});
-			}
-		});
-	});
 </script>
 </body>
 </html>

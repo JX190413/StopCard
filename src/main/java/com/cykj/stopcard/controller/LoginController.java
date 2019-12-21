@@ -576,7 +576,7 @@ public Worker onListStudent(HttpServletRequest request,
 	@RequestMapping(value = "/alipay.action" )
 //	@ResponseBody
 //	@Log(operationType="支付",operationName="支付宝")
-	public void alipay(Integer orderId, HttpServletResponse httpResponse,CarInOut carInOut) throws IOException
+	public void alipay(Integer orderId, HttpSession session,HttpServletResponse httpResponse,CarInOut carInOut) throws IOException
 	{
 		System.out.println("支付宝进入");
 		//实例化客户端,填入所需参数
@@ -585,6 +585,7 @@ public Worker onListStudent(HttpServletRequest request,
 		//在公共参数中设置回跳和通知地址
 		request.setReturnUrl(RETURN_URL);
 		request.setNotifyUrl(NOTIFY_URL);
+		session.setAttribute("carNum",carInOut.getCarnum());
 //		System.out.println("订单号1---------"+carInOut.getInoutid());
 //		System.out.println("金额1---------"+carInOut.getMoney());
 
@@ -595,13 +596,13 @@ public Worker onListStudent(HttpServletRequest request,
 		//付款金额，必填
 		String total_amount = carInOut.getMoney();
 		//订单名称，必填
-		//		String subject = order.getOrderName();
+//				String subject = order.getOrderName();
 		//		商品描述，可空
 		System.out.println("订单号2---------"+out_trade_no);
 		System.out.println("金额2---------"+total_amount);
 		String body = "";
-		request.setBizContent("{\"out_trade_no\":\""+ 99999999 +"\","
-				+ "\"total_amount\":\""+ 99999999 +"\","
+		request.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
+				+ "\"total_amount\":\""+ total_amount +"\","
 				+ "\"subject\":\""+"伟斌娱乐" +"\","
 				//				+ "\"body\":\""+ body +"\","
 				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
@@ -625,7 +626,7 @@ public Worker onListStudent(HttpServletRequest request,
 	@RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
 	//	@ResponseBody
 //	@Log(operationType="订单返回",operationName="订单成功返回")
-	public ModelAndView returnUrl(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView returnUrl(HttpServletRequest request, HttpSession session,HttpServletResponse response)
 			throws IOException, AlipayApiException
 	{
 		System.out.println("=================================同步回调=====================================");
@@ -678,8 +679,9 @@ public Worker onListStudent(HttpServletRequest request,
 			mv.addObject("out_trade_no", out_trade_no);
 			mv.addObject("trade_no", trade_no);
 			mv.addObject("total_amount", total_amount);
+			mv.addObject("carNum", session.getAttribute("carNum"));
 			mv.addObject("flag", "success");
-			mv.setViewName("alipaySuccess");
+			mv.setViewName("CarOut2");
 			return mv;
 
 			//			return "alipaySuccess";//跳转付款成功页面

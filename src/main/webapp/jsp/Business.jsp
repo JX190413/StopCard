@@ -24,7 +24,7 @@
 </head>
 <body>
 <%--车牌号:<input name="carnum" value="${UserManagement.carnum}" disabled="disabled">--%>
-<form class="layui-form" action="<%=path+"/alipay.action"+"?type=jiaofei"%>" method="post" target="_blank" >
+<form class="layui-form" action="<%=path+"/alipay1"+"?type=jiaofei"%>" method="post" target="_blank" >
 	<div class="layui-row">
 		<div class="layui-form-item">
 			<div class="layui-col-xs6">

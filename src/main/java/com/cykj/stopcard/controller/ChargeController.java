@@ -91,7 +91,7 @@ public class ChargeController
 		msg.setData(list);
 		return  null;
 	}
-	@RequestMapping("alipay")
+	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
 		//实例化客户端,填入所需参数

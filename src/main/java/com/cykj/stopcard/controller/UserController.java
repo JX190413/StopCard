@@ -88,7 +88,7 @@ public class UserController
 		if (userManagement1!=null){
 			mv.addObject("UserManagement",userManagement1);
 			mv.addObject("flage",3);
-			mv.setViewName("Reception");
+			mv.setViewName("Business");
 			return mv;
 		}
 		mv.addObject("flage",4);

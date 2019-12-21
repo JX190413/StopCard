@@ -14,6 +14,17 @@ public class CardPort
 	private String portx;
 	private String porty;
 	private String carnum;
+	private  String statename;
+
+	public String getStatename()
+	{
+		return statename;
+	}
+
+	public void setStatename(String statename)
+	{
+		this.statename = statename;
+	}
 
 	public int getPortid()
 	{

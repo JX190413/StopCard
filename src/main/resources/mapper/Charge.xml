@@ -6,4 +6,26 @@
     <select id="selfasttime" resultType="com.cykj.stopcard.bean.Product">
         SELECT * from tbl_rules c where c.mealid<![CDATA[<= ]]>4
 </select>
+    <select id="selall" resultMap="epmap">
+        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid
+    </select>
+    <resultMap id="epmap" type="com.cykj.stopcard.bean.CardPort">
+        <result property="portid" column="portid"></result>
+        <result property="portcardid" column="portcardid"></result>
+        <result property="portarea" column="portarea"></result>
+        <result property="portname" column="portname"></result>
+        <result property="stateid" column="stateid"></result>
+        <result property="portx" column="portx"></result>
+        <result property="porty" column="porty"></result>
+        <result property="carnum" column="carnum"></result>
+        <result property="statename" column="statename"></result>
+
+    </resultMap>
+    <select id="selcormid" parameterType="java.lang.String" resultType="int">
+        SELECT a.comboid from tbl_combo a where  a.combotime=#{time}
+    </select>
+    <insert id="inserole" parameterType="com.cykj.stopcard.bean.Business">
+INSERT INTO tbl_business(comboid,paytime,pasttime,carnum)VALUES
+(#{comboid},#{paytime},#{pasttime},#{carnum})
+    </insert>
 </mapper>

@@ -1,5 +1,7 @@
 package com.cykj.stopcard.service;
 
+import com.cykj.stopcard.bean.CardPort;
+import com.cykj.stopcard.bean.Business;
 import com.cykj.stopcard.bean.Product;
 import com.cykj.stopcard.dao.ChargeDao;
 import org.springframework.stereotype.Service;
@@ -15,5 +17,11 @@ public class ChargeService
 	public List<Product> selfasttime(){
 		return  chargeDao.selfasttime();
 	}
-
+public  List<CardPort> selall(){return  chargeDao.selall();}
+public int  selcormid(String time){
+		return  chargeDao.selcormid(time);
+}
+public  int inserole(Business business){
+		return  chargeDao.inserole(business);
+}
 }

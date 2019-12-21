@@ -36,7 +36,7 @@
 				<div class="el__inner">
 					<div class="el__bg"></div>
 					<div class="el__preview-cont">
-						<h2 class="el__heading">车辆进场</h2>
+						<h1 class="el__heading" style="font-size: 40px">车辆进场</h1>
 					</div>
 					<div class="el__content">
 						<!-- <div class="el__text"><a href="wwww.baidu.com">车辆进场</a></div> -->
@@ -120,7 +120,7 @@
 				<div class="el__inner">
 					<div class="el__bg"></div>
 					<div class="el__preview-cont">
-						<h2 class="el__heading">反向寻车</h2>
+						<h2 class="el__heading" style="font-size: 40px">反向寻车</h2>
 					</div>
 					<div class="el__content">
 						<!-- <div class="el__text"><a href="wwww.baidu.com">反向寻车</a></div> -->
@@ -206,7 +206,7 @@
 				<div class="el__inner">
 					<div class="el__bg"></div>
 					<div class="el__preview-cont">
-						<h2 class="el__heading">车辆出场</h2>
+						<h2 class="el__heading" style="font-size: 40px">车辆出场</h2>
 					</div>
 					<div class="el__content">
 						<!-- <div class="el__text"><a href="wwww.baidu.com">车辆出场</a></div> -->
@@ -288,7 +288,7 @@
 				<div class="el__inner">
 					<div class="el__bg"></div>
 					<div class="el__preview-cont">
-						<h2 class="el__heading">业务办理</h2>
+						<h2 class="el__heading" style="font-size: 40px">业务办理</h2>
 					</div>
 					<div class="el__content">
 						<!-- <div class="el__text"><a href="wwww.baidu.com">业务办理</a></div> -->
@@ -370,7 +370,7 @@
 				<div class="el__inner">
 					<div class="el__bg"></div>
 					<div class="el__preview-cont">
-						<h2 class="el__heading">广告合作</h2>
+						<h2 class="el__heading" style="font-size: 40px">广告合作</h2>
 					</div>
 					<div class="el__content">
 						<!-- <div class="el__text"><a href="wwww.baidu.com">广告合作</a></div> -->

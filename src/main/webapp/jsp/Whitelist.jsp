@@ -70,8 +70,10 @@
 			]]
 
 		});
-		// 搜索重载
+
+		// 白名单新增车牌
 		var $ = layui.$, active = {
+			// 搜索重载
 			reload: function(){
 				var carnum = $('#carnum').val();
 				//执行重载
@@ -85,10 +87,7 @@
 						// }
 					}
 				}, 'data');
-			}
-		};
-		// 白名单新增车牌
-		var $ = layui.$, active = {
+			},
 			add: function(){
 				layer.prompt({
 					formType: 3,

@@ -111,7 +111,7 @@ public class CarController
 						paytype="月缴";
 						String paytime=map3.get("paytime").toString();
 						String pasttime=map3.get("pasttime").toString();
-						boolean isInPayTime=TimeTool.belongCalendar(carOutTime,paytime,pasttime);
+						boolean isInPayTime=TimeTool.belongCalendar(TimeTool.getDate2(),paytime,pasttime);
 						if(!isInPayTime){
 							payid=2;
 							paytype="临时";

@@ -10,6 +10,7 @@ import java.util.Date;
 public class TimeTool
 {
 	public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 
 	//获取当前时间
 	public static String getDate()
@@ -19,6 +20,15 @@ public class TimeTool
 		String newDate = formatter.format(date);
 		return newDate;
 	}
+	//获取当前时间
+	public static String getDate2()
+	{
+
+		Date date = new Date(System.currentTimeMillis());
+		String newDate = formatter2.format(date);
+		return newDate;
+	}
+
 	//获取当前时分秒
 	//	public static String getTime(){
 	//		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
@@ -42,7 +52,7 @@ public class TimeTool
 		}
 		return minutes;
 	}
-
+	//判断日期是否在某个时间区间段
 	public static boolean belongCalendar(String nowTime, String beginTime, String endTime)
 	{
 		Date d1 = null;
@@ -50,9 +60,9 @@ public class TimeTool
 		Date d3 = null;
 		try
 		{
-			d1 = formatter.parse(nowTime);
-			d2 = formatter.parse(beginTime);
-			d3 = formatter.parse(endTime);
+			d1 = formatter2.parse(nowTime);
+			d2 = formatter2.parse(beginTime);
+			d3 = formatter2.parse(endTime);
 		} catch (ParseException e)
 		{
 			e.printStackTrace();
@@ -72,7 +82,12 @@ public class TimeTool
 			return true;
 		} else
 		{
-			return false;
+			if(date.equals(begin)||date.equals(end)){
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 

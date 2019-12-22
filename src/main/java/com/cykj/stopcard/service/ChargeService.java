@@ -2,6 +2,7 @@ package com.cykj.stopcard.service;
 
 import com.cykj.stopcard.bean.CardPort;
 import com.cykj.stopcard.bean.Business;
+import com.cykj.stopcard.bean.Combo;
 import com.cykj.stopcard.bean.Product;
 import com.cykj.stopcard.dao.ChargeDao;
 import org.springframework.stereotype.Service;
@@ -24,4 +25,6 @@ public int  selcormid(String time){
 public  int inserole(Business business){
 		return  chargeDao.inserole(business);
 }
+public List<Combo> selcomtime(String time){return chargeDao.selcomboid(time);}
+	public int selodnumber(String carnum){return chargeDao.selodnumber(carnum) ;}
 }

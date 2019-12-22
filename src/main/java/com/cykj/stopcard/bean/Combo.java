@@ -6,6 +6,17 @@ public class Combo
 	private  String combotime;
 	private  String combomoney;
 	private int page;
+	private  int timeid;
+
+	public int getTimeid()
+	{
+		return timeid;
+	}
+
+	public void setTimeid(int timeid)
+	{
+		this.timeid = timeid;
+	}
 
 	public int getComboid()
 	{

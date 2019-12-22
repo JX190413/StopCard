@@ -1,9 +1,6 @@
 package com.cykj.stopcard.controller;
 
-import com.cykj.stopcard.bean.Msg;
-import com.cykj.stopcard.bean.ResultEntity;
-import com.cykj.stopcard.bean.UserManagement;
-import com.cykj.stopcard.bean.Whitelist;
+import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,9 +82,11 @@ public class UserController
 		userManagement.setUsername(username1);
 		userManagement.setUserpass(userpass1);
 		UserManagement userManagement1=userService.selectUser(userManagement);
+		List<Combo> combos=userService.selcomtime();
 		if (userManagement1!=null){
 			mv.addObject("UserManagement",userManagement1);
 			mv.addObject("flage",3);
+			mv.addObject("combos",combos);
 			mv.setViewName("Business");
 			return mv;
 		}

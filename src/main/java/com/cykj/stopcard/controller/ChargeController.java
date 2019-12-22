@@ -4,10 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.cykj.stopcard.bean.CardPort;
-import com.cykj.stopcard.bean.Business;
-import com.cykj.stopcard.bean.Msg;
-import com.cykj.stopcard.bean.Product;
+import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.service.ChargeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,10 +88,12 @@ public class ChargeController
 		msg.setData(list);
 		return  null;
 	}
+
 	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
 		//实例化客户端,填入所需参数
+
 
 		int id=chargeService.selcormid(time);
 		ZoneId z = ZoneId.of( "America/Montreal" );
@@ -106,12 +105,16 @@ public class ChargeController
 		business.setPaytime(today.toString());
 		business.setPasttime(oneMonthLater.toString());
 		int a=chargeService.inserole(business);
-		AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
-		AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-		//在公共参数中设置回跳和通知地址
-		request.setReturnUrl(RETURN_URL);
-		request.setNotifyUrl(NOTIFY_URL);
-		//根据订单编号,查询订单相关信息
+		if (a>0){
+			List<Combo> list=chargeService.selcomtime(time);
+
+			int carnum2=chargeService.selodnumber(carnum);
+			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+			//在公共参数中设置回跳和通知地址
+			request.setReturnUrl(RETURN_URL);
+			request.setNotifyUrl(NOTIFY_URL);
+			//根据订单编号,查询订单相关信息
 	/*	Order order = payService.selectById(orderId);
 		//商户订单号，商户网站订单系统中唯一订单号，必填
 		String out_trade_no = order.getOrderId().toString();
@@ -119,22 +122,25 @@ public class ChargeController
 		String total_amount = order.getOrderPrice().toString();
 		//订单名称，必填
 		String subject = order.getOrderName();*/
-		//商品描述，可空
-		String body = "";
-		request.setBizContent("{\"out_trade_no\":\""+ 20 +"\","
-				+ "\"total_amount\":\""+ 5 +"\","
-				+ "\"subject\":\""+ "会员缴费" +"\","
-				+ "\"body\":\""+ body +"\","
-				+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-		String form = "";
-		try {
-			form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-		} catch (AlipayApiException e) {
-			e.printStackTrace();
+			//商品描述，可空
+			String body = "";
+			request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
+					+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
+					+ "\"subject\":\""+ "会员缴费" +"\","
+					+ "\"body\":\""+ body +"\","
+					+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+			String form = "";
+			try {
+				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+			} catch (AlipayApiException e) {
+				e.printStackTrace();
+			}
+			httpResponse.setContentType("text/html;charset=" + CHARSET);
+			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+			httpResponse.getWriter().flush();
+			httpResponse.getWriter().close();
 		}
-		httpResponse.setContentType("text/html;charset=" + CHARSET);
-		httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
-		httpResponse.getWriter().flush();
-		httpResponse.getWriter().close();
+
 	}
+
 }

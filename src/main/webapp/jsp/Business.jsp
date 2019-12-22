@@ -48,9 +48,10 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label" style="font-size: 20px;font-style: italic;padding-left: 100px">月缴办理</label>
 				<div class="layui-input-block" style="padding-left: 100px">
-					<input type="radio" name="time" value="三个月"  title="三个月" checked="" >
-					<input type="radio" name="time" value="六个月" title="六个月">
-					<input type="radio" name="time" value="十二个月" title="十二个月"<%-- disabled=""--%>>
+					<input type="radio" name="time" value="${combos.get(0).combotime}"  title="${combos.get(0).combotime}:${combos.get(0).combomoney}元" checked="" >
+					<input type="radio" name="time" value="${combos.get(1).combotime}"  title="${combos.get(1).combotime}:${combos.get(1).combomoney}元" checked="" >
+					<input type="radio" name="time" value="${combos.get(2).combotime}" title="${combos.get(2).combotime}:${combos.get(2).combomoney}元"<%-- disabled=""--%>>
+					<input type="radio" name="time" value="${combos.get(3).combotime}" title="${combos.get(3).combotime}:${combos.get(3).combomoney}元">
 				</div>
 			</div>
 	</div>

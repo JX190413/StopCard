@@ -21,11 +21,17 @@
         <result property="statename" column="statename"></result>
 
     </resultMap>
-    <select id="selcormid" parameterType="java.lang.String" resultType="java.lang.Integer">
-        SELECT a.comboid from tbl_combo a where  a.combotime=#{time}
+    <select id="selcormid" parameterType="java.lang.String" resultType="Integer">
+        SELECT comboid from tbl_combo  where  combotime=#{time}
     </select>
     <insert id="inserole" parameterType="Business">
 INSERT INTO tbl_business(comboid,paytime,pasttime,carnum)VALUES
 (#{comboid},#{paytime},#{pasttime},#{carnum})
     </insert>
+    <select id="selcomboid" resultType="com.cykj.stopcard.bean.Combo" parameterType="java.lang.String">
+        SELECT * from tbl_combo where combotime=#{time}
+    </select>
+    <select id="selodnumber" parameterType="java.lang.String" resultType="int">
+       SELECT businessid from tbl_business where carnum=#{carnum}
+    </select>
 </mapper>

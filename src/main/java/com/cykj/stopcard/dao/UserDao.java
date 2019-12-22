@@ -1,5 +1,6 @@
 package com.cykj.stopcard.dao;
 
+import com.cykj.stopcard.bean.Combo;
 import com.cykj.stopcard.bean.UserManagement;
 import com.cykj.stopcard.bean.Whitelist;
 import org.apache.ibatis.annotations.Mapper;
@@ -33,5 +34,8 @@ public interface UserDao
 
 	//	白名单添加
 	public int WhitelistAdd(@Param("carnum") String carnum);
+
+	//查询会员多少钱
+	public List<Combo> selcomtime();
 
 }

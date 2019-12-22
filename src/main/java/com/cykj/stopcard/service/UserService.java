@@ -1,5 +1,6 @@
 package com.cykj.stopcard.service;
 
+import com.cykj.stopcard.bean.Combo;
 import com.cykj.stopcard.bean.UserManagement;
 import com.cykj.stopcard.bean.Whitelist;
 import com.cykj.stopcard.dao.UserDao;
@@ -53,5 +54,6 @@ public class UserService
 		return userDao.WhitelistAdd(carnum);
 	}
 
-
+	//查询会员多少钱
+	public List<Combo> selcomtime(){return userDao.selcomtime();}
 }

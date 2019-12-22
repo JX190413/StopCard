@@ -68,6 +68,10 @@
     <insert id="WhitelistAdd">
         INSERT INTO tbl_white (tbl_white.carnum) VALUES (#{carnum})
     </insert>
+    <!--查询会员多少钱-->
+    <select id="selcomtime" resultType="com.cykj.stopcard.bean.Combo">
+        SELECT * from tbl_combo
+    </select>
 </mapper>
 
 

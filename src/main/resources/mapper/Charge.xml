@@ -50,4 +50,7 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     <update id="uptype" parameterType="java.lang.String">
 UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     </update>
+    <select id="selallnumber" resultType="int">
+       select COUNT(*) from tbl_carport
+    </select>
 </mapper>

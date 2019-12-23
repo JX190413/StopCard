@@ -91,10 +91,11 @@ public class ChargeController
 		int limit1=Integer.valueOf(limit);
 		System.out.println("进入车位查询");
 		List<CardPort> list=chargeService.selall(limit1,page1);
+		int count=chargeService.selallnumber();
 		Msg msg=new Msg();
 		msg.setCode(0);
 		msg.setMsg("");
-		msg.setCount(20);
+		msg.setCount(count);
 		msg.setData(list);
 		return  msg;
 	}

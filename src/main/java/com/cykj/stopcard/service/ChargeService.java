@@ -19,13 +19,11 @@ public class ChargeService
 		return  chargeDao.selfasttime();
 	}
 public  List<CardPort> selall(int limit, int page1){
-	int fast=0;
-	int last=10;
-	if (page1>1){
-		fast=fast+10;
-		last=last+10;
-	}
-	int page=fast;
+		int page=0;
+if (page1>1){
+	 page=(page1-1)*10;
+}
+
 
 
 		return  chargeDao.selall(limit,page);}
@@ -40,4 +38,5 @@ public List<Combo> selcomtime(String time){return chargeDao.selcomboid(time);}
 	public List<Business> selhuiyuan(String carnum){return chargeDao.selhuiyuan(carnum) ;}
 	public int deleall(String carnum){return chargeDao.delall(carnum) ;}
 	public int uptype(String out_trade_no){return chargeDao.uptype(out_trade_no) ;}
+	public int selallnumber(){return chargeDao.selallnumber();}
 }

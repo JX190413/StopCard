@@ -20,4 +20,5 @@ public interface ChargeDao
 	public List<Business> selhuiyuan(String carnum);
 	public int delall(String carnum);
 	public  int uptype(String out_trade_no);
+	public  int selallnumber();
 }

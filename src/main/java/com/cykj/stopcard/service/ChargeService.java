@@ -18,7 +18,17 @@ public class ChargeService
 	public List<Product> selfasttime(){
 		return  chargeDao.selfasttime();
 	}
-public  List<CardPort> selall(){return  chargeDao.selall();}
+public  List<CardPort> selall(int limit, int page1){
+	int fast=0;
+	int last=10;
+	if (page1>1){
+		fast=fast+10;
+		last=last+10;
+	}
+	int page=fast;
+
+
+		return  chargeDao.selall(limit,page);}
 public int  selcormid(String time){
 		return  chargeDao.selcormid(time);
 }

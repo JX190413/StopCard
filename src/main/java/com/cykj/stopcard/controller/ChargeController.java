@@ -86,13 +86,15 @@ public class ChargeController
 	}
 	@RequestMapping("selall")
 	@ResponseBody
-	public  Msg selall(){
+	public  Msg selall(  String limit,String page){
+		int page1=Integer.valueOf(page);
+		int limit1=Integer.valueOf(limit);
 		System.out.println("进入车位查询");
-		List<CardPort> list=chargeService.selall();
+		List<CardPort> list=chargeService.selall(limit1,page1);
 		Msg msg=new Msg();
 		msg.setCode(0);
 		msg.setMsg("");
-		msg.setCount(10);
+		msg.setCount(20);
 		msg.setData(list);
 		return  msg;
 	}

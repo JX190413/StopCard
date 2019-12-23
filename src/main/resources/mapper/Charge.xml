@@ -7,8 +7,8 @@
     <select id="selfasttime" resultType="com.cykj.stopcard.bean.Product">
         SELECT * from tbl_rules c where c.mealid<![CDATA[<= ]]>4
 </select>
-    <select id="selall" resultMap="epmap">
-        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid ORDER BY portid  LIMIT 0,10
+    <select id="selall" resultMap="epmap" parameterType="int">
+        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid ORDER BY portid  LIMIT #{page},#{limit}
     </select>
     <resultMap id="epmap" type="com.cykj.stopcard.bean.CardPort">
         <result property="portid" column="portid"></result>

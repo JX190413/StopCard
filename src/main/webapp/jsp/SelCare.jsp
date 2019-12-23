@@ -6,6 +6,8 @@
 	String layuipath = request.getContextPath()+"/layuiadmin/layui/";
 	String path =application.getContextPath();
 	String jsPath=request.getContextPath()+"/js/";
+	String cssPath=request.getContextPath()+"/css/";
+	String uiPath = request.getContextPath() + "/layuiadmin/";
 %>
 <!DOCTYPE html>
 <html>
@@ -15,10 +17,8 @@
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href=<%=layuicsspath+"layui.css"%>>
-	<script type="text/javascript" src="<%=layuipath+"layui.all.js"%>"></script>
-	<script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
-	<script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
+	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<script type="text/javascript" src=<%=jsPath+"jquery.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
@@ -51,28 +51,38 @@
 		</div>
 	</form>
 </div>
-
+<form class="layui-form" action="">
 <div class="demoTable">
-	搜索ID：
+	搜索分区：
 	<div class="layui-inline">
-		<input class="layui-input" name="id" id="demoReload" autocomplete="off">
+		<div class="layui-input-block">
+			<select name="interest" lay-filter="aihao">
+				<option value=""></option>
+				<option value="0">A区</option>
+				<option value="1" selected="">B区</option>
+				<option value="2">C区</option>
+				<option value="3">D区</option>
+				<option value="4">F区</option>
+			</select>
+		</div>
 	</div>
 	<button class="layui-btn" data-type="reload">搜索</button>
 	<button class="layui-btn" onclick="onAddBtn()">新增人员</button>
 </div>
+</form>>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="toolbarDemo">
-	<div class="layui-btn-container">
+<%--	<div class="layui-btn-container">
 		<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中的行</button>
 		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
 		<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-	</div>
+	</div>--%>
 </script>
 <script type="text/html" id="barDemo">
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
+<script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 
 <script>
@@ -80,7 +90,7 @@
 		var table = layui.table;
 		table.render({
 			elem: '#test'
-			,url: '<%=path+"/selhuiyuan"%>'
+			,url: '<%=path+"/selall"%>'
 			,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
 			,defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 				title: '提示'
@@ -91,13 +101,13 @@
 			,cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}
 				,{field: 'portid', title: 'ID', width:80, sort: true, fixed: 'left'}
-				,{field: 'portcardid', title: '车位ID', width:80}
-				,{field: 'portarea', title: '车位所在区', width:177, sort: true}
-				,{field: 'portname', title: '车位名', width:80}
-				,{field: 'stateid', title: '车位所在状态ID', width: 177 }
-				,{field: 'statename', title: '车位状态', width: 177, sort: true}
-				/*,{field: 'usertype', title: '状态', width: 80, sort: true}*/
-				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+				/*,{field: 'portcardid', title: '用户名', width:80}*/
+				,{field: 'portarea', title: '区域', width:100, sort: true}
+				,{field: 'portname', title: '车位号', width:177}
+				/*,{field: 'stateid', title: '上传文件数', width: 177 }
+				,{field: 'innumber', title: '下载文件数', width: 177, sort: true}*/
+				/*,{field: 'usertype', title: '状态', width: 80, sort: true}
+				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}*/
 			]]
 			,page: true
 		});
@@ -171,7 +181,7 @@
 						curr: 1 //重新从第 1 页开始
 					}
 					,where: {
-						id: demoReload.val()
+							id: demoReload.val()
 					}
 				}, 'data');
 			}
@@ -191,7 +201,7 @@
 			shift: 2,
 			area: ['400px', '300px'],
 			shadeClose: true,
-			btn: [ '取消'],
+			 btn: [ '取消'],
 			// btnAlign: 'c',
 			content: $("#add-main"),
 			success: function(layero, index){

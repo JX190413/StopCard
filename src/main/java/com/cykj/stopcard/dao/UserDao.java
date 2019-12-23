@@ -37,5 +37,8 @@ public interface UserDao
 
 	//查询会员多少钱
 	public List<Combo> selcomtime();
-
+	//查询密码
+	public UserManagement selectPass(UserManagement userManagement);
+   //修改密码
+	public int updatePass(UserManagement userManagement);
 }

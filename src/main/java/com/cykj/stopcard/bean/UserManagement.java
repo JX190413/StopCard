@@ -3,6 +3,7 @@ package com.cykj.stopcard.bean;
 //用户实体类
 public class UserManagement
 {
+	private String userid;
 	private String username;
 	private String userpass;
 	private String userphone;
@@ -10,8 +11,13 @@ public class UserManagement
 	private String carnum;
 	private String usertime;
 
-	public UserManagement(String username, String userpass, String userphone, String useraddress, String carnum, String usertime)
+	public UserManagement()
 	{
+	}
+
+	public UserManagement(String userid, String username, String userpass, String userphone, String useraddress, String carnum, String usertime)
+	{
+		this.userid = userid;
 		this.username = username;
 		this.userpass = userpass;
 		this.userphone = userphone;
@@ -20,8 +26,14 @@ public class UserManagement
 		this.usertime = usertime;
 	}
 
-	public UserManagement()
+	public String getUserid()
 	{
+		return userid;
+	}
+
+	public void setUserid(String userid)
+	{
+		this.userid = userid;
 	}
 
 	public String getUsername()

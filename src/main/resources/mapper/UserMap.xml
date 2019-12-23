@@ -72,6 +72,40 @@
     <select id="selcomtime" resultType="com.cykj.stopcard.bean.Combo">
         SELECT * from tbl_combo
     </select>
+
+<!--    用户查询密码-->
+    <select id="selectPass" parameterType="UserManagement"  resultType="UserManagement">
+           select * from tbl_user
+           where userpass=#{userpass} and userid=#{userid}
+
+
+
+
+    </select>
+
+<!--    用户修改密码-->
+    <update id="updatePass" parameterType="UserManagement" >
+
+        update tbl_user
+          set userpass=${userpass}
+        <if test="userphone!=null and userphone!=''" >
+           , userphone=#{userphone}
+        </if>
+        <if test="useraddress!=null and useraddress!=''" >
+           , useraddress=#{useraddress}
+        </if>
+
+        <if test="carnum!=null and carnum!=''" >
+           , carnum=#{carnum}
+        </if>
+
+    where userid=#{userid}
+
+
+    </update>
+
+
+
 </mapper>
 
 

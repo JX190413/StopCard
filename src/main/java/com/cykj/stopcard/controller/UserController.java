@@ -146,6 +146,42 @@ public class UserController
 		}
 		return res;
 	}
+   //用户修改密码
+	@RequestMapping("/selectPass")
+	@ResponseBody
+	public Msg selectPass(UserManagement userManagement){
+		System.out.println("来了吗");
+		UserManagement userManagement1= userService.selectPass(userManagement);
+		Msg msg=new Msg();
+		if(userManagement1!=null){
 
+			msg.setMsg("1");
+
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+
+
+	}
+   //车主修改密码
+	@RequestMapping("/updatePass")
+	@ResponseBody
+	public Msg updatePass(UserManagement userManagement){
+	int i=userService.updatePass(userManagement);
+
+		Msg msg=new Msg();
+		if(i>0){
+
+			msg.setMsg("1");
+
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+
+
+
+	}
 
 }

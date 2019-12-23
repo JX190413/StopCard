@@ -56,4 +56,15 @@ public class UserService
 
 	//查询会员多少钱
 	public List<Combo> selcomtime(){return userDao.selcomtime();}
+	//查询密码
+	public UserManagement selectPass(UserManagement userManagement){
+		 return  userDao.selectPass(userManagement);
+	}
+	//修改密码
+	public int updatePass(UserManagement userManagement){
+		return userDao.updatePass(userManagement);
+
+
+
+	}
 }

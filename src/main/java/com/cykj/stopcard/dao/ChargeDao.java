@@ -17,4 +17,6 @@ public interface ChargeDao
 	public List<Combo> selcomboid(String selcomboid);
 	public int selodnumber(String carnum);
 	public List<Business> selhuiyuan(String carnum);
+	public int delall(String carnum);
+	public  int uptype(String out_trade_no);
 }

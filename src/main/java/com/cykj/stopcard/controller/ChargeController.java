@@ -7,6 +7,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.service.ChargeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -88,7 +89,18 @@ public class ChargeController
 		msg.setData(list);
 		return  null;
 	}
-
+	@RequestMapping("/selhuiyuan")
+	@ResponseBody
+	public String selhuiyuan(String carnum){
+		System.out.println(carnum);
+		String msg="";
+		List<Business> list=chargeService.selhuiyuan(carnum);
+		if (list.size()>0){
+			msg="20";
+		}
+		else  {msg="30";}
+		return msg;
+	}
 	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{

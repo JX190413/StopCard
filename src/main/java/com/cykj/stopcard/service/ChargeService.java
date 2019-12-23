@@ -27,4 +27,5 @@ public  int inserole(Business business){
 }
 public List<Combo> selcomtime(String time){return chargeDao.selcomboid(time);}
 	public int selodnumber(String carnum){return chargeDao.selodnumber(carnum) ;}
+	public List<Business> selhuiyuan(String carnum){return chargeDao.selhuiyuan(carnum) ;}
 }

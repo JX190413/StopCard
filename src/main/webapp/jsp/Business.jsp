@@ -24,7 +24,7 @@
 </head>
 <body>
 <%--车牌号:<input name="carnum" value="${UserManagement.carnum}" disabled="disabled">--%>
-<form class="layui-form" action="<%=path+"/alipay1"+"?type=jiaofei"%>" method="post" target="_blank" >
+<form class="layui-form" action="<%=path+"/alipay1"+"?type=jiaofei"%>" method="post" target="_blank" id="banli" >
 	<div class="layui-row">
 		<div class="layui-form-item">
 			<div class="layui-col-xs6">
@@ -48,18 +48,18 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label" style="font-size: 20px;font-style: italic;padding-left: 100px">月缴办理</label>
 				<div class="layui-input-block" style="padding-left: 100px">
-					<input type="radio" name="time" value="${combos.get(0).combotime}"  title="${combos.get(0).combotime}:${combos.get(0).combomoney}元" checked="" >
-					<input type="radio" name="time" value="${combos.get(1).combotime}"  title="${combos.get(1).combotime}:${combos.get(1).combomoney}元" checked="" >
-					<input type="radio" name="time" value="${combos.get(2).combotime}" title="${combos.get(2).combotime}:${combos.get(2).combomoney}元"<%-- disabled=""--%>>
-					<input type="radio" name="time" value="${combos.get(3).combotime}" title="${combos.get(3).combotime}:${combos.get(3).combomoney}元">
-				</div>
+					<c:forEach items="${combos}" var="combos">
+						<input type="radio" name="time" value="${combos.combotime}"  title="${combos.combotime}:${combos.combomoney}元" checked="" >
+					</c:forEach>
 			</div>
 	</div>
 </div>
 	<div class="layui-form-item">
 		<div class="layui-input-block" style="padding-left: 250px">
 		<%--<input type="submit" value="提交" class="layui-btn" >--%>
-		<button class="layui-btn" lay-submit lay-filter="formDemo" >办理</button>
+		<%--<button class="layui-btn" lay-submit lay-filter="formDemo" >办理</button>--%>
+			<input class="layui-btn" value="办理"  onclick="xufei()"></input>
+	</div>
 	</div>
 	</div>
 </form>
@@ -77,6 +77,28 @@
 			return false;
 		});
 	});
+	function xufei() {
+		alert("222");
+		$.ajax({
+			type:"POST",//提交7/的方式
+			url:"<%=path+"/selhuiyuan"%>",//提交的地址
+			data:"carnum=${UserManagement.carnum}",//提交的数据
+			dataType:"text",//希望返回的数据类型*/
+
+			success:function (msg) {//成功的方法  msg为返回数据
+				if (msg===20){
+					layui.msg("已办理,请续费")
+				}
+				else {
+					$("#banli").submit();
+				}
+			},
+			error:function () {//错误的方法
+				alert("办理失败")
+			}
+		});
+		/*$("#banli").submit();*/
+	}
 </script>
 <script type="text/javascript" src=<%=layuipath+"layui.js"%>></script>
 </html>

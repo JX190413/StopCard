@@ -25,13 +25,16 @@
         SELECT comboid from tbl_combo  where  combotime=#{time}
     </select>
     <insert id="inserole" parameterType="Business">
-INSERT INTO tbl_business(comboid,paytime,pasttime,carnum)VALUES
-(#{comboid},#{paytime},#{pasttime},#{carnum})
+INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
+(#{comboid},#{paytime},#{pasttime},#{carnum},'待缴费')
     </insert>
     <select id="selcomboid" resultType="com.cykj.stopcard.bean.Combo" parameterType="java.lang.String">
         SELECT * from tbl_combo where combotime=#{time}
     </select>
     <select id="selodnumber" parameterType="java.lang.String" resultType="int">
        SELECT businessid from tbl_business where carnum=#{carnum}
+    </select>
+    <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" >
+       SELECT * from tbl_business a WHERE a.cartype='已缴费' and a.carnum=#{carnum}
     </select>
 </mapper>

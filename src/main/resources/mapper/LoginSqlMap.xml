@@ -198,4 +198,35 @@ and g.workeraccount=#{workeraccount}
     </update>
 
 
+
+
+<!--    计费规则表格分页查询与带条件搜索-->
+    <select id="BillingRulesRtb" parameterType="rules" resultType="rules">
+        select *
+        from tbl_rules a
+        limit #{page},5
+    </select>
+
+    <!--    计费规则表格总条数查询-->
+    <select id="BillingRulesRzong" parameterType="rules" resultType="rules">
+        select *
+        from tbl_rules a
+
+    </select>
+
+
+    <!--    //计费规则表格删除-->
+    <delete id="deBillingRules" parameterType="rules" >
+           delete from tbl_rules where rulesid=#{rulesid}
+    </delete>
+
+
+
+    <!--    //计费规则表格修改-->
+    <update id="stateBillingRules" parameterType="rules" >
+          update tbl_rules
+        set chargemoney=#{chargemoney} ,moremoney=#{moremoney} where rulesid=#{rulesid}
+
+    </update>
+
 </mapper>

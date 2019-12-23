@@ -78,4 +78,23 @@ public interface AdminLoginDao
 	//车辆离场缴费状态修改
 	public void Paygai(Pay pay);
 
+
+
+	//计费规则表格分页查询与带条件搜索
+	public List<Rules> BillingRulesRtb(Rules rules);
+
+
+	//计费规则表格总条数查询
+	public List<Rules> BillingRulesRzong(Rules rules);
+
+
+
+
+	//计费规则表格删除
+	public int deBillingRules(Rules rules);
+
+
+	//计费规则表格修改
+	public int stateBillingRules(Rules rules);
+
 }

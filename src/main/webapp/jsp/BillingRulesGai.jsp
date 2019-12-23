@@ -36,33 +36,44 @@
 
 
 	<div class="layui-form-item">
-		<label class="layui-form-label">设备序号 </label>
+		<label class="layui-form-label">计费规则序号 </label>
 		<div class="layui-input-inline">
-			<input type="text" name="devicid" lay-verify="email" id="devicid" autocomplete="off" class="layui-input"  disabled="disabled" style="border: none">
+			<input type="text" name="rulesid" disabled="disabled" lay-verify="email" id="rulesid" autocomplete="off" class="layui-input"  style="border: none">
 		</div>
 	</div>
-
-
-
-	<div class="layui-form-item" lay-filter="sex">
-		<label class="layui-form-label">设备区域</label>
-		<div class="layui-inline">
-			<select name="devicearea"  id="devicearea" lay-filter="LAY-user-adminrole-type">
-				<option value=""></option>
-				<option value="A区">A区</option>
-				<option value="B区">B区</option>
-				<option value="C区">C区</option>
-				<option value="D区">D区</option>
-			</select>
-		</div>
-	</div>
-
-
 
 	<div class="layui-form-item">
-		<label class="layui-form-label">设备名字</label>
+		<label class="layui-form-label">计费规则时间段(分钟) </label>
 		<div class="layui-input-inline">
-			<input type="text" name="devicname" lay-verify="email" id="devicname" placeholder="请输入设备名字" autocomplete="off" class="layui-input">
+			<input type="text" name="ruletime" lay-verify="email" id="ruletime" autocomplete="off" class="layui-input" disabled="disabled" style="border: none">
+		</div>
+	</div>
+
+
+<%--	<div class="layui-form-item" lay-filter="sex">--%>
+<%--		<label class="layui-form-label">设备区域</label>--%>
+<%--		<div class="layui-inline">--%>
+<%--			<select name="devicearea"  id="devicearea" lay-filter="LAY-user-adminrole-type">--%>
+<%--				<option value=""></option>--%>
+<%--				<option value="A区">A区</option>--%>
+<%--				<option value="B区">B区</option>--%>
+<%--				<option value="C区">C区</option>--%>
+<%--				<option value="D区">D区</option>--%>
+<%--			</select>--%>
+<%--		</div>--%>
+<%--	</div>--%>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">计费规则基本收费金额(元)</label>
+		<div class="layui-input-inline">
+			<input type="text" name="chargemoney" lay-verify="email" id="chargemoney" placeholder="计费规则基本收费金额" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">计费规则超时收费金额(元)</label>
+		<div class="layui-input-inline">
+			<input type="text" name="moremoney" lay-verify="email" id="moremoney" placeholder="计费规则超时收费金额" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 

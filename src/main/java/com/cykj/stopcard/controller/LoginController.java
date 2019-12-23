@@ -693,6 +693,74 @@ public Worker onListStudent(HttpServletRequest request,
 	}
 
 
+
+
+	//计费规则表格界面
+	@RequestMapping("/BillingRules")
+//	@Log(operationType="计费规则表格界面",operationName="计费规则表格界面打开")
+	public String BillingRules(){
+		String index="BillingRules";
+		return index;
+	}
+
+
+
+	//计费规则表格显示
+	@RequestMapping("BillingRulesR.action")
+	@ResponseBody
+//	@Log(operationType="计费规则表格显示",operationName="管理员打开计费规则表格显示方法")
+	public Msg BillingRulesR(Rules rules, String page){
+
+		Msg msg = new Msg();
+		rules.setPage((Integer.valueOf(page) -1)*5);
+
+		List<Rules>  list= adminLoginService.BillingRulesRtb(rules);
+		List<Rules>  pageList= adminLoginService.BillingRulesRzong(rules);
+
+		int mun = pageList.size();
+		msg= new Msg(0,"",mun,list);
+		return msg;
+
+	}
+
+
+	//计费规则表格删除
+	@RequestMapping("/deBillingRules.action")
+	@ResponseBody
+//	@Log(operationType="计费规则表格删除",operationName="管理员进行计费规则表格删除")
+	public Msg deBillingRules(Rules rules)
+	{
+
+		int i =adminLoginService.deBillingRules(rules);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+
+	//计费规则表格修改
+	@RequestMapping("/stateBillingRules.action")
+	@ResponseBody
+//	@Log(operationType="计费规则表格修改",operationName="管理员进行计费规则表格修改")
+	public Msg stateBillingRules(Rules rules)
+	{
+
+		int i =adminLoginService.stateBillingRules(rules);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
 }
 
 

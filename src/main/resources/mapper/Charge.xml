@@ -3,11 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cykj.stopcard.dao.ChargeDao">
+    <!--查询计费的时段等-->
     <select id="selfasttime" resultType="com.cykj.stopcard.bean.Product">
         SELECT * from tbl_rules c where c.mealid<![CDATA[<= ]]>4
 </select>
     <select id="selall" resultMap="epmap">
-        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid
+        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid ORDER BY portid  LIMIT 0,10
     </select>
     <resultMap id="epmap" type="com.cykj.stopcard.bean.CardPort">
         <result property="portid" column="portid"></result>
@@ -24,22 +25,28 @@
     <select id="selcormid" parameterType="java.lang.String" resultType="Integer">
         SELECT comboid from tbl_combo  where  combotime=#{time}
     </select>
+    <!--增加订单-->
     <insert id="inserole" parameterType="Business">
 INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
 (#{comboid},#{paytime},#{pasttime},#{carnum},'待缴费')
     </insert>
+    <!--联查时间段的金钱-->
     <select id="selcomboid" resultType="com.cykj.stopcard.bean.Combo" parameterType="java.lang.String">
         SELECT * from tbl_combo where combotime=#{time}
     </select>
+    <!--查询订单id-->
     <select id="selodnumber" parameterType="java.lang.String" resultType="int">
        SELECT businessid from tbl_business where carnum=#{carnum}
     </select>
+    <!--查询车主的已缴费的订单-->
     <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" >
        SELECT * from tbl_business a WHERE a.cartype='已缴费' and a.carnum=#{carnum}
     </select>
+    <!--车主未付款时删除之前车主的订单-->
     <delete id="delall" parameterType="java.lang.String">
         DELETE from tbl_business  where carnum=#{carnum}
     </delete>
+    <!--扫码成功后修改订单状态-->
     <update id="uptype" parameterType="java.lang.String">
 UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     </update>

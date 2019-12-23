@@ -270,18 +270,15 @@
 
 
 	function xufei() {
-		alert("222");
 		$.ajax({
 			type:"POST",//提交7/的方式
 			url:"<%=path+"/selhuiyuan"%>",//提交的地址
 			data:"carnum=${UserManagement.carnum}",//提交的数据
 		/*	dataType:"text",//希望返回的数据类型*!/*/
 			success:function (msg) {
-
 				var jsonStr = JSON.stringify(msg);
-				alert(jsonStr);//成功的方法  msg为返回数据
+				//成功的方法  msg为返回数据
 				if (jsonStr==='"30"'){
-					alert(555);
 					alert("已办理,请续费")
 				}
 				else if (jsonStr==='"20"') {

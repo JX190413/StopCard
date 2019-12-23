@@ -40,7 +40,7 @@ public class ChargeController
 	//支付宝异步通知路径,付款完毕后会异步调用本项目的方法,必须为公网地址
 	private final String NOTIFY_URL = "http://公网地址/notifyUrl";
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
-	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice.action";
+	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
 	@Resource
 	private ChargeService chargeService;
 	//计算
@@ -86,14 +86,15 @@ public class ChargeController
 	}
 	@RequestMapping("selall")
 	@ResponseBody
-	public  String selall(){
+	public  Msg selall(){
+		System.out.println("进入车位查询");
 		List<CardPort> list=chargeService.selall();
 		Msg msg=new Msg();
 		msg.setCode(0);
 		msg.setMsg("");
 		msg.setCount(10);
 		msg.setData(list);
-		return  null;
+		return  msg;
 	}
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody
@@ -115,12 +116,11 @@ public class ChargeController
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
 		//实例化客户端,填入所需参数
-
-
 		int id=chargeService.selcormid(time);
 		ZoneId z = ZoneId.of( "America/Montreal" );
+		List<Combo> list1=chargeService.selcomtime(time);
 		LocalDate today = LocalDate.now(z);
-		LocalDate oneMonthLater = today.plusMonths( 3 );
+		LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
 		Business business =new Business();
 		business.setBusinessid(id);
 		business.setCarnum(carnum);
@@ -167,7 +167,7 @@ public class ChargeController
 
 
 //支付宝异步通知界面
-	@RequestMapping(value = "alipayNotifyNotice.action")
+	@RequestMapping(value = "alipayNotifyNotice")
 	@ResponseBody
 	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();

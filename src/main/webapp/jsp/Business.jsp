@@ -37,10 +37,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=layuicsspath+"layui.css"%>>
+	<link rel="stylesheet" href=<%=cssPath+"bootstrap.css" %>>
 
 	<script type="text/javascript" src="<%=layuipath+"layui.all.js"%>"></script>
 	<script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
 	<script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
+	<script  src=<%=jsPath+"bootstrap.js"%>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 
 </head>
@@ -93,12 +95,13 @@
 							车牌号:</em>
 						</p>
 						<p>
-							<input type="text" style="font-size: 20px;text-align: center" name="carnum" lay-verify="title" autocomplete="off"  class="layui-input" value="${UserManagement.carnum}">
+							<input type="text" style="font-size: 20px;text-align: center" name="carnum" lay-verify="title" autocomplete="off"  class="layui-input" value="${UserManagement.carnum}" readonly="readonly">
 						</p>
 
 					</div>
 					<div class="aui-well-hd">
-						<img src="images/icon-mem.png" alt="">
+						<input  type="button" class="layui-btn"  data-toggle="modal" data-target="#myModal" style="margin-right: 53px"  value="个人信息">
+<%--						<img src="images/icon-mem.png"  alt="">--%>
 					</div>
 				</div>
                  <br>
@@ -118,15 +121,13 @@
 									<input type="radio" style="font-size: 18px" class="aui-grids-item this-card" name="time" value="${combos.combotime}"  title="${combos.combotime}:${combos.combomoney}元" checked="" >
 									</div>
 										</c:forEach>
-
 							</div>
 						</div>
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-input-block" style="padding-left: 250px">
-							<%--<input type="submit" value="提交" class="layui-btn" >--%>
-							<%--<button class="layui-btn" lay-submit lay-filter="formDemo" >办理</button>--%>
-							<input class="layui-btn" value="办理"  onclick="xufei()"></input>
+
+							<input class="layui-btn" value="办理"  onclick="xufei()">
 						</div>
 					</div>
 
@@ -174,6 +175,80 @@
 <%--	</div>--%>
 <%--	</div>--%>
 <%--	</div>--%>
+	<!-- 增加模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						车主个人信息
+					</h4>
+				</div>
+				<div class="modal-body">
+
+					<table style="width:300px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
+						<tr>
+
+							<td>车主姓名:</td>
+							<input type="hidden" id="userid" name="userid" value="${UserManagement.userid}">
+							<input type="hidden" id="flage" name="flage" value="false">
+							<td><input type="text" id="username" name="username" value="${UserManagement.username}"   readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>旧密码:</td>
+							<td><input type="password"   id="userpass" name="userpass" value="" onblur="Verification()"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>新密码:</td>
+							<td><input   type="password" id="newuserpass" name="newuserpass"  value=""></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车牌号：</td>
+							<td><input   type="text" id="carnum" name="carnum"  value="${UserManagement.carnum}"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车主地址：</td>
+							<td><input   type="text" id="useraddress" name="useraddress"  value="${UserManagement.useraddress}" readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>手机号：</td>
+							<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" onclick="UserManage()">
+						提交更改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
 </form>
 
 </body>
@@ -183,12 +258,17 @@
 		//但是，如果你的HTML是动态生成的，自动渲染就会失效
 		//因此你需要在相应的地方，执行下述方法来进行渲染
 		form.render();
-		form.on('submit(formDemo)', function(data){
-			alert(JSON.stringify(data.field));
-			// layer.msg(JSON.stringify(data.field));
-			return false;
-		});
+		// form.on('submit(formDemo)', function(data){
+		// 	alert(JSON.stringify(data.field));
+		// 	// layer.msg(JSON.stringify(data.field));
+		// 	return false;
+		// });
+
 	});
+
+
+
+
 	function xufei() {
 		alert("222");
 		$.ajax({
@@ -215,6 +295,96 @@
 		});
 		/*$("#banli").submit();*/
 	}
+
+	function Verification() {
+		var userpass=$("#userpass").val();
+		var userid=$("#userid").val();
+		var ob = {userid:userid,userpass:userpass};
+
+		$.ajax({
+			type:"POST",//提交的方式
+			url:"/StopCard/selectPass",//提交的地址
+			data:ob,//提交的数据
+			dataType:"json",//希望返回的数据类型
+			async: true,//异步操作
+			success:function (data) {//成功的方法  msg为返回数据
+
+                   if(data.msg==="1"){
+	                   $("#flage").val("true");
+                   }else
+
+				if(data.msg==="2"){
+					alert("旧密码错误");
+				$("#flage").val("false");
+				}
+			},
+			error:function () {//错误的方法
+				alert("服务器正忙")
+			}
+		});
+
+
+
+
+
+	}
+
+
+
+	function UserManage() {
+       var userid=  $("#userid").val();
+		var userpass=$("#newuserpass").val();
+		var carnum=  $("#carnum").val();
+		var useraddress=  $("#useraddress").val();
+		var userphone=  $("#userphone").val();
+		var flage=  $("#flage").val();
+		if(flage==="true"){
+
+			var ob = {userid:userid,userpass:userpass,carnum:carnum,useraddress:useraddress,userphone:userphone};
+
+			$.ajax({
+				type:"POST",//提交的方式
+				url:"/StopCard/updatePass",//提交的地址
+				data:ob,//提交的数据
+				dataType:"json",//希望返回的数据类型
+				async: true,//异步操作
+				success:function (data) {//成功的方法  msg为返回数据
+
+					if(data.msg==="1"){
+						alert("修改成功")
+
+					}else
+
+					if(data.msg==="2"){
+						alert("修改失败");
+
+					}
+				},
+				error:function () {//错误的方法
+					alert("服务器正忙")
+				}
+			});
+
+
+
+
+
+
+
+		}else {
+
+			alert("你的旧密码还是错的哦")
+		}
+
+
+
+        alert(userid);
+
+	}
+
+
+
+
 </script>
 <script type="text/javascript" src=<%=layuipath+"layui.js"%>></script>
 </html>

@@ -39,7 +39,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
-		<div class="layui-logo">文挡分享平台管理</div>
+		<div class="layui-logo">智能停车系统后台管理</div>
 
 		<ul class="layui-nav layui-layout-right">
 			<li class="layui-nav-item">

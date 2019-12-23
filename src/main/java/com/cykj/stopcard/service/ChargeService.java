@@ -28,4 +28,6 @@ public  int inserole(Business business){
 public List<Combo> selcomtime(String time){return chargeDao.selcomboid(time);}
 	public int selodnumber(String carnum){return chargeDao.selodnumber(carnum) ;}
 	public List<Business> selhuiyuan(String carnum){return chargeDao.selhuiyuan(carnum) ;}
+	public int deleall(String carnum){return chargeDao.delall(carnum) ;}
+	public int uptype(String out_trade_no){return chargeDao.uptype(out_trade_no) ;}
 }

@@ -37,4 +37,10 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" >
        SELECT * from tbl_business a WHERE a.cartype='已缴费' and a.carnum=#{carnum}
     </select>
+    <delete id="delall" parameterType="java.lang.String">
+        DELETE from tbl_business  where carnum=#{carnum}
+    </delete>
+    <update id="uptype" parameterType="java.lang.String">
+UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
+    </update>
 </mapper>

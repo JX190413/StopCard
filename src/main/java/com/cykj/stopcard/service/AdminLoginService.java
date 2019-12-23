@@ -185,4 +185,43 @@ public class AdminLoginService
 	}
 
 
+
+	//计费规则表格分页查询与带条件搜索
+	@Transactional
+	public List<Rules> BillingRulesRtb(Rules rules)
+	{
+
+		return  adminLoginDao.BillingRulesRtb(rules);
+	}
+
+
+
+	//计费规则表格总条数查询
+	@Transactional
+	public List<Rules> BillingRulesRzong(Rules rules)
+	{
+
+		return  adminLoginDao.BillingRulesRzong(rules);
+	}
+
+
+
+
+	//计费规则表格删除
+	@Transactional
+	public int deBillingRules(Rules rules)
+	{
+
+		return adminLoginDao.deBillingRules(rules);
+	}
+
+	//计费规则表格修改
+	@Transactional
+	public int stateBillingRules(Rules rules)
+	{
+
+		return adminLoginDao.stateBillingRules(rules);
+	}
+
+
 }

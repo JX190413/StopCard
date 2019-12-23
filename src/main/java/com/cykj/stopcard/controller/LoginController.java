@@ -523,7 +523,7 @@ public Worker onListStudent(HttpServletRequest request,
 		//		String index="ECharsDemo";
 		//		return index;
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("ECharsDemo");
+		mv.setViewName("Postcount");
 		return mv;
 	}
 

@@ -44,7 +44,9 @@ and g.workeraccount=#{workeraccount}
 	</select>
 <!--添加工作人员-->
  <insert id="saveUser"  parameterType="Worker"  >
-		insert into tbl_worker (workeraccount,workerpass,stateid,face) values (#{workeraccount},#{workerpass},1,#{face,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
+		insert into tbl_worker
+		(workeraccount,workerpass,stateid,face)
+		values (#{workeraccount},#{workerpass},1,#{face,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
 	</insert>
 <!--查询所有工作人员-->
     <select id="queryWorker" parameterType="Worker" resultMap="Worker">

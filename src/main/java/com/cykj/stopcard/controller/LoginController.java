@@ -118,8 +118,8 @@ public Worker onListStudent(HttpServletRequest request,
 	// 获取前端页面传过来的参数
 	String base = request.getParameter("base");
 	try {
-		Worker u = new Worker();
-		u.setFace(base.getBytes());
+//		Worker u = new Worker();
+//		u.setFace(base.getBytes());
 		//把前端抓取到的图片保存到数据库
 //				      adminLoginService.save(u);
 		List<Worker> users = adminLoginService.selectAllUsers();

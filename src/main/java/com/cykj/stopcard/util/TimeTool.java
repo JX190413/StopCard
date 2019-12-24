@@ -45,7 +45,8 @@ public class TimeTool
 		{
 			Date d1 = formatter.parse(endDate);
 			Date d2 = formatter.parse(startDate);
-			long diff = d1.getTime() - d2.getTime();//这样得到的差值是毫秒级别
+			/*这样得到的差值是毫秒级别*/
+			long diff = d1.getTime() - d2.getTime();
 			minutes = diff / (1000 * 60);
 		} catch (Exception e)
 		{

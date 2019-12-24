@@ -9,6 +9,7 @@
 <%
 
 	String jsPath = application.getContextPath() + "/js/";
+	String path = application.getContextPath();
 	String layui = application.getContextPath() + "/layuiadmin/";
 %>
 <html>
@@ -42,11 +43,13 @@
 						<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
 					</button>
 				</div>
-
 			</div>
 		</div>
 
 		<div class="layui-card-body">
+			<div style="padding-bottom: 10px;">
+				<button class="layui-btn layuiadmin-btn-menu" data-type="add">添加菜单</button>
+			</div>
 			<table id="demo" lay-filter="test"></table>
 		</div>
 	</div>
@@ -67,27 +70,18 @@
 </script>
 
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script>
+
+
 	layui.use('table', function () {
-		var table = layui.table;
+		var table = layui.table
+			, form = layui.form;
 		//清除搜索条件
 		$("#menuname").val("");
-		// $("#clear").click(function () {
-		//
-		// 	table.reload('testReload', {
-		// 		page: {
-		// 			curr: 1 //重新从第 1 页开始
-		// 		}
-		// 		, where: {
-		// 			menuname: ""
-		// 		}
-		// 	});
-		// });
 
 		//第一个实例
 		table.render({
@@ -115,46 +109,22 @@
 		//监听行工具事件查看、删除、新增
 		table.on('tool(test)', function (obj) {//注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
 			var data = obj.data;//获得当前行数据
-			console.log(data['userId']);
 			if (obj.event === 'detail') {
 				layer.msg('用户名：' + data.userName + ' 的查看操作');
 			} else if (obj.event === 'del') {
 				layer.confirm('真的删除行么', function (index) {
 					$.ajax({
-						url: "/Demo6/userDelete.action",
-						data: "userId=" + data['userId'],
+						url: "<%=path+"/deleteMenu"%>",
+						data: "menuid=" + data.menuid,
 						type: "Post",
 						dataType: "json",
 						success: function (data) {
 							console.log(data);
-							if (data.code == 200) {
+							if (eval(data) === 200) {
 								obj.del();
-								//方法 1
-								// table.reload('testReload', {
-								// 	page: {
-								// 		curr: $(".layui-laypage-em").next().html()  //主要代码行
-								// 	}
-								// 	, where: {
-								// 		date1: $('#date1').val(),
-								// 		date2: $('#date2').val(),
-								// 		username: $('#username').val()
-								// 	}
-								// }, 'data');
-
-								//方法2
-								// layui.table.reload('testReload',{page:{curr:$(".layui-laypage-em").next().html()}})  ; //这行时在当前页刷新表格的写法
-
-							// ,done:function(res,curr,count){
-							// 	// 当前页为最后一页时， 清空这一页的数据需要手动跳转到前一页
-							// 		if(curr>1 && res.data.length == 0){
-							// 			var pageValue = curr - 1;
-							// 			table.reload(tableId2,{
-							// 				page:{curr:pageValue},// 修改页码
-							// 				data:table2Data
-							// 			});
-							// 		}
-							// 	}
-								return layer.msg(data.msg);
+								return layer.msg("删除成功！");
+							}else{
+								return layer.msg("删除失败！");
 							}
 
 						},
@@ -165,15 +135,43 @@
 					layer.close(index);
 				});
 			} else if (obj.event === 'edit') {
-				layer.prompt({
-					formType: 3
-					, value: data.email
-				}, function (value, index) {
-					obj.update({
-						email: value
+					layer.open({
+						type: 2
+						, title: '编辑菜单'
+						, content: 'MenuEdit.jsp'
+						, area: ['500px', '480px']
+						, btn: ['确定', '取消']
+						,success:function (layero,index) {
+							var body = layer.getChildFrame('body', index);
+							// 取到弹出层里的元素，并把编辑的内容放进去
+							body.find("#menuid").val(data.menuid);  //设置子窗口指定元素的值
+							body.find("#menuname").val(data.menuname);  //设置子窗口指定元素的值
+							body.find("#menuurl").val(data.menuurl);  //设置子窗口指定元素的值
+							body.find("#fatherid1").val(data.fatherid);  //设置子窗口指定元素的值
+							// 记得重新渲染表单
+							form.render();
+						}
+						, yes: function (index, layero) {
+							var iframeWindow = window['layui-layer-iframe' + index]
+								, submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+							//监听提交
+							iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function (msg) {
+								var field = msg.field; //获取提交的字段\
+								console.log(field);
+								//提交 Ajax 成功后，静态更新表格中的数据
+								$.post('<%=path+"/updateMenu"%>',{menuid:data.menuid,menuname:field.menuname,fatherid:field.fatherid,menuurl:field.menuurl},function (msg) {
+									if(eval(msg)>0){
+										layer.msg("添加成功！");
+									}else{layer.msg("添加失败！");}
+									$("#menuname").remove();
+									table.reload('testReload');
+									layer.close(index); //关闭弹层
+								});
+
+							});
+							submit.trigger('click');
+						}
 					});
-					layer.close(index);
-				});
 			}
 		});
 	});
@@ -201,40 +199,42 @@
 		});
 
 		//事件
-		// var active = {
-		// 	add: function () {
-		// 		layer.open({
-		// 			type: 2
-		// 			, title: '添加用户'
-		// 			, content: 'userform.jsp'
-		// 			, maxmin: true
-		// 			, area: ['500px', '450px']
-		// 			, btn: ['确定', '取消']
-		// 			, yes: function (index, layero) {
-		// 				var iframeWindow = window['layui-layer-iframe' + index]
-		// 					, submitID = 'LAY-user-front-submit'
-		// 					, submit = layero.find('iframe').contents().find('#' + submitID);
-		// 				//监听提交
-		// 				iframeWindow.layui.form.on('submit(' + submitID + ')', function (data) {
-		// 					var field = data.field; //获取提交的字段
-		//
-		// 					//提交 Ajax 成功后，静态更新表格中的数据
-		// 					//$.ajax({});
-		// 					table.reload('LAY-user-front-submit'); //数据刷新
-		// 					layer.close(index); //关闭弹层
-		// 				});
-		//
-		// 				submit.trigger('click');
-		// 			}
-		// 		});
-		// 	}
-		// };
-		//
-		// $('.layui-btn.layuiadmin-btn-useradmin').on('click', function () {
-		// 	var type = $(this).data('type');
-		// 	active[type] ? active[type].call(this) : '';
-		// });
+		var active = {
+			add: function () {
+				layer.open({
+					type: 2
+					, title: '添加新菜单'
+					, content: 'MenuAdd.jsp'
+					, area: ['500px', '480px']
+					, btn: ['确定', '取消']
+					, yes: function (index, layero){
+						var iframeWindow = window['layui-layer-iframe' + index]
+							, submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
+						//监听提交
+						iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function (data) {
+							var field = data.field; //获取提交的字段\
+							// console.log(field);
+							//提交 Ajax 成功后，静态更新表格中的数据
+							$.post('<%=path+"/addMenu"%>',{menuname:field.menuname,fatherid:field.fatherid,menuurl:field.menuurl},function (msg) {
+								if(eval(msg)>0){
+									layer.msg("添加成功！");
+								}else{layer.msg("添加失败！");}
+								$("#menuname").remove();
+								table.reload('testReload');
+								layer.close(index); //关闭弹层
+							});
 
+						});
+						submit.trigger('click');
+					}
+				});
+			}
+		};
+
+		$('.layui-btn.layuiadmin-btn-menu').on('click', function () {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
 
 	});
 

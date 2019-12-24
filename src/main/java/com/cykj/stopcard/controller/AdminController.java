@@ -1,6 +1,7 @@
 package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Msg;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.dao.AdminDao;
@@ -167,19 +168,63 @@ public class AdminController
 	//菜单管理数据展示
 	@RequestMapping("/queryMenu")
 	@ResponseBody
-	public Msg queryMenu(String menuname, String page, String limit)
+	public Msg queryMenu(String menuname,String menuid, String page, String limit)
 	{
 		if (menuname == null)
 		{
 			menuname = "";
 		}
-		int b = Integer.valueOf(limit);
-		int a = (Integer.valueOf(page) - 1) * b;
-		List<Map<String, Object>> list = adminService.queryMenu(menuname, a, b);
+		if (menuid == null)
+		{
+			menuid = "";
+		}
+		int a=-1;
+		int b=-1;
+		if(page!=null&&limit!=null){
+			b = Integer.valueOf(limit);
+			a = (Integer.valueOf(page) - 1) * b;
+		}
+
+		List<Map<String, Object>> list = adminService.queryMenu(menuname,menuid,a, b);
 		int count = adminService.queryMenuCount(menuname);
 		Msg msg = new Msg(0, null, count, list);
 		return msg;
 	}
+
+	//添加菜单
+	@RequestMapping("/addMenu")
+	@ResponseBody
+	public String addMenu(Menu menu){
+
+		if(adminService.addMenu(menu)>0){
+			ArrayList arrayList=new ArrayList();
+			arrayList.add(menu.getMenuid());
+			adminService.addRoleMenu("1",arrayList);
+			return "200";
+		}
+		return "0";
+	}
+
+	//添加菜单
+	@RequestMapping("/updateMenu")
+	@ResponseBody
+	public String updateMenu(Menu menu){
+		if(adminService.updateMenu(menu)>0){
+			return "200";
+		}
+		return "0";
+	}
+
+	//删除菜单
+	@RequestMapping("/deleteMenu")
+	@ResponseBody
+	public String deleteMenu(String menuid){
+		if(adminService.deleteMenu(menuid)>0){
+			return "200";
+		}
+		return "0";
+	}
+
 
 }
 

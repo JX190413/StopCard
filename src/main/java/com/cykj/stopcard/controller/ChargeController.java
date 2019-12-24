@@ -43,7 +43,7 @@ public class ChargeController
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
 	@Resource
 	private ChargeService chargeService;
-	//计算
+	//车位查询分页
 	public String selmoney(String minute){
 		int minte1=Integer.parseInt(minute);
 		String money="";
@@ -126,6 +126,7 @@ public class ChargeController
 
 		return modelAndView;
 	}
+	//查找车主是否已经缴费过了
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody
 	public String selhuiyuan(String carnum){
@@ -142,6 +143,7 @@ public class ChargeController
 		}
 		return msg;
 	}
+	//支付宝接口
 	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{

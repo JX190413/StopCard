@@ -35,19 +35,23 @@
 							</div>
 						</div>
 						<div class="layui-form-item">
-							<label class="layui-form-label">办公电话</label>
-							<div class="layui-input-inline" style="width: 150px;">
+							<label class="layui-form-label">缓存时间</label>
+							<div class="layui-input-inline" style="width: 80px;">
 								<input type="text" name="cache" lay-verify="number" value="0" class="layui-input">
 							</div>
+							<div class="layui-input-inline layui-input-company">分钟</div>
+							<div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
 						</div>
 						<div class="layui-form-item">
-							<label class="layui-form-label">传真号码</label>
-							<div class="layui-input-inline" style="width: 150px;">
+							<label class="layui-form-label">最大文件上传</label>
+							<div class="layui-input-inline" style="width: 80px;">
 								<input type="text" name="cache" lay-verify="number" value="2048" class="layui-input">
 							</div>
+							<div class="layui-input-inline layui-input-company">KB</div>
+							<div class="layui-form-mid layui-word-aux">提示：1 M = 1024 KB</div>
 						</div>
 						<div class="layui-form-item">
-							<label class="layui-form-label">管理员邮箱</label>
+							<label class="layui-form-label">上传文件类型</label>
 							<div class="layui-input-block">
 								<input type="text" name="cache" value="png|gif|jpg|jpeg|zip|rar" class="layui-input">
 							</div>

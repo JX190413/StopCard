@@ -28,6 +28,17 @@
         </where>
     </select>
 
+
+    <!--通过登录人员查询树形组件一级菜单-->
+    <select id="selectMenuTree" resultType="Menu">
+        SELECT A.*
+        FROM  (	SELECT A.*
+        FROM tbl_menu A,tbl_worker B,tbl_rolemenu C,tbl_workeroler D
+        WHERE A.menuid=C.menuid
+        AND C.roleid=D.rolerid
+        AND D.workerid=B.workerid
+        AND B.workeraccount=#{admin})A
+    </select>
     <!--通过登录人员查询树形组件一级菜单-->
     <select id="selectTreeParent" resultType="map">
         SELECT A.*
@@ -107,11 +118,11 @@
 
 
     <!--    根据roleid修改角色表-->
-    <insert id="updateRole">
+    <update id="updateRole">
        UPDATE tbl_role
        SET rolename=#{rolename},roledetails=#{roledetails}
        WHERE roleid=#{roleid}
-    </insert>
+    </update>
 
 <!--       &lt;!&ndash;    查询所有菜单&ndash;&gt;-->
     <!--    <select id="queryMenu" resultType="map">-->
@@ -119,15 +130,18 @@
     <!--    </select>-->
 
 
-    <!--   角色表统计-->
+    <!--   菜单表表统计-->
     <select id="queryMenu" resultType="map">
         SELECT * FROM tbl_menu
         <where>
             <if test=" menuname!=null and menuname.length>0 ">
                 AND menuname  LIKE '%${menuname}%'
             </if>
+            <if test=" menuid!=null and menuid.length>0 ">
+                AND  menuid !=#{menuid}
+            </if>
         </where>
-        <if test=" start!=null and pageSize!=null">
+        <if test=" start!=-1 and pageSize!=-1">
             LIMIT #{start},#{pageSize}
         </if>
     </select>
@@ -143,4 +157,35 @@
             </if>
         </where>
     </select>
+
+    <!--    添加菜单-->
+    <insert id="addMenu"  useGeneratedKeys="true" keyProperty="menuid"  keyColumn="menuid">
+        INSERT INTO tbl_menu  (menuname,fatherid,menuurl)
+        VALUES (#{menuname},#{fatherid},#{menuurl})
+    </insert>
+
+    <!--    修改菜单-->
+    <update id="updateMenu" >
+        UPDATE tbl_menu SET menuname=#{menuname},fatherid=#{fatherid},menuurl=#{menuurl}
+        WHERE menuid=#{menuid}
+    </update>
+
+    <!--    根据menuid删除角色-权限关系表-->
+    <delete id="deleteRoleMenu2">
+       DELETE FROM tbl_rolemenu
+       WHERE menuid IN (SELECT menuid FROM tbl_menu WHERE fatherid=#{menuid} OR menuid=#{menuid})
+    </delete>
+
+    <!--    删除菜单-->
+    <delete id="deleteMenu" >
+        DELETE FROM tbl_menu
+        WHERE menuid=#{menuid}
+    </delete>
+    <!-- 删除的菜单有子菜单的话，子菜单的fatherid滞空-->
+    <update id="updateFatherid" >
+        UPDATE tbl_menu SET fatherid=NULL
+        WHERE fatherid IN (#{menuid})
+    </update>
+
+
 </mapper>

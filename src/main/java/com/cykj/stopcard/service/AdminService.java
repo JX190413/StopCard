@@ -1,6 +1,7 @@
 package com.cykj.stopcard.service;
 
 import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.dao.AdminDao;
 import com.cykj.stopcard.dao.AdminLoginDao;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +22,14 @@ public class AdminService
 	private AdminDao adminDao;
 
 	//菜单表查询
-	public List<Map<String,Object>> queryMenu(String menuname, Integer start, Integer pageSize)
+	public List<Map<String,Object>> queryMenu(String menuname,String menuid, Integer start, Integer pageSize)
 	{
-		return adminDao.queryMenu( menuname, start, pageSize);
+		return adminDao.queryMenu( menuname,menuid,start, pageSize);
+	}
+	//菜单表查询
+	public int addMenu(Menu menu)
+	{
+		return adminDao.addMenu(menu);
 	}
 
 	//菜单表数量查询
@@ -42,6 +49,53 @@ public class AdminService
 		return adminDao.queryRoleCount( role);
 	}
 
+	//树形组件菜单
+	public List<Object> selectMenuTree(String admin)
+	{
+		List<Menu> list=adminDao.selectMenuTree( admin);
+		List<Object> list1=new ArrayList<Object> ();
+		for(int i=0;i<list.size();i++)
+		{
+			int menuid = list.get(i).getMenuid();
+			String menuname = list.get(i).getMenuname();
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			List<Object> list2=new ArrayList<Object>();
+			for (int j = 0; j < list.size(); j++)
+			{
+				int menuid2 = list.get(j).getFatherid();
+				if(menuid==menuid2){
+					map1.put("title",menuname);
+					map1.put("id", menuid);
+					Map<String, Object> map2 = new HashMap<>();
+					map2.put("title", list.get(j).getMenuname());
+					map2.put("id", menuid2);
+					list2.add(map2);
+					map1.put("children",list2);
+				}
+			}
+			list1.add(map1);
+		}
+		return list1;
+	}
+
+	//树形组件菜单
+	public List<Object> selectMenuTree2(int fatherid,List<Menu> list)
+	{
+		List<Object> list1=new ArrayList<Object> ();
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		for(int i=0;i<list.size();i++)
+		{
+			int menuid = list.get(i).getMenuid();
+			String menuname = list.get(i).getMenuname();
+			if(menuid==fatherid){
+				map1.put("title",menuname);
+				map1.put("id", menuid);
+				map1.put("children",selectMenuTree2(menuid,list));
+				list1.add(map1);
+			}
+		}
+		return list1;
+	}
 	//树形组件一级菜单
 	public List<Map<String,Object>> selectTreeParent(String admin)
 	{
@@ -107,6 +161,19 @@ public class AdminService
 		}
 		System.out.println("----------------------"+list2.toString());
 		return list2;
+	}
+
+	//修改菜单
+	public  int updateMenu(Menu menu){
+
+		return adminDao.updateMenu(menu);
+	}
+
+	//删除菜单
+	public  int deleteMenu(String menuid){
+		adminDao.deleteRoleMenu2(menuid);
+		adminDao.updateFatherid(menuid);
+		return adminDao.deleteMenu(menuid);
 	}
 
 }

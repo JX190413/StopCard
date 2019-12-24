@@ -10,7 +10,6 @@
 <head>
 	<title>添加角色</title>
 	<script src="../js/jquery-3.4.1.js"></script>
-<%--	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">--%>
 	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
 </head>
@@ -20,13 +19,13 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label"><span style="color: red">*</span>菜单名称</label>
 		<div class="layui-input-block">
-			<input type="text" name="menuname" id="menuname" onblur="checkRole(this)" lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+			<input type="text" name="menuname" id="menuname"  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">上级菜单</label>
 		<div class="layui-input-block">
-			<select id="fatherid" name="fatherid"  lay-search lay-filter="LAY-user-adminrole-type">
+			<select id="fatherid" name="fatherid"  lay-filter="LAY-user-adminrole-type">
 			</select>
 		</div>
 	</div>
@@ -72,7 +71,6 @@
 						if($("#fatherid1").val()==data[i].menuid){
 							html += "<option selected value=" + data[i].menuid + " >" + data[i].menuid+"."+data[i].menuname + "</option>";
 						}else{
-
 							html += "<option value=" + data[i].menuid + ">" + data[i].menuid+"."+data[i].menuname + "</option>";
 						}
 					}

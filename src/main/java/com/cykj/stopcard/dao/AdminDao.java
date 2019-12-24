@@ -1,6 +1,7 @@
 package com.cykj.stopcard.dao;
 
 import com.cykj.stopcard.bean.AdminMenu;
+import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Worker;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -57,9 +58,25 @@ public interface AdminDao
 
 
 	//查询菜单
-	public  List<Map<String,Object>> queryMenu(@Param("menuname") String menuname, @Param("start") Integer start, @Param("pageSize") Integer pageSize);
+	public  List<Map<String,Object>> queryMenu(@Param("menuname") String menuname, @Param("menuid") String menuid,@Param("start") Integer start, @Param("pageSize") Integer pageSize);
 
 	//查询菜单表数量
 	public  Integer queryMenuCount(@Param("menuname") String menuname);
+	//增加菜单
+	public  Integer addMenu(Menu menu);
+	//编辑菜单
+	public  Integer updateMenu(Menu menu);
+
+	//删除菜单
+	//<!--    根据menuid删除角色-权限关系表-->
+	public  Integer deleteRoleMenu2(String menuid);
+	//删除菜单
+	public  Integer deleteMenu(String menuid);
+	//删除的菜单有子菜单的话，子菜单的fatherid滞空
+	public  Integer updateFatherid(String menuid);
+
+	public  List<Menu> selectMenuTree(String admin);
+
+
 
 }

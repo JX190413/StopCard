@@ -12,7 +12,7 @@
 %>
 <html>
 <head>
-	<title>收支统计</title>
+	<title>设备统计</title>
 <%--	<script src=<%=path + "/js/jquery-3.4.1.js" %>></script>--%>
 <%--	<script src=<%=path + "/js/echarts.js" %>></script>--%>
 
@@ -25,15 +25,15 @@
 
 
 <script type="text/javascript">
-	var sellmoney;
-	var money;
-
+	var vareaName=[];
+	var numbers=[];
+    var arr=[];
 	$(function() {
 		$.ajax({
 			method : "POST",
-			url : "/StopCard/ECharts.action",
+			url : "/StopCard/ECharts2.action",
 			dataType : "json",
-			success : function(cost) {
+			success : function(list) {
 				// var arr = JSON.parse(msg);
 
 				// for (var i = 0; i < cost.length; i++) {
@@ -41,14 +41,27 @@
 				// nameArr.push(arr[i].name);
 				// valueArr.push(arr[i].record);
 				// 南丁格尔玫瑰圆饼图使用的数据
-				money=cost.money;
-				// alert("money---------"+money);
-				sellmoney=cost.sellmoney;
+				// money=cost.money;
+				// // alert("money---------"+money);
+				// sellmoney=cost.sellmoney;
 				// alert("sellmoney---------"+sellmoney);
 
 
 				// }
 				// createEchars    ();// 创建普通柱状图
+
+				for (var i = 0; i <list.length; i++) {
+					vareaName.push(list[i].areaName);
+					numbers.push(list[i].numbers);
+
+					arr.push({
+						value:list[i].numbers,
+						name:list[i].areaName
+					})
+				}
+
+
+
 				rose();// 创建南丁格尔玫瑰圆饼图
 			},
 			error : function() {
@@ -95,7 +108,7 @@
 				// Center:"Center",
 				// right:"right",
 
-				data: ['临时缴费收入','缴费产品收入'],
+				data: vareaName,
 				textStyle: {
 					// fontWeight: 300,
 					fontSize: 16,    //文字的字体大小
@@ -130,13 +143,7 @@
 
 
 
-					data:[
-						// {value:money, name:'临时缴费收入',itemStyle:{color: '#041333'}},
-						// {value:sellmoney, name:'缴费产品收入',itemStyle:{color: '#f22e54'}}
-						{value:money, name:'临时缴费收入'},
-						{value:sellmoney, name:'缴费产品收入'}
-
-					],
+					data:arr,
 					itemStyle: {
 						emphasis: {
 							shadowBlur: 10,

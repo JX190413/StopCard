@@ -1,6 +1,7 @@
 package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.*;
+import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +35,8 @@ public class UserController
 	//	用户数据查询
 	@RequestMapping("/userQuery")
 	@ResponseBody
+	@Log(operationType="用户数据查询",operationName="管理员进行用户数据查询")
+
 	public Msg userQuery(String username, String carnum, String beginTime,String endTime, int page, int limit){
 
 		String begin=beginTime;
@@ -63,6 +67,8 @@ public class UserController
 	//	白名单数据查询
 	@RequestMapping("/WhitelistQuery")
 	@ResponseBody
+	@Log(operationType="白名单数据查询",operationName="管理员进行白名单数据查询")
+
 	public Msg WhitelistQuery(String carnum, int page, int limit){
 
 		Msg msg=new Msg();
@@ -77,13 +83,15 @@ public class UserController
 
 	//用户登录
 	@RequestMapping("/userLogin")
-	public ModelAndView userLogin(String username1, String userpass1){
+	public ModelAndView userLogin(String username1, String userpass1 ,HttpSession httpSession){
 		  UserManagement userManagement=new UserManagement();
 		userManagement.setUsername(username1);
 		userManagement.setUserpass(userpass1);
 		UserManagement userManagement1=userService.selectUser(userManagement);
 		List<Combo> combos=userService.selcomtime();
 		if (userManagement1!=null){
+//			mv.addObject("UserManagement",session.getAttribute("userManagement"));
+			httpSession.setAttribute("name",userManagement1.getUsername());
 			mv.addObject("UserManagement",userManagement1);
 			mv.addObject("flage",3);
 			mv.addObject("combos",combos);
@@ -123,6 +131,8 @@ public class UserController
 	//	白名单数据删除
 	@RequestMapping("/delete")
 	@ResponseBody
+	@Log(operationType="白名单数据删除",operationName="管理员进行白名单数据删除")
+
 	public ResultEntity whitelistDelete(String carnum){
 
 		ResultEntity res = new ResultEntity();
@@ -137,6 +147,8 @@ public class UserController
 	//	白名单数据添加
 	@RequestMapping("/add")
 	@ResponseBody
+	@Log(operationType="//\t白名单数据添加",operationName="管理员进行//\t白名单数据添加")
+
 	public ResultEntity whitelistAdd(String carnum){
 		ResultEntity res = new ResultEntity();
 		if (userService.WhitelistAdd(carnum)>0){
@@ -167,7 +179,8 @@ public class UserController
    //车主修改密码
 	@RequestMapping("/updatePass")
 	@ResponseBody
-	public Msg updatePass(UserManagement userManagement){
+	@Log(operationType="车主修改密码",operationName="车主修改密码")
+	public Msg AopupdatePass(UserManagement userManagement){
 	int i=userService.updatePass(userManagement);
 
 		Msg msg=new Msg();

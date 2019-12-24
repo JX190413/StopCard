@@ -5,6 +5,7 @@ import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Msg;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.dao.AdminDao;
+import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
 import com.google.gson.Gson;
@@ -104,7 +105,8 @@ public class AdminController
 	//添加/修改角色
 	@RequestMapping("/addRole")
 	@ResponseBody
-	public String addRole(String field,String roleid)
+	@Log(operationType="添加/修改角色",operationName="管理员进行添加/修改角色")
+	public String AopaddRole(String field,String roleid)
 	{
 		Gson gson = new Gson();
 		HashMap<String, String> map = gson.fromJson(field, HashMap.class);
@@ -157,7 +159,9 @@ public class AdminController
 	//删除角色判断角色是否绑定了用户，是不能删
 	@RequestMapping("/deleteRole")
 	@ResponseBody
-	public String deleteRole(String roleid)
+	@Log(operationType="删除角色",operationName="管理员进行删除角色")
+
+	public String AopdeleteRole(String roleid)
 	{
 		System.out.println(roleid);
 		//不存在（可添加）
@@ -194,7 +198,9 @@ public class AdminController
 	//添加菜单
 	@RequestMapping("/addMenu")
 	@ResponseBody
-	public String addMenu(Menu menu){
+	@Log(operationType="添加菜单",operationName="管理员进行添加菜单")
+
+	public String AopaddMenu(Menu menu){
 
 		if(adminService.addMenu(menu)>0){
 			ArrayList arrayList=new ArrayList();
@@ -205,10 +211,12 @@ public class AdminController
 		return "0";
 	}
 
-	//添加菜单
+	//修改菜单
 	@RequestMapping("/updateMenu")
 	@ResponseBody
-	public String updateMenu(Menu menu){
+	@Log(operationType="修改菜单",operationName="管理员进行修改菜单")
+
+	public String AopupdateMenu(Menu menu){
 		if(adminService.updateMenu(menu)>0){
 			return "200";
 		}
@@ -218,7 +226,9 @@ public class AdminController
 	//删除菜单
 	@RequestMapping("/deleteMenu")
 	@ResponseBody
-	public String deleteMenu(String menuid){
+	@Log(operationType="删除菜单",operationName="管理员进行删除菜单")
+
+	public String AopdeleteMenu(String menuid){
 		if(adminService.deleteMenu(menuid)>0){
 			return "200";
 		}

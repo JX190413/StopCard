@@ -193,10 +193,21 @@ and g.workeraccount=#{workeraccount}
 
     </select>
 
+<!--    自助设备统计-->
+    <select id="Device" resultType="DevicTong">
+    select  a.devicearea areaName,count(a.deviceid) numbers
+    from tbl_devic a
+    group by areaName
+
+
+    </select>
+
+
+
 <!--    //车辆离场缴费状态修改-->
     <update id="Paygai"  parameterType="pay">
         update tbl_inout
-        set  stateid=5 where inoutid=#{out_trade_no}
+        set  stateid=3 where inoutid=#{out_trade_no}
     </update>
 
 
@@ -231,4 +242,21 @@ and g.workeraccount=#{workeraccount}
 
     </update>
 
+<!--    管理员日志操作-->
+    <insert id="dayinfo">
+           insert into  tbl_log
+           (operatingtime,information,logname)
+            values
+            (#{operatingtime},#{information},#{logname})
+
+    </insert>
+
+    <!--    车主日志操作-->
+    <insert id="userdayinfo">
+           insert into  tbl_log
+           (operatingtime,information,logname)
+            values
+            (#{operatingtime},#{information},#{username})
+
+    </insert>
 </mapper>

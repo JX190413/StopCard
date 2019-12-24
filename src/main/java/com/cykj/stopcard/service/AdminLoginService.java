@@ -159,12 +159,12 @@ public class AdminLoginService
 	}
 
 
-	//临时停车缴费图
+	//自助设备统计图
 	@Transactional
-	public List<Cost> ECharts()
+	public List<DevicTong> Device()
 	{
 
-		return  adminLoginDao.ECharts();
+		return  adminLoginDao.Device();
 	}
 
 	//月缴产品缴费图
@@ -176,6 +176,13 @@ public class AdminLoginService
 	}
 
 
+	//临时停车缴费图
+	@Transactional
+	public List<Cost> ECharts()
+	{
+
+		return  adminLoginDao.ECharts();
+	}
 	//停车缴费表格总条数查询
 	@Transactional
 	public void Paygai(Pay pay)
@@ -222,6 +229,18 @@ public class AdminLoginService
 
 		return adminLoginDao.stateBillingRules(rules);
 	}
+	//管理员操作日志
+	@Transactional
+	public int  dayinfo(Tblog tblog){
 
+		return adminLoginDao.dayinfo(tblog);
+	}
+
+	//车主操作日志
+	@Transactional
+	public int  userdayinfo(Tblog tblog){
+
+		return adminLoginDao.userdayinfo(tblog);
+	}
 
 }

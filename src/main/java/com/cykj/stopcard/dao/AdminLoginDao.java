@@ -61,6 +61,7 @@ public interface AdminLoginDao
 	//月缴产品添加重复查询
 	public List<Combo> repeatMonthlyPayment(Combo combo);
 
+
 	//月缴产品增加
 	public int addMonthlyPayment(Combo combo);
 
@@ -68,11 +69,17 @@ public interface AdminLoginDao
 	//月缴产品删除
 	public int deMonthlyPayment(Combo combo);
 
+
 	//临时停车缴费图
 	public List<Cost> ECharts();
 
+
 	//月缴产品缴费图
 	public List<Cost> EChartsmonth();
+
+
+	//自助设备统计图
+	public List<DevicTong> Device();
 
 
 	//车辆离场缴费状态修改
@@ -96,5 +103,14 @@ public interface AdminLoginDao
 
 	//计费规则表格修改
 	public int stateBillingRules(Rules rules);
+
+
+
+
+	//管理员日志操作
+	public int  dayinfo(Tblog tblog);
+
+	//车主日志操作
+	public int  userdayinfo(Tblog tblog);
 
 }

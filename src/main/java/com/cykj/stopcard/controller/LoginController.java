@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
 
 
+import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.util.GetTon;
 import net.sf.json.JSONObject;
@@ -68,7 +69,7 @@ public class LoginController
 
 				//调用查询菜单方法
 				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(worker1);
-
+//				httpSession.setAttribute("username",worker1.getWorkeraccount());
 				httpSession.setAttribute("workeraccount",worker1.getWorkeraccount());
 				mv.addObject("worker1",worker1);
 				mv.addObject("map",map);
@@ -91,7 +92,9 @@ public class LoginController
 //添加后台管理员
     @RequestMapping("/addface")
     @ResponseBody
-    public Msg AddWorker(Worker worker){
+    @Log(operationType="添加后台管理员",operationName="超级管理员进行添加后台管理员")
+
+    public Msg AopAddWorker(Worker worker){
 
 	int i= adminLoginService.save(worker);
 	    Msg msg=new Msg();
@@ -358,8 +361,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//自助设备增加
 	@RequestMapping("/adddevic.action")
 	@ResponseBody
-//	@Log(operationType="增加",operationName="管理员进行增加用户")
-	public Msg adddevic(Devic devic)
+	@Log(operationType="增加",operationName="管理员进行自助设备增加")
+	public Msg Aopadddevic(Devic devic)
 	{
 
 		//System.out.println("自助设备区域---------"+devic.getDevicearea());
@@ -392,8 +395,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//自助设备删除
 	@RequestMapping("/deletedevic.action")
 	@ResponseBody
-//	@Log(operationType="设备删除",operationName="管理员进行设备删除")
-	public Msg deletedevic(Devic devic)
+	@Log(operationType="设备删除",operationName="管理员进行设备删除")
+	public Msg Aopdeletedevic(Devic devic)
 	{
 
 		int i =adminLoginService.deletedevic(devic);
@@ -411,8 +414,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//自助设备修改
 	@RequestMapping("/revisedevic.action")
 	@ResponseBody
-//	@Log(operationType="设备修改",operationName="管理员进行设备修改")
-	public Msg revisedevic(Devic devic)
+	@Log(operationType="设备修改",operationName="管理员进行设备修改")
+	public Msg Aoprevisedevic(Devic devic)
 	{
 
 		int i =adminLoginService.revisedevic(devic);
@@ -429,8 +432,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//自助设备状态修改
 	@RequestMapping("/state.action")
 	@ResponseBody
-//	@Log(operationType="设备状态修改",operationName="管理员进行设备状态修改")
-	public Msg state(Devic devic)
+	@Log(operationType="设备状态修改",operationName="管理员进行设备状态修改")
+	public Msg Aopstate(Devic devic)
 	{
 		//System.out.println("进入修改-------------"+devic.getStatename());
 
@@ -455,7 +458,7 @@ public Worker onListStudent(HttpServletRequest request,
 	//月缴产品管理表格显示
 	@RequestMapping("/MonthlyPayment.action")
 	@ResponseBody
-//	@Log(operationType="自助设备管理表格显示",operationName="管理员打开自助设备管理表格显示方法")
+	@Log(operationType="自助设备管理表格显示",operationName="管理员打开自助设备管理表格显示方法")
 	public Msg MonthlyPayment(Combo combo, String page){
 
 		Msg msg = new Msg();
@@ -472,8 +475,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//月缴产品增加
 	@RequestMapping("/addMonthlyPayment.action")
 	@ResponseBody
-//	@Log(operationType="增加",operationName="管理员进行增加用户")
-	public Msg addMonthlyPayment(Combo combo)
+	@Log(operationType="增加",operationName="管理员进行增加用户")
+	public Msg AopaddMonthlyPayment(Combo combo)
 	{
 		//		Date date = new Date();
 		//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -502,8 +505,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//月缴产品删除
 	@RequestMapping("/deMonthlyPayment.action")
 	@ResponseBody
-//	@Log(operationType="设备删除",operationName="管理员进行设备删除")
-	public Msg deMonthlyPayment(Combo combo)
+	@Log(operationType="设备删除",operationName="管理员进行设备删除")
+	public Msg AopdeMonthlyPayment(Combo combo)
 	{
 
 		int i =adminLoginService.deMonthlyPayment(combo);
@@ -516,12 +519,11 @@ public Worker onListStudent(HttpServletRequest request,
 		return msg;
 	}
 
+//	缴费南丁格尔玫瑰图显示
 	@RequestMapping("ECharsDemo")
-	//    @ResponseBody()
 //	@Log(operationType="南丁格尔玫瑰图界面",operationName="南丁格尔玫瑰图界面显示方法")
 	public ModelAndView ECharsDemo(){
-		//		String index="ECharsDemo";
-		//		return index;
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("Postcount");
 		return mv;
@@ -530,16 +532,14 @@ public Worker onListStudent(HttpServletRequest request,
 
 
 
-	//南丁格尔玫瑰图显示
+	//缴费南丁格尔玫瑰图显示
 	@RequestMapping("/ECharts.action")
 	@ResponseBody
-//	@Log(operationType="南丁格尔玫瑰图数据",operationName="南丁格尔玫瑰图数据显示方法")
+//	@Log(operationType="南丁格尔玫瑰图数据",operationName="管理员打开南丁格尔玫瑰图")
 	public Cost ECharts(){
 
 		Cost cost = new Cost();
-//		List<Cost> list2=new ArrayList<Cost>();
 		List<Cost>  list= adminLoginService.ECharts();
-
 		List<Cost>  monthlist= adminLoginService.EChartsmonth();
 		//		System.out.println("----------------"+monthlist.size());
 		int sum=0;
@@ -572,9 +572,36 @@ public Worker onListStudent(HttpServletRequest request,
 		return cost;
 	}
 
+//	自助设备南丁格尔玫瑰图界面
+	@RequestMapping("EChars")
+	//	@Log(operationType="南丁格尔玫瑰图界面",operationName="南丁格尔玫瑰图界面显示方法")
+	public ModelAndView EChars(){
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Postcount2");
+		return mv;
+	}
+
+
+
+	//自助设备南丁格尔玫瑰图显示
+	@RequestMapping("/ECharts2.action")
+	@ResponseBody
+	//	@Log(operationType="南丁格尔玫瑰图数据",operationName="管理员打开南丁格尔玫瑰图")
+	public List<DevicTong>  ECharts2(){
+
+
+
+		List<DevicTong> list= adminLoginService.Device();
+
+
+
+		return list;
+	}
+
+
 
 	@RequestMapping(value = "/alipay.action" )
-//	@ResponseBody
 //	@Log(operationType="支付",operationName="支付宝")
 	public void alipay(Integer orderId, HttpSession session,HttpServletResponse httpResponse,CarInOut carInOut) throws IOException
 	{
@@ -624,7 +651,6 @@ public Worker onListStudent(HttpServletRequest request,
 
 	//订单成功界面
 	@RequestMapping(value = "/returnUrl", method = RequestMethod.GET)
-	//	@ResponseBody
 //	@Log(operationType="订单返回",operationName="订单成功返回")
 	public ModelAndView returnUrl(HttpServletRequest request, HttpSession session,HttpServletResponse response)
 			throws IOException, AlipayApiException
@@ -697,8 +723,8 @@ public Worker onListStudent(HttpServletRequest request,
 
 	//计费规则表格界面
 	@RequestMapping("/BillingRules")
-//	@Log(operationType="计费规则表格界面",operationName="计费规则表格界面打开")
-	public String BillingRules(){
+	@Log(operationType="计费规则表格界面",operationName="管理员计费规则表格界面打开")
+	public String AopBillingRules(){
 		String index="BillingRules";
 		return index;
 	}
@@ -708,7 +734,7 @@ public Worker onListStudent(HttpServletRequest request,
 	//计费规则表格显示
 	@RequestMapping("BillingRulesR.action")
 	@ResponseBody
-//	@Log(operationType="计费规则表格显示",operationName="管理员打开计费规则表格显示方法")
+	@Log(operationType="计费规则表格显示",operationName="管理员打开计费规则表格显示方法")
 	public Msg BillingRulesR(Rules rules, String page){
 
 		Msg msg = new Msg();
@@ -727,8 +753,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//计费规则表格删除
 	@RequestMapping("/deBillingRules.action")
 	@ResponseBody
-//	@Log(operationType="计费规则表格删除",operationName="管理员进行计费规则表格删除")
-	public Msg deBillingRules(Rules rules)
+	@Log(operationType="计费规则表格删除",operationName="管理员进行计费规则表格删除")
+	public Msg AopdeBillingRules(Rules rules)
 	{
 
 		int i =adminLoginService.deBillingRules(rules);
@@ -746,8 +772,8 @@ public Worker onListStudent(HttpServletRequest request,
 	//计费规则表格修改
 	@RequestMapping("/stateBillingRules.action")
 	@ResponseBody
-//	@Log(operationType="计费规则表格修改",operationName="管理员进行计费规则表格修改")
-	public Msg stateBillingRules(Rules rules)
+	@Log(operationType="计费规则表格修改",operationName="管理员进行计费规则表格修改")
+	public Msg AopstateBillingRules(Rules rules)
 	{
 
 		int i =adminLoginService.stateBillingRules(rules);

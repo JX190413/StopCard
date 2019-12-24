@@ -7,8 +7,8 @@
     <select id="selfasttime" resultType="com.cykj.stopcard.bean.Product">
         SELECT * from tbl_rules c where c.mealid<![CDATA[<= ]]>4
 </select>
-    <select id="selall" resultMap="epmap" parameterType="int">
-        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid ORDER BY portid  LIMIT #{page},#{limit}
+    <select id="selall" resultMap="epmap" parameterType="com.cykj.stopcard.bean.Page">
+        SELECT * FROM tbl_carport a,tbl_state c where  c.stateid=a.stateid AND a.portarea LIKE "%"#{where}"%" ORDER BY portid  LIMIT #{page},#{limit}
     </select>
     <resultMap id="epmap" type="com.cykj.stopcard.bean.CardPort">
         <result property="portid" column="portid"></result>
@@ -50,7 +50,13 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     <update id="uptype" parameterType="java.lang.String">
 UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     </update>
-    <select id="selallnumber" resultType="int">
-       select COUNT(*) from tbl_carport
+    <select id="selallnumber" resultType="int" parameterType="java.lang.String">
+       select COUNT(*) from tbl_carport where portarea LIKE "%"#{where}"%"
     </select>
+    <select id="selcarid" parameterType="java.lang.String" resultType="Integer">
+        SELECT stateid from tbl_state WHERE statename=#{statename}
+    </select>
+    <update id="upcartype" parameterType="com.cykj.stopcard.bean.CardPort" >
+        UPDATE tbl_carport SET stateid=#{stateid} where portarea=#{portarea}
+    </update>
 </mapper>

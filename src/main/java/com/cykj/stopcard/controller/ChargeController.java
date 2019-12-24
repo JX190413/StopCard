@@ -86,18 +86,45 @@ public class ChargeController
 	}
 	@RequestMapping("selall")
 	@ResponseBody
-	public  Msg selall(  String limit,String page){
+	public  Msg selall(  String limit,String page ,String id){
+		String where="区";
+		if (id!=null){
+			if (!id.equals("请选择")){
+				where=id;
+			}
+		}
 		int page1=Integer.valueOf(page);
 		int limit1=Integer.valueOf(limit);
 		System.out.println("进入车位查询");
-		List<CardPort> list=chargeService.selall(limit1,page1);
-		int count=chargeService.selallnumber();
+		List<CardPort> list=chargeService.selall(limit1,page1,where);
+		int count=chargeService.selallnumber(where);
 		Msg msg=new Msg();
 		msg.setCode(0);
 		msg.setMsg("");
 		msg.setCount(count);
 		msg.setData(list);
 		return  msg;
+	}
+	//修改车位状态
+	@RequestMapping("/updatetype")
+	public ModelAndView Aopupdatetype(String interest1,String interest2){
+		System.out.println("进入修改车位状态方法");
+		System.out.println(interest1);
+		System.out.println(interest2);
+		int id=chargeService.selcarid(interest2);
+		System.out.println(id);
+		ModelAndView modelAndView=new ModelAndView();
+		CardPort cardPort=new CardPort();
+		cardPort.setStateid(id);
+		cardPort.setPortarea(interest1);
+		int flay=chargeService.upcartype(cardPort);
+		if (flay>0){{
+
+			modelAndView.setViewName("SelCare");
+		}
+		}
+
+		return modelAndView;
 	}
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody

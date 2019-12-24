@@ -23,64 +23,52 @@
 </head>
 <body>
 <div id="add-main" style="display: none;">
-	<form class="layui-form" id="add-form"  action="">
+	<form class="layui-form" id="add-form"  action="<%=path+"/updatetype"%>">
 		<div class="layui-form-item center" >
-			<label class="layui-form-label" style="width: 100px" >用户姓名</label>
-			<div class="layui-input-block">
-				<input  type="text" name="name" required value="" style="width: 240px" lay-verify="required placeholder="请输入用户名" autocomplete="off" class="layui-input">
-			</div>
-		</div><%--
-		<div class="layui-form-item">
-			<label class="layui-form-label" style="width: 100px">配置类型</label>
-			<div class="layui-input-block">
-				<input type="text" name="type" required  style="width: 240px" lay-verify="required" placeholder="请输入配置类型" autocomplete="off" class="layui-input">
-			</div>
+				<select  name="interest1" lay-filter="aihao" id="demoload3" style="width: 50px;height: 30px">
+					<option value="A区">A区</option>
+					<option value="B区" >B区</option>
+					<option value="C区">C区</option>
+					<option value="D区">D区</option>
+					<option value="F区">F区</option>
+				</select>
+		</div>
+		<div class="layui-form-item center" >
+				<select  name="interest2" lay-filter="aihao" id="demoload1" style="width: 50px;height: 30px">
+					<option value="空闲车位">空闲车位</option>
+					<option value="不可用车位" >不可用车位</option>
+				</select>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label" style="width: 100px">配置值&emsp;</label>
 			<div class="layui-input-block">
-				<input type="text" name="value" required  style="width: 240px" lay-verify="required" placeholder="请输入配置值" autocomplete="off" class="layui-input">
-				<!-- <input type="hidden" name="id" style="width: 240px" autocomplete="off" class="layui-input"> -->
-			</div>
-		</div>--%>
-		<div class="layui-form-item">
-			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit lay-filter="save" >立即提交</button>
+				<button class="layui-btn" lay-submit lay-filter="save" >提交修改</button>
 				<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >重置</button>
 			</div>
 		</div>
 	</form>
 </div>
-<form class="layui-form" action="">
+
 <div class="demoTable">
 	搜索分区：
 	<div class="layui-inline">
 		<div class="layui-input-block">
-			<select name="interest" lay-filter="aihao">
-				<option value=""></option>
-				<option value="0">A区</option>
-				<option value="1" selected="">B区</option>
-				<option value="2">C区</option>
-				<option value="3">D区</option>
-				<option value="4">F区</option>
+			<select  name="interest" lay-filter="aihao" id="demoload" style="width: 120px;height: 30px">
+				<option value="" selected="">请选择</option>
+				<option value="A区">A区</option>
+				<option value="B区" >B区</option>
+				<option value="C区">C区</option>
+				<option value="D区">D区</option>
+				<option value="F区">F区</option>
 			</select>
 		</div>
 	</div>
 	<button class="layui-btn" data-type="reload">搜索</button>
-	<button class="layui-btn" onclick="onAddBtn()">新增人员</button>
+	<button data-method="notice" class="layui-btn" id="xiugai">修改车位状态</button>
 </div>
-</form>>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="toolbarDemo">
-<%--	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中的行</button>
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-		<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-	</div>--%>
-</script>
-<script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
 </script>
 <script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
@@ -103,78 +91,17 @@
 				,{field: 'portid', title: 'ID', width:80, sort: true, fixed: 'left'}
 				/*,{field: 'portcardid', title: '用户名', width:80}*/
 				,{field: 'portarea', title: '区域', width:100, sort: true}
-				,{field: 'portname', title: '车位号', width:177}
-				/*,{field: 'stateid', title: '上传文件数', width: 177 }
-				,{field: 'innumber', title: '下载文件数', width: 177, sort: true}*/
+				,{field: 'portname', title: '车位号', width:150}
+				,{field: 'statename', title: '车位状态', width: 150 }
+				/*,{field: 'innumber', title: '下载文件数', width: 177, sort: true}*/
 				/*,{field: 'usertype', title: '状态', width: 80, sort: true}
 				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}*/
 			]]
 			,page: true
 		});
-		//头工具栏事件
-		table.on('toolbar(test)', function(obj){
-			var checkStatus = table.checkStatus(obj.config.id);
-			switch(obj.event){
-				case 'getCheckData':
-					var data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-					break;
-				case 'getCheckLength':
-					var data = checkStatus.data;
-					layer.msg('选中了：'+ data.length + ' 个');
-					break;
-				case 'isAll':
-					layer.msg(checkStatus.isAll ? '全选': '未全选');
-					break;
-				//自定义头工具栏右侧图标 - 提示
-				case 'LAYTABLE_TIPS':
-					layer.alert('这是工具栏右侧自定义的一个图标按钮');
-					break;
-			};
-		});
-		//监听行工具事件
-		table.on('tool(test)', function(obj){
-			var data = obj.data;
-			//console.log(obj)
-			if(obj.event === 'del'){
-				layer.confirm('真的删除行么', function(index){
-					$.ajax({
-						type:"POST",//提交7/的方式
-						url:"dele.action",//提交的地址
-						data:"msg1="+data.id,//提交的数据
-						/*dataType:"text",//希望返回的数据类型*/
-						async: true,//异步操作
-						success:function (msg) {//成功的方法  msg为返回数据
-							if (msg===200){
-								alert("修改成功")
-							}
-							else{
-								alert("修改失败")
-							}
-						}
-						/*error:function () {//错误的方法
-							alert("修改失败")
-						}*/
-					});
-					obj.del();
-					layer.close(index);
-				});
-			} else if(obj.event === 'edit'){
-				layer.prompt({
-					formType: 2
-					,value: data.email
-				}, function(value, index){
-					obj.update({
-						email: value
-					});
-					layer.close(index);
-				});
-			}
-		});
-
 		var $ = layui.$, active = {
 			reload: function(){
-				var demoReload = $('#demoReload');
+				var demoReload = $('#demoload');
 				//执行重载
 				table.reload('test', {
 					page: {
@@ -191,64 +118,20 @@
 			active[type] ? active[type].call(this) : '';
 		})
 	});
-	function onAddBtn(){
-		var $ = layui.$;
-		//页面层-自定义
-		layer.open({
-			type: 1,
-			title:"新建配置",
-			closeBtn: false,
-			shift: 2,
-			area: ['400px', '300px'],
-			shadeClose: true,
-			 btn: [ '取消'],
-			// btnAlign: 'c',
-			content: $("#add-main"),
-			success: function(layero, index){
-
-			},
-			yes:function(){
-
-			}
-		});
-	}
-
 </script>
-<script type="text/javascript">
-	layui.use(['layer', 'form'], function () {
-		var layer = layui.layer,
-			$ = layui.jquery,
-			form = layui.form;
-		var obj = document.getElementById('closeBtn');
-		form.on('submit(save)', function (data) {
-			params = data.field;
-			//alert(JSON.stringify(params))
-			submit($,params);
-			return false;
-		})
+<script>
+	layui.use('layer', function(){ //独立版的layer无需执行这一句
+		var layer = layui.layer;
+//layer.msg("大家好，这是最简单的弹层", { time: 9000, type: 1,title:['测试一下','font-size:18px'] });
+		$("#xiugai").click(function () {
+			layer.open({
+				type: 1,
+				area: ['500px', '300px'],
+				content: $("#add-main") //这里content是一个普通的String
 
-		var obj = document.getElementById('closeBtn');
-		obj.addEventListener('click', function cancel(){
-			CloseWin();
+			});
 		});
-	})
-
-	//提交
-	function submit($,params){
-		$.post('add.action', params, function (res) {
-			if (res.status===1) {
-				layer.msg(res.message,{icon:1},function(index){
-					CloseWin();
-				})
-			}
-		}, 'json');
-	}
-	//关闭页面
-	function CloseWin(){
-		parent.location.reload(); // 父页面刷新
-		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-		parent.layer.close(index); //再执行关闭
-	}
+	});
 </script>
-</body>
+			</body>
 </html>

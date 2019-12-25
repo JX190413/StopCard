@@ -103,8 +103,41 @@
 
 
     </update>
+<!--查询手机号码-->
+<select id="selectPhone" parameterType="UserManagement" resultType="UserManagement">
+
+    select * from tbl_user
+    where userphone=#{userphone}
 
 
+
+</select>
+<!--   先删除手机里以前接收到的短信验证码-->
+    <delete id="deleteMsg" parameterType="java.lang.String">
+        DELETE FROM tbl_phonemsg where phonenum=#{phone}
+
+
+
+    </delete>
+<!--    在存进一个新的验证码，用来判断输入的验证码-->
+    <insert id="insertMSG" parameterType="PhoneMsg">
+
+        insert into tbl_phonemsg
+        (
+        phonenum,msg
+        )
+       values (#{phonenum},#{msg});
+
+
+    </insert>
+<!--    查询验证码输入是否正确-->
+    <select id="selectPhoneMsg" parameterType="PhoneMsg" resultType="PhoneMsg">
+
+        select  * from tbl_phonemsg where
+        phonenum=#{phonenum} and msg=#{msg}
+
+
+    </select>
 
 </mapper>
 

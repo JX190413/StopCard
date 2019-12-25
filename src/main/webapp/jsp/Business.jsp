@@ -175,7 +175,7 @@
 <%--	</div>--%>
 <%--	</div>--%>
 <%--	</div>--%>
-	<!-- 增加模态框（Modal） -->
+	<!-- 车主个人信息模态框（Modal） -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -249,6 +249,9 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal -->
 	</div>
+
+
+
 </form>
 
 </body>

@@ -1,6 +1,7 @@
 package com.cykj.stopcard.service;
 
 import com.cykj.stopcard.bean.Combo;
+import com.cykj.stopcard.bean.PhoneMsg;
 import com.cykj.stopcard.bean.UserManagement;
 import com.cykj.stopcard.bean.Whitelist;
 import com.cykj.stopcard.dao.UserDao;
@@ -63,8 +64,28 @@ public class UserService
 	//修改密码
 	public int updatePass(UserManagement userManagement){
 		return userDao.updatePass(userManagement);
+	}
+	//查询手机号
+	public UserManagement selectPhone(UserManagement userManagement){
+		return userDao.selectPhone(userManagement);
+	}
+	//删除以前的短信验证
+	public int deleteMsg(String phone){
+		return userDao.deleteMsg(phone);
+	}
+	//  在存进一个新的验证码，用来判断输入的验证码
+	public int insertMSG(PhoneMsg phoneMsg){
 
+		return  userDao.insertMSG(phoneMsg);
+
+	}
+	//验证验证码是否正确
+	public PhoneMsg selectPhoneMsg(PhoneMsg phoneMsg){
+
+		return userDao.selectPhoneMsg(phoneMsg);
 
 
 	}
+
+
 }

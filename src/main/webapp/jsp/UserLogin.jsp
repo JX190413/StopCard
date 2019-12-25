@@ -18,13 +18,132 @@
 
 
 %>
-
+<link rel="stylesheet" href=<%=cssPath+"bootstrap.css" %>>
 <link rel="stylesheet" href=<%=cssPath+"style3.css"%>>
+
 <script type="text/javascript" src=<%=jsPath+"UserLogin.js" %>></script>
+
+
 <script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
+<script  src=<%=jsPath+"bootstrap.js"%>></script>
+<script type="text/javascript" src=<%=jsPath+"phone.js" %>></script>
 <html>
 <head>
 	<title>Title</title>
+
+	<script type="text/javascript">
+		$(function  () {
+			//获取短信验证码
+				var validCode=true;
+				$(".msgs").click (function  () {
+                        var phone=$("#userphone1").val();
+                    if(phone.length>0){
+
+
+	                    var flage=$("#flage").val();
+	                    if(flage==="true") {
+
+		                    var ob = {userphone:phone};
+
+		                    $.ajax({
+			                    type: "POST",//提交的方式
+			                    url: "/StopCard/msgPhone",//提交的地址
+			                    data: ob,//提交的数据
+			                    dataType: "json",//希望返回的数据类型
+			                    async: true,//异步操作
+			                    success: function (data) {//成功的方法  msg为返回数据
+
+			                    },
+			                    error: function () {//错误的方法
+				                    alert("服务器正忙")
+			                    }
+		                    })
+		                    var time=30;
+		                    var code=$(this);
+		                    if (validCode) {
+			                    validCode=false;
+			                    code.addClass("msgs1");
+			                    var t=setInterval(function  () {
+				                    time--;
+				                    code.html(time+"秒");
+				                    if (time==0) {
+					                    clearInterval(t);
+					                    code.html("重新获取");
+					                    validCode=true;
+					                    code.removeClass("msgs1");
+
+				                    }
+			                    },1000)
+		                    }
+
+
+	                    }else {
+
+
+		                    alert("请输入正确的手机号")
+	                    }
+	                    var flage=$("#flage").val();
+	                    if(flage==="true") {
+		                    var time=30;
+		                    var code=$(this);
+		                    if (validCode) {
+			                    validCode=false;
+			                    code.addClass("msgs1");
+			                    var t=setInterval(function  () {
+				                    time--;
+				                    code.html(time+"秒");
+				                    if (time==0) {
+					                    clearInterval(t);
+					                    code.html("重新获取");
+					                    validCode=true;
+					                    code.removeClass("msgs1");
+
+				                    }
+			                    },1000)
+		                    }
+
+
+	                    }else {
+
+
+		                    alert("请输入正确的手机号")
+	                    }
+
+                    } else {
+
+                    	alert("手机号不能为空！！！")
+
+                    }
+
+
+
+				})
+
+
+
+
+
+
+
+		})
+	</script>
+
+	<style type="text/css">
+
+		.msgs{display: inline-block;
+			width: 104px;
+			color: #fff;
+			font-size: 12px;
+			border: 1px solid #0697DA;
+			text-align: center;
+			height: 30px;
+			line-height: 30px;
+			background: #0697DA;
+			cursor: pointer;
+			margin: 18px;}
+		.msgs1{background:#E6E6E6;color:#818080;border:1px solid #CCCCCC;}
+	</style>
+
 </head>
 <body>
 <div class="content">
@@ -41,10 +160,15 @@
     font-family: cursive;">密码</span>
 			<input type="password" id="userpass1" name="userpass1" />
 		</label>
-		<p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>
+<%--		<p class="forgot-pass"><a href="javascript:">忘记密码？</a></p>--%>
 		<button type="button" class="submit" onclick="userLogin()">登 录</button>
+		<button type="button" class="submit" data-toggle="modal" data-target="#myModal" >短信登录</button>
+
 <%--		<button type="button" class="fb-btn">使用 <span>facebook</span> 帐号登录</button>--%>
 	</div>
+
+
+
 	</form>
 	<div class="sub-cont">
 		<div class="img">
@@ -126,7 +250,56 @@
 	</div>
 </div>
 
+<!-- 车主个人信息模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					手机登录
+				</h4>
+			</div>
+			<div class="modal-body">
 
+				<table style="width:500px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
+					<tr>
+
+						<td>手机号:</td>
+						<input type="hidden" id="flage" name="flage" value="false">
+						<td rowspan="2"><input type="text" id="userphone1" onblur="selectPhone()" name="userphone1" value=""  ></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+					</tr>
+                   <tr>
+	                   <td>验证码:</td>
+					<td>
+					<input type="text" class="c_code_msg"  id="phoneMsg" name="phoneMsg" style="margin-right: 10px;">
+					</td>
+	                   <td><span  class="msgs">获取短信验证码</span></td>
+
+                   </tr>
+				</table>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" onclick="phoneMsg()">
+					提交更改
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
 
 <script type="text/javascript" src=<%=jsPath+"script3.js" %>></script>
 

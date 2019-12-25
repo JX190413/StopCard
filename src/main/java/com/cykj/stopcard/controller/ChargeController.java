@@ -42,6 +42,7 @@ public class ChargeController
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
 	@Resource
+	//11
 	private ChargeService chargeService;
 	//计算
 	public String selmoney(String minute){

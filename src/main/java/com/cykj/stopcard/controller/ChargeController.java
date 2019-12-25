@@ -84,6 +84,7 @@ public class ChargeController
 		}
 
 	}
+	//查询车位方法
 	@RequestMapping("selall")
 	@ResponseBody
 	public  Msg selall(  String limit,String page ,String id){

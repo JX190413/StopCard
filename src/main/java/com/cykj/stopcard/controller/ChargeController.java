@@ -286,11 +286,11 @@ public class ChargeController
 	}
 
 //定时器
-@Scheduled(cron="0 0 0,8,16 * * ?")
+@Scheduled(cron="0/15 * * * * ?")
 public void executeFileDownLoadTask() {
 	System.out.println("定时任务启动");
 	int nowtime=nowti();
-	String money="";
+	int money=0;
 	System.out.println(nowtime);
 	SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
 	SimpleDateFormat time1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
@@ -301,25 +301,28 @@ public void executeFileDownLoadTask() {
 		case 1:
 			list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
 			 money=Calculatemoney(list);
+			System.out.println(money);
 		break;
 		case 2:
 			list=chargeService.selmoney(time.format(new Date()),time2.format(new Date()));
 			 money=Calculatemoney(list);
+			System.out.println(money);
 			Calculatemoney(list);
 			break;
 		case 3:
 			list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
 			money=Calculatemoney(list);
+			System.out.println(money+"2222");
 			break;
 			default:
 				break;
 	}
 }
-public String Calculatemoney(List<Cost> list){
-		String money="";
+public int Calculatemoney(List<Cost> list){
+		int money=0;
 	for (int i = 0; i <list.size() ; i++)
 	{
-		money=list.get(i).getMoney()+money;
+		money=Integer.valueOf(list.get(i).getMoney())+money;
 	}
 		return money;
 }
@@ -346,10 +349,6 @@ public String Calculatemoney(List<Cost> list){
 				}
 			}
 		}
-
-
-		SimpleDateFormat time = new SimpleDateFormat("yyyy年MM月dd月 "  + " 08时00分00秒");
-		System.out.println(time.format(new Date()));
 		return  time3;
 	}
 }

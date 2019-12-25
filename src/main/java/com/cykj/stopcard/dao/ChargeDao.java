@@ -21,4 +21,6 @@ public interface ChargeDao
 	public int selcarid(String statename);
 	public int upcartype(CardPort cardPort);
 	public List<Cost> selmoney(String fasttime,String nexttime);
+	public int insetdaile(String dailetime,String money);
+	public List<Daile> seldaile(String nowday);
 }

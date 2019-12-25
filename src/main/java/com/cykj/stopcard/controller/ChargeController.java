@@ -286,15 +286,15 @@ public class ChargeController
 		return modelAndView;
 	}
 
-//定时器
-@Scheduled(cron="0 0 0,8,16 * * ?")
+//定时器定时增加
+/*@Scheduled(cron="0/60 * * * * ?")*/
 public void executeFileDownLoadTask() {
 	System.out.println("定时任务启动");
 	int nowtime=nowti();
 	int money=0;
 	System.out.println(nowtime);
-	SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
 	SimpleDateFormat time1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+	SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
 	SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16:00:00");
 	SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
     List<Cost> list;
@@ -302,18 +302,23 @@ public void executeFileDownLoadTask() {
 		case 1:
 			list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
 			 money=Calculatemoney(list);
+			 String money1=String.valueOf(money);
+			 chargeService.insetdaile(time.format(new Date()),money1);
 			System.out.println(money);
 		break;
 		case 2:
 			list=chargeService.selmoney(time.format(new Date()),time2.format(new Date()));
 			 money=Calculatemoney(list);
 			System.out.println(money);
-			Calculatemoney(list);
+			String money2=String.valueOf(money);
+			chargeService.insetdaile(time2.format(new Date()),money2);
 			break;
 		case 3:
 			list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
 			money=Calculatemoney(list);
-			System.out.println(money+"2222");
+			String money3=String.valueOf(money);
+			chargeService.insetdaile(time1.format(new Date()),money3);
+			System.out.println("增加成功");
 			break;
 			default:
 				break;
@@ -331,7 +336,6 @@ public int Calculatemoney(List<Cost> list){
 	public static int  nowti()
 	{
 		int time3=0;
-
 		SimpleDateFormat time2 = new SimpleDateFormat("HH");  //提取系统中的小时
 		int h = Integer.valueOf(time2.format(new Date()));  //将小时转换为整数型
 		if (h <= 8 && h > 0)
@@ -351,5 +355,26 @@ public int Calculatemoney(List<Cost> list){
 			}
 		}
 		return  time3;
+	}
+	@RequestMapping("Check")
+	public ModelAndView daile(){
+ModelAndView modelAndView=new ModelAndView();
+		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 8");
+		SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16");
+		SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 0");
+		if (chargeService.seldaile(time.format(new Date())).size()>0){
+			String morning=chargeService.seldaile(time.format(new Date())).get(0).getDailemoney();
+			modelAndView.addObject("morning",morning);
+		}
+		if (chargeService.seldaile(time2.format(new Date())).size()>0){
+			String noon=chargeService.seldaile(time2.format(new Date())).get(0).getDailemoney();
+			modelAndView.addObject("noon",noon);
+		}
+		if (chargeService.seldaile(time3.format(new Date())).size()>0){
+			String night=chargeService.seldaile(time3.format(new Date())).get(0).getDailemoney();
+			modelAndView.addObject("night",night);
+		}
+		modelAndView.setViewName("Check");
+		return  modelAndView;
 	}
 }

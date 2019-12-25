@@ -62,4 +62,10 @@ UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     <select id="selmoney" parameterType="java.lang.String" resultType="com.cykj.stopcard.bean.Cost">
         SELECT a.money from tbl_inout a WHERE a.outtime &lt; #{nexttime} and a.intime &gt; #{fasttime}
     </select>
+    <insert id="insetdaile" parameterType="java.lang.String">
+        INSERT into tbl_daile (dailetime,dailemoney) VALUES(#{dailetime} ,#{money})
+    </insert>
+    <select id="seldaile" resultType="Daile" parameterType="java.lang.String">
+SELECT * from tbl_daile where dailetime like "%"#{nowday}"%"
+    </select>
 </mapper>

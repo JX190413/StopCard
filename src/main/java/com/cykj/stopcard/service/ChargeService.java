@@ -39,5 +39,7 @@ public class ChargeService
 	public int selallnumber(String where){return chargeDao.selallnumber(where);}
 	public int selcarid(String statename){return chargeDao.selcarid(statename);}
 	public int upcartype(CardPort cardPort){return chargeDao.upcartype(cardPort);}
+	public int insetdaile(String dailetime,String money){return chargeDao.insetdaile(dailetime,money);}
 	public List<Cost> selmoney(String fasttime, String nexttime){return chargeDao.selmoney(fasttime,nexttime);}
+	public List<Daile> seldaile(String nowday){return chargeDao.seldaile(nowday);}
 }

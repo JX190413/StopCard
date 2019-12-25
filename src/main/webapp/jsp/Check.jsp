@@ -5,6 +5,7 @@
   Time: 16:47
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,7 +16,17 @@
 <body>
 当前时间:
 <div id="div1"> </div>
-
+<div class="layui-row" style="padding-top: 200px">
+	<div class="layui-col-md4">
+		<div class="grid-demo grid-demo-bg1" style="height: 100px">0:00 --8:00 共收款 :${morning} 元</div>
+	</div>
+	<div class="layui-col-md4">
+		<div class="grid-demo" style="height: 100px">8:00 --16:00 共收款 : ${noon} 元</div>
+	</div>
+	<div class="layui-col-md4">
+		<div class="grid-demo grid-demo-bg1" style="height: 100px">16:00 --24:00 共收款 : ${night} 元</div>
+	</div>
+</div>>
 <script>
 	window.onload = function(){
 		var oDiv = document.getElementById('div1');

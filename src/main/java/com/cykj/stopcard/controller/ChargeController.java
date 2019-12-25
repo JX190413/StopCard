@@ -6,6 +6,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
+import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.ChargeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,7 +43,6 @@ public class ChargeController
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
 	@Resource
-	//11
 	private ChargeService chargeService;
 	//计算
 	public String selmoney(String minute){
@@ -87,18 +87,47 @@ public class ChargeController
 	}
 	@RequestMapping("selall")
 	@ResponseBody
-	public  Msg selall(  String limit,String page){
+	public  Msg selall(  String limit,String page ,String id){
+		String where="区";
+		if (id!=null){
+			if (!id.equals("请选择")){
+				where=id;
+			}
+		}
 		int page1=Integer.valueOf(page);
 		int limit1=Integer.valueOf(limit);
 		System.out.println("进入车位查询");
-		List<CardPort> list=chargeService.selall(limit1,page1);
-		int count=chargeService.selallnumber();
+		List<CardPort> list=chargeService.selall(limit1,page1,where);
+		int count=chargeService.selallnumber(where);
 		Msg msg=new Msg();
 		msg.setCode(0);
 		msg.setMsg("");
 		msg.setCount(count);
 		msg.setData(list);
 		return  msg;
+	}
+	//修改车位状态
+
+	@RequestMapping("/updatetype")
+	@Log(operationType="修改车位状态",operationName="收费员进行修改车位状态")
+	public ModelAndView Aopupdatetype(String interest1,String interest2){
+		System.out.println("进入修改车位状态方法");
+		System.out.println(interest1);
+		System.out.println(interest2);
+		int id=chargeService.selcarid(interest2);
+		System.out.println(id);
+		ModelAndView modelAndView=new ModelAndView();
+		CardPort cardPort=new CardPort();
+		cardPort.setStateid(id);
+		cardPort.setPortarea(interest1);
+		int flay=chargeService.upcartype(cardPort);
+		if (flay>0){{
+
+			modelAndView.setViewName("SelCare");
+		}
+		}
+
+		return modelAndView;
 	}
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody
@@ -132,16 +161,16 @@ public class ChargeController
 		business.setPasttime(oneMonthLater.toString());
 		int ac=chargeService.deleall(carnum);
 		System.out.println("进入方法");
-			int a=chargeService.inserole(business);
-			if (a>0){
-				List<Combo> list=chargeService.selcomtime(time);
-				int carnum2=chargeService.selodnumber(carnum);
-				AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
-				AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-				//在公共参数中设置回跳和通知地址
-				request.setReturnUrl(RETURN_URL);
-				request.setNotifyUrl(NOTIFY_URL);
-				//根据订单编号,查询订单相关信息
+		int a=chargeService.inserole(business);
+		if (a>0){
+			List<Combo> list=chargeService.selcomtime(time);
+			int carnum2=chargeService.selodnumber(carnum);
+			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+			//在公共参数中设置回跳和通知地址
+			request.setReturnUrl(RETURN_URL);
+			request.setNotifyUrl(NOTIFY_URL);
+			//根据订单编号,查询订单相关信息
 	/*	Order order = payService.selectById(orderId);
 		//商户订单号，商户网站订单系统中唯一订单号，必填
 		String out_trade_no = order.getOrderId().toString();
@@ -149,28 +178,28 @@ public class ChargeController
 		String total_amount = order.getOrderPrice().toString();
 		//订单名称，必填
 		String subject = order.getOrderName();*/
-				//商品描述，可空
-				String body = "";
-				request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
-						+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
-						+ "\"subject\":\""+ "会员缴费" +"\","
-						+ "\"body\":\""+ body +"\","
-						+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-				String form = "";
-				try {
-					form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-				} catch (AlipayApiException e) {
-					e.printStackTrace();
-				}
-				httpResponse.setContentType("text/html;charset=" + CHARSET);
-				httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
-				httpResponse.getWriter().flush();
-				httpResponse.getWriter().close();
+			//商品描述，可空
+			String body = "";
+			request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
+					+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
+					+ "\"subject\":\""+ "会员缴费" +"\","
+					+ "\"body\":\""+ body +"\","
+					+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+			String form = "";
+			try {
+				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+			} catch (AlipayApiException e) {
+				e.printStackTrace();
 			}
+			httpResponse.setContentType("text/html;charset=" + CHARSET);
+			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+			httpResponse.getWriter().flush();
+			httpResponse.getWriter().close();
 		}
+	}
 
 
-//支付宝异步通知界面
+	//支付宝异步通知界面
 	@RequestMapping(value = "alipayNotifyNotice")
 	@ResponseBody
 	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response) throws Exception {

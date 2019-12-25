@@ -59,4 +59,7 @@ UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     <update id="upcartype" parameterType="com.cykj.stopcard.bean.CardPort" >
         UPDATE tbl_carport SET stateid=#{stateid} where portarea=#{portarea}
     </update>
+    <select id="selmoney" parameterType="java.lang.String" resultType="com.cykj.stopcard.bean.Cost">
+        SELECT a.money from tbl_inout a WHERE a.outtime &lt; #{nexttime} and a.intime &gt; #{fasttime}
+    </select>
 </mapper>

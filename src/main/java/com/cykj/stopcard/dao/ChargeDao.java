@@ -20,4 +20,5 @@ public interface ChargeDao
 	public  int selallnumber(String where);
 	public int selcarid(String statename);
 	public int upcartype(CardPort cardPort);
+	public List<Cost> selmoney(String fasttime,String nexttime);
 }

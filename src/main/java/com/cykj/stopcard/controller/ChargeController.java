@@ -8,6 +8,8 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.ChargeService;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +20,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ChargeController
 {
-
 	private final String APP_ID = "2016101500691629";
 	private final String APP_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCABdJiDrmB+yNopGt36G2MOB+G/3bgXCEh8j7M51HXGp7I5gbAP6a7nFll/gjGKBNHo7t3Tj5jsMQe1FRu/N2mSAbYTadDZqj8OxJz3PF03yuEylH+oX6XfvHbnbkDGzOTfBoVKBMaDH2i0ZRbaquvkJlC0Ja7Oj/Uptdwj7GfB3K2vhrhL7Vse5Y1a48mAESt3PHfxQsen0AIreeL1Iw4NUHttxwXDCw32lvuE1Vn+VN34tiYHj+OzZtreQZyWVXWFQgBCrkvbv+PPdrmTVXxKBq83uBNgzKG4WFBX+a6KbzjtUWZLRxKXtJ2wXAp/ldxg+7XIeDSuq+bcBoxo7SfAgMBAAECggEACqBxFjKis2dlSQpc4VcpwLnn5AzQkU8UcPzquZd586ECDSsK5GpkLK6NvSmZENnCv++XYA/enefOX8DAQXY779GKv+myOKYM4OMGZRex80GTGzKwG7LMD0c6TECLWvanEVb700XAUCk5RIqhBfWUyr31+tXVrTTol35B49YJqGmW6UUopZCzHaxl6wS2aO6GrMu0Igpca3oxLt1/wBgLam7hJJPJoMa4JUu1VL4hHYUFBn4TU/U+hCxgAwrT//UiLw1f/xbGjDIWSzZ4LSZ9Ptbk0M7L7EkRmtQdAXCrK+/idxvcT8TkFGbxWv8TeBTh3Yg7m07T3b5MAUIwuqKmAQKBgQDm5X0CwmehR+F79RB3QzPygDmNRdEfX87IY/WzxBmFFA9xw+XuWW5l3ykReib7+ZZ5xAjqH5uf2FurQY7sdh2uO3f7EJyt6hNl9eSHCxGxej1VHjy0ScmzyKWmRb0kb/n6HxS6z4SLaG9+/DpGsM28GwUTF20iFn2k4MFbYmaMDQKBgQCN8RAQFg8zFxJndI+7YpDbbwg+TrrFEhRjpAdThFocG2GA8R1PaISCBC6ILDsh6xXuPj8dz3KyF9CcnVt216l7vIQ/jXnTadh4mL+RbV3J3F6NiiJTZh/+j0gpZ2pyo0QqWEhJfM1HaPIRIOhdFuode6raE4tfRezFesR8szicWwKBgQDLHc5fAw2Ov2EIXojhoWitR0dZk7VnWCzb87NNNJEOlJsRhTdb+ag4TZwfF8n7l5BcBauh6bRJZVcezEkikrWBdCcT4YUzKNtvsmQauA4Uhmg13KeiIdciJLw0DN1alHbfJUBjJfJ/gJu0pcXOMfKKK2rHZLBIcGiPBniSH3n+cQKBgGSKLNuIFIoWvJWFLc4IGh0kP42KzKaMkN6nL/1LUVx5VI41u5IksT864Q7ZbaUv1F/lvWVLLK3TSpO0rjW2urkHphEyD+ndHlUFtSO4eOdj7aGKB5hVTTJNoUqakv7SgJUR5VoQSYNcZaIWUiCl+3yYvUMs9tqsN/MFa6n8dIvjAoGAKiauA/RiuFC0X3DG6iSop+aKu4DphXjhRnI5OVYy9LyBMRyvrbv9jxQZEgGmxY+GKXPGvleoCMhS2ysYmskr4tkWD4pCciLvjr0r+yitJYbuHRcm2Oag/BkwXmzLanl9qZgI1Buemeke+WAS2nOtpugUrJYWMrMpmzt6772TPKs=";
 	private final String CHARSET = "UTF-8";
@@ -132,7 +131,6 @@ public class ChargeController
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody
 	public String selhuiyuan(String carnum){
-
 		String msg="";
 		List<Business> list=chargeService.selhuiyuan(carnum);
 		if (list.size()==0){
@@ -287,5 +285,71 @@ public class ChargeController
 		return modelAndView;
 	}
 
+//定时器
+@Scheduled(cron="0 0 0,8,16 * * ?")
+public void executeFileDownLoadTask() {
+	System.out.println("定时任务启动");
+	int nowtime=nowti();
+	String money="";
+	System.out.println(nowtime);
+	SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
+	SimpleDateFormat time1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+	SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16:00:00");
+	SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+    List<Cost> list;
+	switch (nowtime){
+		case 1:
+			list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
+			 money=Calculatemoney(list);
+		break;
+		case 2:
+			list=chargeService.selmoney(time.format(new Date()),time2.format(new Date()));
+			 money=Calculatemoney(list);
+			Calculatemoney(list);
+			break;
+		case 3:
+			list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
+			money=Calculatemoney(list);
+			break;
+			default:
+				break;
+	}
+}
+public String Calculatemoney(List<Cost> list){
+		String money="";
+	for (int i = 0; i <list.size() ; i++)
+	{
+		money=list.get(i).getMoney()+money;
+	}
+		return money;
+}
+//判断当前时间返回int值
+	public static int  nowti()
+	{
+		int time3=0;
 
+		SimpleDateFormat time2 = new SimpleDateFormat("HH");  //提取系统中的小时
+		int h = Integer.valueOf(time2.format(new Date()));  //将小时转换为整数型
+		if (h <= 8 && h > 0)
+		{
+			time3 = 1;
+		} else
+		{
+			if (h <= 16 && h > 8)
+			{
+				time3 = 2;
+			} else
+			{
+				if (h <= 24 && h > 16)
+				{
+					time3 = 3;
+				}
+			}
+		}
+
+
+		SimpleDateFormat time = new SimpleDateFormat("yyyy年MM月dd月 "  + " 08时00分00秒");
+		System.out.println(time.format(new Date()));
+		return  time3;
+	}
 }

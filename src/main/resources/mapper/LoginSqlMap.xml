@@ -259,4 +259,33 @@ and g.workeraccount=#{workeraccount}
             (#{operatingtime},#{information},#{username})
 
     </insert>
+
+
+
+    <!--    //计费规则添加重复查询-->
+    <select id="BillingRulesAddchong" parameterType="rules" resultType="rules">
+        select a.ruletime
+        from tbl_rules a
+        where a.ruletime=#{ruletime}
+
+    </select>
+
+    <!--    //计费规则月增加-->
+    <insert id="BillingRulesAdd" parameterType="rules" >
+     insert into tbl_rules(ruletime,chargemoney,moremoney)
+     values (#{ruletime},#{chargemoney},#{moremoney})
+    </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

@@ -243,4 +243,25 @@ public class AdminLoginService
 		return adminLoginDao.userdayinfo(tblog);
 	}
 
+
+	//月缴产品添加重复查询
+	@Transactional
+	public List<Rules> BillingRulesAddchong(Rules rules)
+	{
+
+		return adminLoginDao.BillingRulesAddchong(rules);
+	}
+
+	//月缴产品增加
+	@Transactional
+	public int BillingRulesAdd(Rules rules)
+	{
+
+		return adminLoginDao.BillingRulesAdd(rules);
+	}
+
+
+
+
+
 }

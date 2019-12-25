@@ -18,11 +18,12 @@
 %>
 <html>
 <head>
-	<title>自助设备管理表格新增小界面</title>
+	<title>计费规则序号添加小界面</title>
 
 
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
 	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%> media="all">
+<%--	<script src=<%=jspath+"/js/jquery-3.4.1.js"%>></script>--%>
 	<script src=<%=uiPath+"layui/layui.js"%>></script>
 
 </head>
@@ -34,28 +35,33 @@
 <div class="layui-form" lay-filter="layuiadmin-form-useradmin" id="layuiadmin-form-useradmin" style="padding: 20px 0 0 0;">
 
 
-	<div class="layui-form-item" lay-filter="sex">
-		<label class="layui-form-label">设备区域</label>
-		<div class="layui-inline">
-			<select name="devicearea"  id="devicearea" lay-filter="LAY-user-adminrole-type">
-				<option value=""></option>
-				<option value="A区">A区</option>
-				<option value="B区">B区</option>
-				<option value="C区">C区</option>
-				<option value="D区">D区</option>
-				<option value="E区">E区</option>
-				<option value="F区">F区</option>
-			</select>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">计费规则时间段(分钟)</label>
+		<div class="layui-input-inline">
+			<input type="text" name="ruletime" lay-verify="email" id="ruletime" placeholder="计费规则时间段(分钟)" autocomplete="off" class="layui-input">
 		</div>
 	</div>
+
 
 
 	<div class="layui-form-item">
-		<label class="layui-form-label">设备名字</label>
+		<label class="layui-form-label">计费规则基本收费金额(元)</label>
 		<div class="layui-input-inline">
-			<input type="text" name="devicname" lay-verify="email" id="devicname" placeholder="请输入设备名字" autocomplete="off" class="layui-input">
+			<input type="text" name="chargemoney" lay-verify="email" id="chargemoney" placeholder="计费规则基本收费金额" autocomplete="off" class="layui-input">
 		</div>
 	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">计费规则超时收费金额(元)</label>
+		<div class="layui-input-inline">
+			<input type="text" name="moremoney" lay-verify="email" id="moremoney" placeholder="计费规则超时收费金额" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+
+
+
+
 
 	<div class="layui-form-item layui-hide">
 		<input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">

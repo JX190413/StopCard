@@ -519,6 +519,7 @@ public Worker onListStudent(HttpServletRequest request,
 		return msg;
 	}
 
+
 //	缴费南丁格尔玫瑰图显示
 	@RequestMapping("ECharsDemo")
 //	@Log(operationType="南丁格尔玫瑰图界面",operationName="南丁格尔玫瑰图界面显示方法")
@@ -600,7 +601,7 @@ public Worker onListStudent(HttpServletRequest request,
 	}
 
 
-
+    //生成订单界面
 	@RequestMapping(value = "/alipay.action" )
 //	@Log(operationType="支付",operationName="支付宝")
 	public void alipay(Integer orderId, HttpSession session,HttpServletResponse httpResponse,CarInOut carInOut) throws IOException
@@ -785,6 +786,39 @@ public Worker onListStudent(HttpServletRequest request,
 		}
 		return msg;
 	}
+
+
+	//计费规则增加
+	@RequestMapping("/BillingRulesAdd.action")
+	@ResponseBody
+	@Log(operationType="计费规则增加",operationName="管理员进行计费规则增加")
+	public Msg BillingRulesAdd(Rules rules)
+	{
+		//		Date date = new Date();
+		//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//		String time =sdf.format(date);
+		//		devic.setDevictime(time);
+		Msg msg =new Msg();
+		List<Rules> listrepeat=adminLoginService.BillingRulesAddchong(rules);
+		if (listrepeat.size()>0){
+			msg.setMsg("3");
+		}else {
+
+			int i =adminLoginService.BillingRulesAdd(rules);
+
+			if (i>0){
+				msg.setMsg("1");
+			}else {
+				msg.setMsg("2");
+			}
+			return msg;
+		}
+
+
+		return msg;
+	}
+
+
 
 
 }

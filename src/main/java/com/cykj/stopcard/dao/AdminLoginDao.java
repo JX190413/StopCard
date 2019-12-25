@@ -113,4 +113,15 @@ public interface AdminLoginDao
 	//车主日志操作
 	public int  userdayinfo(Tblog tblog);
 
+
+	//月缴产品添加重复查询
+	public List<Rules> BillingRulesAddchong(Rules rules);
+
+	//月缴产品增加
+	public int BillingRulesAdd(Rules rules);
+
+
+
+
+
 }

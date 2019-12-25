@@ -18,7 +18,7 @@
 %>
 <html>
 <head>
-	<title>自助设备管理修改小界面</title>
+	<title>计费规则修改小界面</title>
 
 
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>

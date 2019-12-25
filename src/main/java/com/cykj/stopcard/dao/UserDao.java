@@ -1,6 +1,7 @@
 package com.cykj.stopcard.dao;
 
 import com.cykj.stopcard.bean.Combo;
+import com.cykj.stopcard.bean.PhoneMsg;
 import com.cykj.stopcard.bean.UserManagement;
 import com.cykj.stopcard.bean.Whitelist;
 import org.apache.ibatis.annotations.Mapper;
@@ -41,4 +42,13 @@ public interface UserDao
 	public UserManagement selectPass(UserManagement userManagement);
    //修改密码
 	public int updatePass(UserManagement userManagement);
+	//查询手机号码
+	public UserManagement selectPhone(UserManagement userManagement);
+	//删除以前的短信验证
+	public int deleteMsg(String phone);
+//  在存进一个新的验证码，用来判断输入的验证码
+	public int insertMSG(PhoneMsg phoneMsg);
+	//验证验证码是否正确
+	public PhoneMsg selectPhoneMsg(PhoneMsg phoneMsg);
+
 }

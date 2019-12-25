@@ -3,6 +3,7 @@ package com.cykj.stopcard.controller;
 import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.UserService;
+import com.cykj.stopcard.util.MessageSendDemo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,8 @@ import java.util.List;
 @Controller
 public class UserController
 {
+
+
 	@Resource
 	private UserService userService;
 	//获取当前系统时间
@@ -80,7 +83,28 @@ public class UserController
 		msg.setData(userManagements);
 		return msg;
 	}
+//用户短信验证
+	@RequestMapping("/selectPhone")
+	@ResponseBody
+	public Msg selectPhone(UserManagement userManagement){
+	UserManagement userManagement1=userService.selectPhone(userManagement);
+		Msg msg=new Msg();
 
+		   if(userManagement1!=null){
+
+
+			   msg.setMsg("1");
+		   }else {
+		   	msg.setMsg("2");
+
+		   }
+
+
+           return msg;
+
+
+
+	}
 	//用户登录
 	@RequestMapping("/userLogin")
 	public ModelAndView userLogin(String username1, String userpass1 ,HttpSession httpSession){
@@ -196,5 +220,46 @@ public class UserController
 
 
 	}
+   //用户短信验证
+	@RequestMapping("/msgPhone")
+	@ResponseBody
+	public Msg  msgPhone(String userphone){
+		int num=(int)((Math.random()*9+1)*100000);
+		String response = MessageSendDemo.send("44962", "b3cb27bee6dbb9f1d717950da9fbd627", userphone, "【传一智能停车场】亲爱的用户,您的验证码为："+num);
+	   	userService.deleteMsg(userphone);
+        PhoneMsg phoneMsg=new PhoneMsg();
+        phoneMsg.setPhonenum(userphone);
+        phoneMsg.setMsg(num);
+		userService.insertMSG(phoneMsg);
+		Msg msg=new Msg();
+     return msg;
+	}
+	//用户校验短信码
+
+	@RequestMapping("/selectPhoneMsg")
+	@ResponseBody
+	public  UserManagement selectPhoneMsg(PhoneMsg phoneMsg){
+		System.out.println("进来了吗");
+		PhoneMsg  phoneMsg1= userService.selectPhoneMsg(phoneMsg);
+		UserManagement userManagement1=new UserManagement();
+
+
+      if (phoneMsg1!=null){
+         UserManagement userManagement=new UserManagement();
+	      userManagement.setUserphone(phoneMsg.getPhonenum());
+	      userManagement1= userService.selectPhone(userManagement);
+	      userManagement1.setFlage(true);
+	      System.out.println("查询成功");
+	      return userManagement1;
+
+
+      }else {
+	      userManagement1.setFlage(false);
+
+      }
+        return  userManagement1;
+	}
+
+
 
 }

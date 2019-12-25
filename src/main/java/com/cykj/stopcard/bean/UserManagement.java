@@ -10,12 +10,13 @@ public class UserManagement
 	private String useraddress;
 	private String carnum;
 	private String usertime;
+   private boolean flage;
 
 	public UserManagement()
 	{
 	}
 
-	public UserManagement(String userid, String username, String userpass, String userphone, String useraddress, String carnum, String usertime)
+	public UserManagement(String userid, String username, String userpass, String userphone, String useraddress, String carnum, String usertime, boolean flage)
 	{
 		this.userid = userid;
 		this.username = username;
@@ -24,6 +25,7 @@ public class UserManagement
 		this.useraddress = useraddress;
 		this.carnum = carnum;
 		this.usertime = usertime;
+		this.flage = flage;
 	}
 
 	public String getUserid()
@@ -94,5 +96,15 @@ public class UserManagement
 	public void setUsertime(String usertime)
 	{
 		this.usertime = usertime;
+	}
+
+	public boolean isFlage()
+	{
+		return flage;
+	}
+
+	public void setFlage(boolean flage)
+	{
+		this.flage = flage;
 	}
 }

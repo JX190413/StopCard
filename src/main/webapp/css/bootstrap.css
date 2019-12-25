@@ -3060,6 +3060,7 @@ fieldset[disabled] a.btn {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
+  width: 52px;
 }
 .btn-default:focus,
 .btn-default.focus {
@@ -3078,6 +3079,7 @@ fieldset[disabled] a.btn {
   color: #333;
   background-color: #e6e6e6;
   border-color: #adadad;
+  width: 52px;
 }
 .btn-default:active:hover,
 .btn-default.active:hover,
@@ -3117,6 +3119,7 @@ fieldset[disabled] .btn-default.focus {
   color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;
+  width: 74px;
 }
 .btn-primary:focus,
 .btn-primary.focus {
@@ -5945,6 +5948,7 @@ button.close {
 .modal-body {
   position: relative;
   padding: 15px;
+  margin: 53px;
 }
 .modal-footer {
   padding: 15px;

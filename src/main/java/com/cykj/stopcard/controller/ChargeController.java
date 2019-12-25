@@ -287,7 +287,7 @@ public class ChargeController
 	}
 
 //定时器
-@Scheduled(cron="0/15 * * * * ?")
+@Scheduled(cron="0 0 0,8,16 * * ?")
 public void executeFileDownLoadTask() {
 	System.out.println("定时任务启动");
 	int nowtime=nowti();

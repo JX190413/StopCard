@@ -24,8 +24,26 @@
 
 <div class="demoTable">
 	<div class="layui-card">
-<%--x--%>
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+<%--			<div class="layui-form-item">--%>
+<%--				<div class="layui-inline">--%>
+<%--					<label class="layui-form-label">计费规则名</label>--%>
+<%--					<div class="layui-input-block">--%>
+<%--						<input type="text" name="combotime" placeholder="请输入" id="demoReload" autocomplete="off" class="layui-input">--%>
+<%--					</div>--%>
+<%--				</div>--%>
 
+
+				<div class="layui-inline">
+<%--					<button class="layui-btn" data-type="reload">--%>
+<%--						<i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>--%>
+<%--					</button>--%>
+					<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+				</div>
+
+
+			</div>
+		</div>
 
 		<div class="layui-card-body">
 
@@ -87,15 +105,15 @@
 				layer.open({
 					type: 2
 					,title: '添加计费规则'
-					,content: 'jsp/.jsp'
+					,content: 'jsp/BillingRulesAdd.jsp'
 					,maxmin: true
 					,area: ['500px', '450px']
 					,btn: ['确定', '取消']
 					,yes: function(index, layero){
 						//alert("增加");
 					    //设备区域
-						var rulesid = $(layero).find('iframe')[0].contentWindow.rulesid.value;
-						alert("计费规则序号-----"+rulesid);
+						// var rulesid = $(layero).find('iframe')[0].contentWindow.rulesid.value;
+						// alert("计费规则序号-----"+rulesid);
 
 						var ruletime = $(layero).find('iframe')[0].contentWindow.ruletime.value;
                        alert("计费规则时间段-----"+ruletime);
@@ -108,7 +126,7 @@
 						alert("计费规则超时收费-----"+moremoney);
 
 						var ob = {
-							rulesid: rulesid,
+							// rulesid: rulesid,
 							ruletime:ruletime,
 							chargemoney:chargemoney,
 							moremoney:moremoney
@@ -118,14 +136,13 @@
 
 						$.ajax({
 							type: "POST",//提交的方式
-							url: "/StopCard/addMonthlyPayment.action",//提交的地址
+							url: "/StopCard/BillingRulesAdd.action",//提交的地址
 							data: ob,//提交的数据
 							dataType: "json",//希望返回的数据类型
 							async: true,//异步操作
 							success: function (msg) {//成功的方法  msg为返回数据
 								if (msg.msg === "1") {
 									alert("增加成功！！！");
-
 									dicTabel.reload();
 									layer.close(index);
 								}else if(msg.msg === "2"){

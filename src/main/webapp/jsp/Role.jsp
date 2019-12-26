@@ -6,12 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
 	<title>角色管理</title>
 	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
 	<link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
 	<script src="../js/jquery-3.4.1.js"></script>
+	<script src="../layui/layui.js"></script>
 </head>
 <body>
 <div class="layui-fluid">
@@ -50,7 +52,7 @@
 			class="layui-icon layui-icon-delete"></i>删除</a>
 	{{#  } }}
 </script>
-<script src="../layui/layui.js"></script>
+
 <script>
 
 	//角色下拉框动态赋值

@@ -18,6 +18,12 @@
 	<link href="../ESMap/lib/bootstrap.min.css" rel="stylesheet" />
 	<link href="../ESMap/Case/Park/css/common.css" rel="stylesheet" />
 	<link href="../ESMap/Case/Park/css/iconfont/iconfont.css" rel="stylesheet" />
+	<script src="../ESMap/lib/config.js"></script>
+	<script src="../ESMap/lib/esmap.min.js"></script>
+	<script src="../ESMap/lib/jquery-2.1.4.min.js"></script>
+	<script src="../ESMap/lib/jquery.qrcode.min.js"></script>
+	<script src="../ESMap/lib/tips_controls.js"></script>
+	<script src="../ESMap/lib/bootstrap.min.js"></script>
 </head>
 <style type="text/css">
 	.viewmode-group {
@@ -194,12 +200,7 @@
 <!--            停车场车位总数：<span id="total"></span>个，当前剩余车位数 <span id="freedata"></span>。-->
 <!--        </div>-->
 <!--    </div>-->
-<script src="../ESMap/lib/config.js"></script>
-<script src="../ESMap/lib/esmap.min.js"></script>
-<script src="../ESMap/lib/jquery-2.1.4.min.js"></script>
-<script src="../ESMap/lib/jquery.qrcode.min.js"></script>
-<script src="../ESMap/lib/tips_controls.js"></script>
-<script src="../ESMap/lib/bootstrap.min.js"></script>
+
 
 <script type="text/javascript">
 	//接受传来的车牌号

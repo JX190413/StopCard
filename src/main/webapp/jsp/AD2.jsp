@@ -9,81 +9,75 @@
 <html>
 <head>
 	<title>Title</title>
-	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
 	<link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+	<script src="../layui/layui.js"></script>
+	<style>
+		.thumb {
+			margin-left: 5px;
+			margin-top: 15px;
+			height: 128px
+		}
+
+		#prevModal {
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			display: none;
+		}
+
+		#img_prev {
+			max-width: 98%;
+			max-height: 98%;
+			margin: 10px auto
+		}
+	</style>
 </head>
 <body>
 
-<div class="layui-fluid">
-	<div class="layui-row layui-col-space15">
-		<div class="layui-col-md12">
-			<div class="layui-card">
-				<div class="layui-card-header">添加广告</div>
-				<div class="layui-card-body" pad15>
-
-					<div class="layui-form" wid100 lay-filter="">
-						<div class="layui-form-item">
-							<label class="layui-form-label">广告名称</label>
-							<div class="layui-input-block">
-								<input type="text" name="sitename" value="layuiAdmin" class="layui-input">
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">缓存时间</label>
-							<div class="layui-input-inline" style="width: 80px;">
-								<input type="text" name="cache" lay-verify="number" value="0" class="layui-input">
-							</div>
-							<div class="layui-input-inline layui-input-company">分钟</div>
-							<div class="layui-form-mid layui-word-aux">本地开发一般推荐设置为 0，线上环境建议设置为 10。</div>
-						</div>
-
-
-						<div class="layui-form-item layui-form-text">
-							<label class="layui-form-label">广告介绍</label>
-							<div class="layui-input-block">
-								<textarea name="admsg" class="layui-textarea">layuiAdmin 通用后台管理模板系统</textarea>
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<div class="layui-upload">
-								<button type="button" class="layui-btn" id="test1">上传图片</button>
-								<div class="layui-upload-list">
-									<img class="layui-upload-img" id="demo1">
-									<p id="demoText"></p>
-								</div>
-							</div>
-						</div>
-
-<%--						<div class="layui-form-item layui-form-text">--%>
-<%--							<label class="layui-form-label">META关键词</label>--%>
-<%--							<div class="layui-input-block">--%>
-<%--								<textarea name="keywords" class="layui-textarea" placeholder="多个关键词用英文状态 , 号分割"></textarea>--%>
-<%--							</div>--%>
-<%--						</div>--%>
-<%--						<div class="layui-form-item layui-form-text">--%>
-<%--							<label class="layui-form-label">META描述</label>--%>
-<%--							<div class="layui-input-block">--%>
-<%--								<textarea name="descript" class="layui-textarea">layuiAdmin 是 layui 官方出品的通用型后台模板解决方案，提供了单页版和 iframe 版两种开发模式。layuiAdmin 是目前非常流行的后台模板框架，广泛用于各类管理平台。</textarea>--%>
-<%--							</div>--%>
-<%--						</div>--%>
-<%--						<div class="layui-form-item layui-form-text">--%>
-<%--							<label class="layui-form-label">版权信息</label>--%>
-<%--							<div class="layui-input-block">--%>
-<%--								<textarea name="copyright" class="layui-textarea">© 2018 layui.com MIT license</textarea>--%>
-<%--							</div>--%>
-<%--						</div>--%>
-						<div class="layui-form-item">
-							<div class="layui-input-block">
-								<button class="layui-btn" lay-submit lay-filter="set_website">确认保存</button>
-							</div>
-						</div>
-					</div>
-
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">广告位</label>
+			<div class="layui-input-block">
+				<input type="text" id="adid" name="adid"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">广告名称</label>
+			<div class="layui-input-block">
+				<input type="text" id="adname" name="adname"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">广告连接</label>
+			<div class="layui-input-block">
+				<input type="text" id="adurl" name="adurl"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">广告标语</label>
+			<div class="layui-input-block">
+				<textarea name="admsg" id="admsg" class="layui-textarea">layuiAdmin 通用后台管理模板系统</textarea>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-upload" >
+				<button type="button" class="layui-btn" id="test1">
+					<i class="layui-icon"></i>选择图片
+				</button>
+				<div class='layui-input-block' id='div_prev' title=''></div>
+				<div id='prevModal'>
+					<img id='img_prev'/>
 				</div>
 			</div>
 		</div>
+
+
+		<div class="layui-form-item layui-hide">
+			<button class="layui-btn" lay-submit lay-filter="LAY-user-role-submit" id="LAY-user-role-submit">提交</button>
+		</div>
+
 	</div>
-</div>
 
 <script src="../layuiadmin/layui/layui.js"></script>
 <script>
@@ -93,44 +87,53 @@
 		index: 'lib/index' //主入口模块
 	}).use(['index', 'set']);
 
-	layui.use('upload', function () {
-		var $ = layui.jquery
-			, upload = layui.upload;
-
-		//普通图片上传
+	layui.use(['upload', 'layer'], function () {
+		var upload = layui.upload, layer = layui.layer, $ = layui.jquery;
 		var uploadInst = upload.render({
-			elem: '#test1'
-			, url: ''
-			, before: function (obj) {
-				//预读本地文件示例，不支持ie8
+			elem: '#test1', //绑定元素
+			accept: 'images', //允许上传的文件类型
+			//multiple: true, //允许多文件上传
+			auto: false, //选完文件后不要自动上传
+			bindAction: '#LAY-user-role-submit', //指定一个按钮触发上传
+			url: '/StopCard/updateAdImg?adid=' + $("#adid").val(), //上传接口
+			choose: function (obj) {
+				// var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+
+				//图像预览，如果是多文件，会逐个添加。(不支持ie8/9)
 				obj.preview(function (index, file, result) {
-					$('#demo1').attr('src', result); //图片链接（base64）
+					var imgobj = new Image(); //创建新img对象
+					imgobj.src = result; //指定数据源
+					imgobj.className = 'thumb';
+					imgobj.onclick = function (result) {
+						//单击预览
+						img_prev.src = this.src;
+						var w = $(window).width() - 42, h = $(window).height() - 42;
+						layer.open({
+							title: '预览',
+							type: 1,
+							area: [w, h], //宽高
+							content: $('#prevModal')
+						});
+					};
+					document.getElementById("div_prev").appendChild(imgobj); //添加到预览区域
 				});
-			}
-			, done: function (res) {
-				//如果上传失败
-				if (res.code == 0) {
-					return layer.msg("上传失败！")
+			},
+			done: function (res) {
+				if(eval(res)===200){
+					layer.msg("修改成功！")
+				}else{
+					layer.msg("修改失败！")
 				}
-				if (res.code > 0) {
-					console.log(res.msg);
-					layer.msg(res.msg);
-					//	return layer.msg("上传成功！")
-				}
-				//上传成功
-			}
-			, error: function () {
-				//演示失败状态，并实现重传
-				var demoText = $('#demoText');
-				demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-				demoText.find('.demo-reload').on('click', function () {
-					uploadInst.upload();
-				});
+				//上传完毕回调
+			},
+			error: function () {
+				//请求异常回调
+				layer.msg("请求可能出了点问题，请重试或联系管理员！")
 			}
 		});
-
-
 	});
+
+
 </script>
 </body>
 </html>

@@ -10,7 +10,6 @@
 <%
 	String layuicsspath = request.getContextPath()+"/layuiadmin/layui/css/";
 	String layuipath = request.getContextPath()+"/layuiadmin/layui/";
-
 	String Caselib= request.getContextPath()+"/ESMap/lib/";
 	String Casecss= request.getContextPath()+"/ESMap/Case/DeviceAdd/css/";
 %>
@@ -25,18 +24,15 @@
 	<link rel="stylesheet" href=<%=layuicsspath+"layui.css"%>>
 	<script type="text/javascript" src="<%=layuipath+"layui.all.js"%>"></script>
 	<script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
-
 	<script type="text/javascript" src="<%=Caselib+"esmap.min.js"%>"></script>
 	<script type="text/javascript" src="<%=Caselib+"config.js"%>"></script>
 	<script type="text/javascript" src="<%=Caselib+"jquery-2.1.4.min.js"%>"></script>
 	<script type="text/javascript" src="<%=Caselib+"jquery.qrcode.min.js"%>"></script>
 	<script type="text/javascript" src="<%=Caselib+"tips_controls.js"%>"></script>
 	<script type="text/javascript" src="<%=Caselib+"bootstrap.min.js"%>"></script>
-
 	<link rel="stylesheet" href=<%=Caselib+"bootstrap.min.css"%>>
 	<link rel="stylesheet" href=<%=Casecss+"common.css"%>>
 	<link rel="stylesheet" href=<%=Casecss+"iconfont/iconfont.css"%>>
-
 </head>
 
 <style type="text/css">

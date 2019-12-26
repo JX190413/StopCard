@@ -97,8 +97,7 @@
 				, icon: 'layui-icon-tips'
 			}]
 			, cols: [[ //表头
-				{type: 'checkbox', fixed: 'left'}
-				, {field: 'menuid', title: '编号', align: 'center'}
+				 {field: 'menuid', title: '编号', align: 'center'}
 				, {field: 'menuname', title: '菜单名称', align: 'center'}
 				, {field: 'fatherid', title: '父级菜单', align: 'center'}
 				, {field: 'menuurl', title: '菜单连接', align: 'center'}
@@ -161,8 +160,8 @@
 								//提交 Ajax 成功后，静态更新表格中的数据
 								$.post('<%=path+"/updateMenu"%>',{menuid:data.menuid,menuname:field.menuname,fatherid:field.fatherid,menuurl:field.menuurl},function (msg) {
 									if(eval(msg)>0){
-										layer.msg("添加成功！");
-									}else{layer.msg("添加失败！");}
+										layer.msg("修改成功！");
+									}else{layer.msg("修改失败！");}
 									$("#menuname").remove();
 									table.reload('testReload');
 									layer.close(index); //关闭弹层

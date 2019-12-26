@@ -65,10 +65,8 @@
 	<button class="layui-btn" data-type="reload">搜索</button>
 	<button data-method="notice" class="layui-btn" id="xiugai">修改车位状态</button>
 </div>
-
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="toolbarDemo">
-
 </script>
 <script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
@@ -128,7 +126,6 @@
 				type: 1,
 				area: ['500px', '300px'],
 				content: $("#add-main") //这里content是一个普通的String
-
 			});
 		});
 	});

@@ -19,7 +19,9 @@ public class Msg
 		this.msg = msg;
 		this.count = count;
 		this.data = data;
+
 	}
+
 
 	public int getCode()
 	{

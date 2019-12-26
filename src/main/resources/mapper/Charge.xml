@@ -39,7 +39,7 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
        SELECT businessid from tbl_business where carnum=#{carnum}
     </select>
     <!--查询车主的已缴费的订单-->
-    <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" >
+    <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" parameterType="java.lang.String" >
        SELECT * from tbl_business a WHERE a.cartype='已缴费' and a.carnum=#{carnum}
     </select>
     <!--车主未付款时删除之前车主的订单-->
@@ -68,4 +68,8 @@ UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
     <select id="seldaile" resultType="Daile" parameterType="java.lang.String">
 SELECT * from tbl_daile where dailetime like "%"#{nowday}"%"
     </select>
+    <select id="selcarbo" resultType="Combo">
+        SELECT * from tbl_combo
+    </select>
+
 </mapper>

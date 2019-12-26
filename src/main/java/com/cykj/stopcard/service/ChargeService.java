@@ -42,4 +42,5 @@ public class ChargeService
 	public int insetdaile(String dailetime,String money){return chargeDao.insetdaile(dailetime,money);}
 	public List<Cost> selmoney(String fasttime, String nexttime){return chargeDao.selmoney(fasttime,nexttime);}
 	public List<Daile> seldaile(String nowday){return chargeDao.seldaile(nowday);}
+	public List<Combo> selcarbo(){return chargeDao.selcarbo();}
 }

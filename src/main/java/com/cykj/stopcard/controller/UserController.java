@@ -209,7 +209,6 @@ public class UserController
 
 		Msg msg=new Msg();
 		if(i>0){
-
 			msg.setMsg("1");
 
 		}else {

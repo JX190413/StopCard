@@ -2,6 +2,7 @@ package com.cykj.stopcard.controller;
 
 import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.log.Log;
+import com.cykj.stopcard.service.AdminService;
 import com.cykj.stopcard.service.UserService;
 import com.cykj.stopcard.util.MessageSendDemo;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,8 @@ public class UserController
 
 	@Resource
 	private UserService userService;
+	@Resource
+	private AdminService adminService;
 	//获取当前系统时间
 	Date currentTime = new Date();
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -116,6 +119,10 @@ public class UserController
 		if (userManagement1!=null){
 //			mv.addObject("UserManagement",session.getAttribute("userManagement"));
 			httpSession.setAttribute("name",userManagement1.getUsername());
+			//广告
+			List<Ad> list=adminService.queryAd(null,-1,-1);
+			mv.addObject("Ad",list);
+
 			mv.addObject("UserManagement",userManagement1);
 			mv.addObject("flage",3);
 			mv.addObject("combos",combos);

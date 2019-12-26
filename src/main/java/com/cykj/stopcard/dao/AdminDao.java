@@ -1,5 +1,6 @@
 package com.cykj.stopcard.dao;
 
+import com.cykj.stopcard.bean.Ad;
 import com.cykj.stopcard.bean.AdminMenu;
 import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Worker;
@@ -75,8 +76,16 @@ public interface AdminDao
 	//删除的菜单有子菜单的话，子菜单的fatherid滞空
 	public  Integer updateFatherid(String menuid);
 
+
 	public  List<Menu> selectMenuTree(String admin);
 
 
+	//查询广告
+	public  List<Ad> queryAd(@Param("adid") String adid, @Param("start") Integer start, @Param("pageSize") Integer pageSize);
+
+	//查询广告表数量
+	public  Integer queryAdCount(@Param("adid") String adid);
+	//修改广告
+	public  Integer updateAd(Ad ad);
 
 }

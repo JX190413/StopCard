@@ -1,5 +1,6 @@
 package com.cykj.stopcard.service;
 
+import com.cykj.stopcard.bean.Ad;
 import com.cykj.stopcard.bean.AdminMenu;
 import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Worker;
@@ -175,5 +176,21 @@ public class AdminService
 		adminDao.updateFatherid(menuid);
 		return adminDao.deleteMenu(menuid);
 	}
+
+	//查询广告
+	public List<Ad> queryAd(String adid, Integer start, Integer pageSize){
+		return adminDao.queryAd(adid,start,pageSize);
+	}
+
+	//查询广告数量
+	public Integer queryAdCount(String adid){
+		return adminDao.queryAdCount(adid);
+	}
+
+	//更新广告
+	public Integer updateAd(Ad ad){
+		return adminDao.updateAd(ad);
+	}
+
 
 }

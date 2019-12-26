@@ -55,29 +55,29 @@
 		<div id="wrapper" class="container_16">
 			<!--start peKenBurns slider-->
 			<div class="peKenBurns peNoJs" data-autopause="image" data-thumb="enabled" data-mode="kb" data-controls="always" data-shadow="enabled" data-logo="enabled">
-				<div class="peKb_active" data-delay="5" data-thumb="img/thumbs/kb_00.jpg">
-					<a href="http://www.17sucai.com/" target="_blank"><img src="img/kb_00.jpg" alt="17sucai" /></a>
-					<h1>HI &amp; WELCOME TO THE "ESTRO" SLIDER BY PIXELENTITY</h1>
+				<div class="peKb_active" data-delay="5" data-thumb="${Ad.get(0).adimg}">
+					<a href="${Ad.get(0).adurl}" target="_blank"><img src="${Ad.get(0).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(0).admsg}</h1>
 				</div>
-				<div data-delay="5" data-thumb="img/thumbs/kb_01.jpg">
-					<a href="http://www.17sucai.com/" target="_blank"><img src="img/blank.png" data-src="img/kb_01.jpg" alt="17sucai" /></a>
-					<h1>A KICK-ASS JQUERY PLUGIN WITH KEN BURNS &amp; 2-WAY SWIPE TRANSITIONS</h1>
+				<div data-delay="5" data-thumb="${Ad.get(1).adimg}">
+					<a href="${Ad.get(1).adurl}" target="_blank"><img src="img/blank.png" data-src="${Ad.get(1).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(1).admsg}</h1>
 				</div>
-				<div class="peKb_active" data-delay="5" data-thumb="img/thumbs/kb_02.jpg">
-					<a href="http://www.17sucai.com/" target="_blank"><img src="img/kb_02.jpg" alt="17sucai" /></a>
-					<h1>HI &amp; WELCOME TO THE "ESTRO" SLIDER BY PIXELENTITY</h1>
+				<div class="peKb_active" data-delay="5" data-thumb="${Ad.get(2).adimg}">
+					<a href="${Ad.get(2).adurl}" target="_blank"><img src="${Ad.get(2).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(2).admsg}</h1>
 				</div>
-				<div data-delay="5" data-thumb="img/thumbs/kb_03.jpg">
-					<a href="http://www.17sucai.com/" target="_blank"><img src="img/blank.png" data-src="img/kb_03.jpg" alt="17sucai" /></a>
-					<h1>A KICK-ASS JQUERY PLUGIN WITH KEN BURNS &amp; 2-WAY SWIPE TRANSITIONS</h1>
+				<div data-delay="5" data-thumb="${Ad.get(3).adimg}">
+					<a href="${Ad.get(3).adurl}" target="_blank"><img src="img/blank.png" data-src="${Ad.get(3).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(3).admsg}</h1>
 				</div>
-				<div class="peKb_active" data-delay="5" data-thumb="img/thumbs/kb_04.jpg">
-					<a href="http://www.17sucai.com/" target="_blank"><img src="img/kb_04.jpg" alt="17sucai" /></a>
-					<h1>HI &amp; WELCOME TO THE "ESTRO" SLIDER BY PIXELENTITY</h1>
+				<div class="peKb_active" data-delay="5" data-thumb="${Ad.get(4).adimg}">
+					<a href="${Ad.get(4).adurl}" target="_blank"><img src="${Ad.get(4).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(4).admsg}</h1>
 				</div>
-				<div class="peKb_active" data-delay="5" data-thumb="img/thumbs/kb_05.jpg">
-					<a class="video hd autoplay loop skiptonext" href="http://www.17sucai.com/"><img src="img/blank.png" data-src="img/kb_05.jpg" alt="17sucai" /></a>
-					<h1>A KICK-ASS JQUERY PLUGIN WITH KEN BURNS &amp; 2-WAY SWIPE TRANSITIONS</h1>
+				<div class="peKb_active" data-delay="5" data-thumb="${Ad.get(5).adimg}">
+					<a href="${Ad.get(5).adurl}" target="_blank"><img src="${Ad.get(5).adimg}" alt="17sucai" /></a>
+					<h1>${Ad.get(5).admsg}</h1>
 				</div>
 			</div>
 			<!--end peKenBurns slider -->

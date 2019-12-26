@@ -94,11 +94,15 @@
 
     <!--    插入角色-权限关系表-->
     <insert id="addRoleMenu">
-        INSERT INTO tbl_rolemenu (roleid,menuid)
-        values
-        <foreach item="i" index="index" collection="menuid" separator=",">
-            (#{roleID},#{i})
-        </foreach>
+        <if test="menuid!=null and nemuid.length>0">
+            INSERT INTO tbl_rolemenu (roleid,menuid)
+            values
+            <foreach item="i" index="index" collection="menuid" separator=",">
+                (#{roleID},#{i})
+            </foreach>
+
+        </if>
+
     </insert>
 
 
@@ -187,5 +191,51 @@
         WHERE fatherid IN (#{menuid})
     </update>
 
+    <!--   广告表表统计-->
+    <select id="queryAd" resultType="Ad">
+        SELECT * FROM tbl_ad
+        <where>
+            <if test=" adid!=null and adid.length>0 ">
+                AND  adid =#{adid}
+            </if>
+        </where>
+        <if test=" start!=-1 and pageSize!=-1">
+            LIMIT #{start},#{pageSize}
+        </if>
+    </select>
+
+
+
+    <!--    广告表统计-->
+    <select id="queryAdCount" resultType="integer">
+        SELECT COUNT(*) FROM tbl_ad
+        <where>
+            <if test=" adid!=null and adid.length>0 ">
+                AND  adid !=#{adid}
+            </if>
+        </where>
+    </select>
+
+    <!--    广告位修改-->
+    <update id="updateAd" >
+        UPDATE tbl_ad
+        <set>
+            <if test="adname!=null">
+                adname=#{adname},
+            </if>
+            <if test="adimg!=null">
+                adimg=#{adimg},
+            </if>
+            <if test="admsg!=null">
+                admsg=#{admsg},
+            </if>
+            <if test="adurl!=null">
+                adurl=#{adurl}
+            </if>
+
+        </set>
+
+        WHERE adid=#{adid}
+    </update>
 
 </mapper>

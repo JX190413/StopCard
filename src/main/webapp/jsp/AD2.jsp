@@ -39,7 +39,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">广告位</label>
 			<div class="layui-input-block">
-				<input type="text" id="adid" name="adid"  class="layui-input">
+				<input type="text" id="adid" name="adid" disabled class="layui-input">
 			</div>
 		</div>
 		<div class="layui-form-item">

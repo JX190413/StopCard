@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -126,7 +127,6 @@ public class ChargeController
 			modelAndView.setViewName("SelCare");
 		}
 		}
-
 		return modelAndView;
 	}
 	@RequestMapping("/selhuiyuan")
@@ -144,6 +144,7 @@ public class ChargeController
 		}
 		return msg;
 	}
+	//支付接口
 	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
@@ -154,6 +155,7 @@ public class ChargeController
 		LocalDate today = LocalDate.now(z);
 		LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
 		Business business =new Business();
+		business.setComboid(list1.get(0).getTimeid());
 		business.setBusinessid(id);
 		business.setCarnum(carnum);
 		business.setPaytime(today.toString());
@@ -161,6 +163,7 @@ public class ChargeController
 		int ac=chargeService.deleall(carnum);
 		System.out.println("进入方法");
 		int a=chargeService.inserole(business);
+		System.out.println(carnum);
 		if (a>0){
 			List<Combo> list=chargeService.selcomtime(time);
 			int carnum2=chargeService.selodnumber(carnum);
@@ -277,8 +280,6 @@ public class ChargeController
 				modelAndView.addObject("total_amount",total_amount);
 				modelAndView.setViewName("/alipaySuccess2");
 			}
-
-
 		}else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
@@ -356,6 +357,7 @@ public int Calculatemoney(List<Cost> list){
 		}
 		return  time3;
 	}
+	//转发到日接单页面
 	@RequestMapping("Check")
 	public ModelAndView daile(){
 ModelAndView modelAndView=new ModelAndView();
@@ -377,4 +379,54 @@ ModelAndView modelAndView=new ModelAndView();
 		modelAndView.setViewName("Check");
 		return  modelAndView;
 	}
+	@RequestMapping("tuifei")
+	@ResponseBody
+	public Map<String,Object> tuifei(String carnum){
+		System.out.println(carnum);
+		Map<String,Object> usemap=new HashMap<>();
+		List<Business> list=chargeService.selhuiyuan(carnum);
+		if (list.size()==0){
+			usemap.put("msg","20");
+		}
+		else {
+			System.out.println("是会员");
+			usemap.put("msg","30");
+			usemap.put("msg1",list.get(0).getPasttime());
+			int day=Math.abs(daysBetween(list.get(0).getPasttime()));
+			int money=Integer.parseInt(chargeService.selcarbo().get(0).getCombomoney());
+			int overmoney= money/30*day;
+			String money2=String.valueOf(overmoney);
+			usemap.put("msg2",money2);
+		}
+
+	return usemap;
+	}
+	public int daysBetween(String dateStr)
+	{
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date compareDate = null;
+		try
+		{
+			compareDate = sdf.parse(dateStr);
+		} catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(compareDate);
+		long time1 = cal.getTimeInMillis();
+		cal.setTime(today);
+		long time2 = cal.getTimeInMillis();
+		long between_days = (time2 - time1) / (1000 * 3600 * 24);
+		return Integer.parseInt(String.valueOf(between_days));
+	}
+	@RequestMapping("tuifeia")
+	@ResponseBody
+	public String tuifeia(String money){
+		System.out.println(money);
+
+	return null;
+	}
+
 }

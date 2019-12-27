@@ -23,4 +23,6 @@ public interface ChargeDao
 	public List<Cost> selmoney(String fasttime,String nexttime);
 	public int insetdaile(String dailetime,String money);
 	public List<Daile> seldaile(String nowday);
+	public List<Business> selcar(String carnum);
+	public List<Combo> selcarbo();
 }

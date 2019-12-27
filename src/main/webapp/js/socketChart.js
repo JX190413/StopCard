@@ -77,9 +77,12 @@ websocket.onmessage = function (event) {
         //消息
         var message = messageJson.message;
 
+
         $("#hz-message-body").append(
+
             "<div class=\"hz-message-list\" style='text-align: center;'>" +
             "<div class=\"hz-message-list-text\">" +
+
             "<span>" + message + "</span>" +
             "</div>" +
             "</div>");
@@ -115,6 +118,7 @@ websocket.onclose = function () {
 
 //将消息显示在对应聊天窗口    对于接收消息来说这里的toUserName就是来源用户，对于发送来说则相反
 function setMessageInnerHTML(srcUserName,msgUserName, message) {
+
     //判断
     var childrens = $("#hz-group-body").children(".hz-group-list");
     var isExist = false;
@@ -158,14 +162,16 @@ function setMessageInnerHTML(srcUserName,msgUserName, message) {
 
     //刚好打开的是对应的聊天页面
     if (srcUserName == username) {
+        var nowdata2=NowTime();
         $("#hz-message-body").append(
             "<div class=\"hz-message-list\">" +
             "<p class='hz-message-list-username'>"+msgUserName+"：</p>" +
             "<div class=\"hz-message-list-text left\">" +
             "<span>" + message + "</span>" +
             "</div>" +
-            "<div style=\" clear: both; \"></div>" +
-            "</div>");
+            "<div class=\"time2\">"+nowdata2+"</div>"+
+            "</div>"
+             );
     } else {
         //小圆点++
         var conut = $("#hz-badge-" + srcUserName).text();
@@ -176,6 +182,7 @@ function setMessageInnerHTML(srcUserName,msgUserName, message) {
 
 //发送消息
 function send() {
+  var nowdata=NowTime();
     //消息
     var message = $("#hz-message-input").html();
     //目标用户名
@@ -191,9 +198,12 @@ function send() {
     $("#hz-message-body").append(
         "<div class=\"hz-message-list\">" +
         "<div class=\"hz-message-list-text right\">" +
+
         "<span>" + message + "</span>" +
+
         "</div>" +
-        "</div>");
+        "</div>"+
+        "<div class=\"time\">"+nowdata+"</div>"  );
     $("#hz-message-input").html("");
     //取出对象
     if (msgObjArr.length > 0) {
@@ -225,6 +235,7 @@ function send() {
 
 //监听点击用户
 $("body").on("click", ".hz-group-list", function () {
+    var nowdata1=NowTime();
     $(".hz-group-list").css("background-color", "");
     $(this).css("background-color", "whitesmoke");
     $("#toUserName").text($(this).find(".hz-group-list-username").text());
@@ -269,7 +280,7 @@ $("body").on("click", ".hz-group-list", function () {
                             "<div class=\"hz-message-list-text " + leftOrRight + "\">" +
                             "<span>" + message + "</span>" +
                             "</div>" +
-                            "<div style=\" clear: both; \"></div>" +
+                            "<div class=\"time2\">"+nowdata1+"</div>" +
                             "</div>");
                     }
                 }

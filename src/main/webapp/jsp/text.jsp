@@ -769,7 +769,7 @@
 				-->
 				<div class="messages">
 
-
+<%--聊天内容--%>
 						<div id="hz-message-body">
 						</div>
 

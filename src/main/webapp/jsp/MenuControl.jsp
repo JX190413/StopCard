@@ -76,12 +76,17 @@
 
 <script>
 
+		//清除搜索条件
+		$("#clear").click(function () {
+
+			$("#menuname").val("");
+		});
+
 
 	layui.use('table', function () {
 		var table = layui.table
 			, form = layui.form;
-		//清除搜索条件
-		$("#menuname").val("");
+
 
 		//第一个实例
 		table.render({

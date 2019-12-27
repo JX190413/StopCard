@@ -37,6 +37,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=layuicsspath+"layui.css"%>>
+	<link rel="stylesheet" href=<%=cssPath+"style9.css" %>>
 	<link rel="stylesheet" href=<%=cssPath+"bootstrap.css" %>>
 
 	<script type="text/javascript" src="<%=layuipath+"layui.all.js"%>"></script>
@@ -97,6 +98,7 @@
 						<p>
 							<input type="text" style="font-size: 20px;text-align: center" name="carnum" lay-verify="title" autocomplete="off"  class="layui-input" value="${UserManagement.carnum}" readonly="readonly">
 						</p>
+
 					</div>
 					<div class="aui-well-hd">
 						<input  type="button" class="layui-btn"  data-toggle="modal" data-target="#myModal" style="margin-right: 53px"  value="个人信息">
@@ -109,6 +111,7 @@
 				<br>
 				<div class="aui-cell-box">
 					<p style="font-size: 25px;font-family: 黑体">办理车费业务:</p>
+
 					<div class="layui-row">
 						<div class="layui-form-item">
 
@@ -123,116 +126,104 @@
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<div class="layui-input-block" style="padding-left: 100px">
+						<div class="layui-input-block" style="padding-left: 250px">
+
 							<input class="layui-btn" value="办理"  onclick="xufei()">
 						</div>
 					</div>
-					<div class="layui-form-item">
-						<div class="layui-input-block" style="padding-left:100px">
-							<input class="layui-btn" value="续费"  onclick="xufei2()">
-						</div>
-					</div>
-					<div class="layui-form-item">
-						<div class="layui-input-block" style="padding-left:100px">
-							<input class="layui-btn" value="退费"  id="tuifei">
-						</div>
-					</div>
+
 
 
 </div>
 			</div>
 </section>
 	</section>
+	<!-- 车主个人信息模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						车主个人信息
+					</h4>
+				</div>
+				<div class="modal-body">
+
+					<table style="width:300px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
+						<tr>
+
+							<td>车主姓名:</td>
+							<input type="hidden" id="userid" name="userid" value="${UserManagement.userid}">
+							<input type="hidden" id="flage" name="flage" value="false">
+							<td><input type="text" id="username" name="username" value="${UserManagement.username}"   readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>旧密码:</td>
+							<td><input type="password"   id="userpass" name="userpass" value="" onblur="Verification()"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>新密码:</td>
+							<td><input   type="password" id="newuserpass" name="newuserpass"  value=""></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车牌号：</td>
+							<td><input   type="text" id="carnum" name="carnum"  value="${UserManagement.carnum}"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车主地址：</td>
+							<td><input   type="text" id="useraddress" name="useraddress"  value="${UserManagement.useraddress}" readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>手机号：</td>
+							<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" onclick="UserManage()">
+						提交更改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+
 
 </form>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="myModalLabel">
-					车主个人信息
-				</h4>
-			</div>
-			<div class="modal-body">
-
-				<table style="width:300px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
-					<tr>
-
-						<td>车主姓名:</td>
-						<input type="hidden" id="userid" name="userid" value="${UserManagement.userid}">
-						<input type="hidden" id="flage" name="flage" value="false">
-						<td><input type="text" id="username" name="username" value="${UserManagement.username}"   readonly="readonly"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
-					</tr>
-					<tr>
-						<td>旧密码:</td>
-						<td><input type="password"   id="userpass" name="userpass" value="" onblur="Verification()"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
-					</tr>
-					<tr>
-						<td>新密码:</td>
-						<td><input   type="password" id="newuserpass" name="newuserpass"  value=""></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
-					</tr>
-					<tr>
-						<td>车牌号：</td>
-						<td><input   type="text" id="carnum" name="carnum"  value="${UserManagement.carnum}"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
-					</tr>
-					<tr>
-						<td>车主地址：</td>
-						<td><input   type="text" id="useraddress" name="useraddress"  value="${UserManagement.useraddress}" readonly="readonly"></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
-					</tr>
-					<tr>
-						<td>手机号：</td>
-						<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
-					</tr>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-primary" onclick="UserManage()">
-					提交更改
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
-<div id="add-main" style="display: none;">
-	
-		<div class="layui-form-item center" >
-			<label >到期时间:<label id="lable2"></label></label>
-		</div>
-		<div class="layui-form-item center" >
-			<label >可退金额:<label id="lable3"></label></label><label>元</label>
-		</div>
-		<div class="layui-form-item">
-			<div class="layui-input-block" style="padding-left: 85px">
-				<button class="layui-btn" lay-submit lay-filter="save" onclick="tuifeia()" >确定退费</button>
-
-			</div>
-		</div>
-
+<div class="consult_contact">
+	<div class="consult_wrap"><a href="jsp/text.jsp" rel="nofollow" target="_blank">
+		<div class="tip" >Hello,欢迎来咨询~</div>
+		<img src="img/ball.png" class="ball" alt="">
+		<img src="img/bg_0.png" class="staff_img" alt="">
+		<img src="img/bg_1.png" class="bg-1" alt="">
+		<img src="img/bg_2.png" class="bg-2" alt="">
+		<img src="img/bg_3.png" class="bg-3" alt=""></a>  </div>
 </div>
 </body>
 <script>
@@ -248,6 +239,10 @@
 		// });
 
 	});
+
+
+
+
 	function xufei() {
 		$.ajax({
 			type:"POST",//提交7/的方式
@@ -271,10 +266,12 @@
 		});
 		/*$("#banli").submit();*/
 	}
+
 	function Verification() {
 		var userpass=$("#userpass").val();
 		var userid=$("#userid").val();
 		var ob = {userid:userid,userpass:userpass};
+
 		$.ajax({
 			type:"POST",//提交的方式
 			url:"/StopCard/selectPass",//提交的地址
@@ -282,9 +279,11 @@
 			dataType:"json",//希望返回的数据类型
 			async: true,//异步操作
 			success:function (data) {//成功的方法  msg为返回数据
+
                    if(data.msg==="1"){
 	                   $("#flage").val("true");
                    }else
+
 				if(data.msg==="2"){
 					alert("旧密码错误");
 				$("#flage").val("false");
@@ -294,7 +293,15 @@
 				alert("服务器正忙")
 			}
 		});
+
+
+
+
+
 	}
+
+
+
 	function UserManage() {
        var userid=  $("#userid").val();
 		var userpass=$("#newuserpass").val();
@@ -303,6 +310,7 @@
 		var userphone=  $("#userphone").val();
 		var flage=  $("#flage").val();
 		if(flage==="true"){
+
 			var ob = {userid:userid,userpass:userpass,carnum:carnum,useraddress:useraddress,userphone:userphone};
 
 			$.ajax({
@@ -312,80 +320,42 @@
 				dataType:"json",//希望返回的数据类型
 				async: true,//异步操作
 				success:function (data) {//成功的方法  msg为返回数据
+
 					if(data.msg==="1"){
 						alert("修改成功")
+
 					}else
 
 					if(data.msg==="2"){
 						alert("修改失败");
+
 					}
 				},
 				error:function () {//错误的方法
 					alert("服务器正忙")
 				}
 			});
+
+
+
+
+
+
+
 		}else {
+
 			alert("你的旧密码还是错的哦")
 		}
+
+
+
         alert(userid);
+
 	}
+
+
+
+
 </script>
 <script type="text/javascript" src=<%=layuipath+"layui.js"%>></script>
-<script>
-	layui.use('layer', function(){ //独立版的layer无需执行这一句
-		var layer = layui.layer;
-//layer.msg("大家好，这是最简单的弹层", { time: 9000, type: 1,title:['测试一下','font-size:18px'] });
-		$("#tuifei").click(function () {
-			$.ajax({
-				type:"POST",//提交7/的方式
-				url:"<%=path+"/tuifei"%>",//提交的地址
-				data:"carnum=${UserManagement.carnum}",//提交的数据
-				/*	dataType:"text",//希望返回的数据类型*!/*/
-				success:function (data) {
-					var jsonStr = JSON.stringify(data);
-					/*alert(msg);*/
-					//成功的方法  msg为返回数据
-					if (data.msg==="30"){
-						alert(data.msg1);
-						$("#lable2").text(data.msg1);
-						$("#lable3").text(data.msg2);
-						layer.open({
-							type: 1,
-							area: ['500px', '300px'],
-							content:  $("#add-main") //这里content是一个普通的String
-						});
-					}
-					else {
-						alert("您还未办理会员哦")
-					}
-				},
-				error:function () {//错误的方法
-					alert("服务器正忙")
-				}
-			});
-		});
-	});
-	function tuifeia() {
-		var money=$("#lable3").text();
-		$.ajax({
-			type:"POST",//提交的方式
-			url:"/StopCard/tuifeia",//提交的地址
-			data:"money="+money,//提交的数据
-			dataType:"json",//希望返回的数据类型
-			async: true,//异步操作
-			success:function (data) {//成功的方法  msg为返回数据
-				if(data.msg==="1"){
-					$("#flage").val("true");
-				}else
-				if(data.msg==="2"){
-					alert("旧密码错误");
-					$("#flage").val("false");
-				}
-			},
-			error:function () {//错误的方法
-				alert("服务器正忙")
-			}
-		});
-	}
-</script>
 </html>

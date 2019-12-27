@@ -284,7 +284,24 @@ and g.workeraccount=#{workeraccount}
 
 
 
+    <!--    //日志管理表格分页查询与带条件搜索-->
+    <select id="Logmanagementtb" parameterType="tblog" resultType="tblog">
+        select *
+        from tbl_log a
+        <where>a.logid=a.logid
+            <if test="logname != null and logname != ''">
+                and a.logname LIKE #{logname}
+            </if>
+        </where>
+        limit #{page},5
+    </select>
 
+    <!--    //日志管理表格总条数查询-->
+    <select id="Logmanagementzong" parameterType="tblog" resultType="tblog">
+        select *
+        from tbl_log a
+
+    </select>
 
 
 

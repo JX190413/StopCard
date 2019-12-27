@@ -12,8 +12,7 @@
 
 	String jsPath=request.getContextPath()+"/js/";
 	String servletPath=request.getContextPath();
-
-
+	String cssPath=request.getContextPath()+"/css/";
 %>
 <html>
 <head>
@@ -31,6 +30,7 @@
 	<link rel="stylesheet" href=<%=servletPath+"/layuiadmin/layui/css/layui.css"%> media="all">
 	<script type="text/javascript" src=<%=jsPath+"jquery-3.4.1.js" %>></script>
 	<script type="text/javascript" src=<%=jsPath+"AdminT.js" %>></script>
+	<link rel="stylesheet" href=<%=cssPath+"style9.css" %>>
 
 
 
@@ -40,7 +40,15 @@
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
 		<div class="layui-logo">智能停车系统后台管理</div>
-
+		<div class="consult_contact">
+			<div class="consult_wrap"><a href="jsp/text1.jsp" rel="nofollow" target="_blank">
+				<div class="tip" >Hello,欢迎来咨询~</div>
+				<img src="img/ball.png" class="ball" alt="">
+				<img src="img/bg_0.png" class="staff_img" alt="">
+				<img src="img/bg_1.png" class="bg-1" alt="">
+				<img src="img/bg_2.png" class="bg-2" alt="">
+				<img src="img/bg_3.png" class="bg-3" alt=""></a>  </div>
+		</div>
 		<ul class="layui-nav layui-layout-right">
 			<li class="layui-nav-item">
 				<a href="javascript:;">
@@ -105,9 +113,14 @@
 		</div>
 	</div>
 
+
+
+
+
 	<div class="layui-footer">
 		<!-- 底部固定区域 -->
 		© layui.com - 底部固定区域
+
 	</div>
 </div>
 <script src=<%=servletPath+"/layuiadmin/layui/layui.js"%> charset="utf-8"></script>

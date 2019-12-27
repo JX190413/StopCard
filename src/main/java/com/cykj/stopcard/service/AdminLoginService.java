@@ -262,6 +262,24 @@ public class AdminLoginService
 
 
 
+	//日志管理表格分页查询与带条件搜索
+	@Transactional
+	public List<Tblog> Logmanagementtb(Tblog tblog )
+	{
+
+		return  adminLoginDao.Logmanagementtb(tblog);
+	}
+
+
+
+	//日志管理表格总条数查询
+	@Transactional
+	public List<Tblog> Logmanagementzong(Tblog tblog)
+	{
+
+		return  adminLoginDao.Logmanagementzong(tblog);
+	}
+
 
 
 }

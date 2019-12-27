@@ -4,14 +4,25 @@ package com.cykj.stopcard.bean;
 public class Tblog
 {
 
-  private int LOGID;
+  private int logid;
   private String logname;
   private String operatinguser;
   private String operatingtime;
   private String operationtype;
   private String information;
   private String username;
+  private int page;
 
+
+  public int getPage()
+  {
+    return page;
+  }
+
+  public void setPage(int page)
+  {
+    this.page = page;
+  }
 
   public String getUsername()
   {
@@ -43,14 +54,14 @@ public class Tblog
     this.operationtype = operationtype;
   }
 
-  public int getLOGID()
+  public int getLogid()
   {
-    return LOGID;
+    return logid;
   }
 
-  public void setLOGID(int LOGID)
+  public void setLogid(int logid)
   {
-    this.LOGID = LOGID;
+    this.logid = logid;
   }
 
   public String getOperatinguser()

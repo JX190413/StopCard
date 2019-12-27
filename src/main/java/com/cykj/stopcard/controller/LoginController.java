@@ -821,6 +821,33 @@ public Worker onListStudent(HttpServletRequest request,
 
 
 
+	//日志管理界面显示
+	@RequestMapping("/Logmanagement")
+	@Log(operationType="日志管理界面界面",operationName="管理员日志管理界面显示")
+	public String LogmanagementInterface(){
+		String index="Log";
+		return index;
+	}
+
+	//日志管理表格显示
+	@RequestMapping("/Logmanagement.action")
+	@ResponseBody
+	@Log(operationType="日志管理表格显示",operationName="管理员打开日志管理表格显示方法")
+	public Msg Logmanagement(Tblog tblog, String page){
+
+		Msg msg = new Msg();
+		tblog.setPage((Integer.valueOf(page) -1)*5);
+
+		List<Tblog>  list= adminLoginService.Logmanagementtb(tblog);
+		List<Tblog>  pageList= adminLoginService.Logmanagementzong(tblog);
+
+		int mun = pageList.size();
+		msg= new Msg(0,"",mun,list);
+		return msg;
+	}
+
+
+
 }
 
 

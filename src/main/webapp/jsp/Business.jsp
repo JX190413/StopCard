@@ -111,9 +111,7 @@
 					<p style="font-size: 25px;font-family: 黑体">办理车费业务:</p>
 					<div class="layui-row">
 						<div class="layui-form-item">
-
 							<div class="layui-input-block" style="padding-left: 100px">
-
 								<c:forEach items="${combos}" var="combos">
 									<div class="aui-grids" style="    position: relative;overflow: hidden; width: 157px;margin: 12px;">
 									<input type="radio" style="font-size: 18px" class="aui-grids-item this-card" name="time" value="${combos.combotime}"  title="${combos.combotime}:${combos.combomoney}元" checked="" >
@@ -129,7 +127,7 @@
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-input-block" style="padding-left:100px">
-							<input class="layui-btn" value="续费"  onclick="xufei2()">
+							<input class="layui-btn" value="续费" id="xufei2">
 						</div>
 					</div>
 					<div class="layui-form-item">
@@ -143,7 +141,6 @@
 			</div>
 </section>
 	</section>
-
 </form>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -157,10 +154,8 @@
 				</h4>
 			</div>
 			<div class="modal-body">
-
 				<table style="width:300px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
 					<tr>
-
 						<td>车主姓名:</td>
 						<input type="hidden" id="userid" name="userid" value="${UserManagement.userid}">
 						<input type="hidden" id="flage" name="flage" value="false">
@@ -206,6 +201,10 @@
 						<td>手机号：</td>
 						<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
 					</tr>
+					<tr>
+						<td>余额：</td>
+						<td><input   type="text" id="bance" name="userphone"  value="${UserManagement.balance}" ></td>
+					</tr>
 				</table>
 			</div>
 			<div class="modal-footer">
@@ -219,7 +218,6 @@
 	</div><!-- /.modal -->
 </div>
 <div id="add-main" style="display: none;">
-	
 		<div class="layui-form-item center" >
 			<label >到期时间:<label id="lable2"></label></label>
 		</div>
@@ -229,11 +227,33 @@
 		<div class="layui-form-item">
 			<div class="layui-input-block" style="padding-left: 85px">
 				<button class="layui-btn" lay-submit lay-filter="save" onclick="tuifeia()" >确定退费</button>
-
 			</div>
 		</div>
-
 </div>
+<form class="layui-form" action="<%=path+"/alipay2"%>" method="post" id="xufei9" target="_blank">
+<div id="add-main2" style="display: none;">
+	<div class="layui-form-item center" >
+		<label >到期时间:<label id="lable8"></label></label>
+		<label>车牌号:</label>
+		<input type="text"  name="carnum" lay-verify="title" autocomplete="off"  class="layui-input" value="${UserManagement.carnum}" readonly="readonly">
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+				<c:forEach items="${combos}" var="combos">
+					<div class="aui-grids" >
+						<input type="radio"  name="time" value="${combos.combotime}"  title="${combos.combotime}:${combos.combomoney}元"   >
+					</div>
+				</c:forEach>
+	</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block" style="padding-left: 70px">
+
+			<input class="layui-btn" lay-submit lay-filter="save" onclick="xufeia()" value="续费" style="width: 100px">
+		</div>
+	</div>
+</div>
+</form>
 </body>
 <script>
 	layui.use('form', function(){
@@ -261,7 +281,6 @@
 					alert("已办理,请续费")
 				}
 				else if (jsonStr==='"20"') {
-					alert(888);
 					$("#banli").submit();
 				}
 			},
@@ -346,7 +365,6 @@
 					/*alert(msg);*/
 					//成功的方法  msg为返回数据
 					if (data.msg==="30"){
-						alert(data.msg1);
 						$("#lable2").text(data.msg1);
 						$("#lable3").text(data.msg2);
 						layer.open({
@@ -370,16 +388,17 @@
 		$.ajax({
 			type:"POST",//提交的方式
 			url:"/StopCard/tuifeia",//提交的地址
-			data:"money="+money,//提交的数据
-			dataType:"json",//希望返回的数据类型
+			data:"money="+money+"&carnum=${UserManagement.carnum}",//提交的数据
+			dataType:"text",//希望返回的数据类型
 			async: true,//异步操作
-			success:function (data) {//成功的方法  msg为返回数据
-				if(data.msg==="1"){
-					$("#flage").val("true");
-				}else
-				if(data.msg==="2"){
-					alert("旧密码错误");
-					$("#flage").val("false");
+			success:function (msg) {//成功的方法  msg为返回数据
+				if(msg==="20"){
+					$("#lable3").text("0");
+					alert("退费成功");
+				}
+				else
+				{
+					alert("退费失败");
 				}
 			},
 			error:function () {//错误的方法
@@ -387,5 +406,62 @@
 			}
 		});
 	}
+	$("#xufei2").click(function () {
+		$.ajax({
+			type:"POST",//提交7/的方式
+			url:"<%=path+"/tuifei"%>",//提交的地址
+			data:"carnum=${UserManagement.carnum}",//提交的数据
+			/*	dataType:"text",//希望返回的数据类型*!/*/
+			success:function (data) {
+				var jsonStr = JSON.stringify(data);
+				/*alert(msg);*/
+				//成功的方法  msg为返回数据
+				if (data.msg==="30"){
+					alert(data.msg1);
+					$("#lable8").text(data.msg1);
+					layer.open({
+						type: 1,
+						area: ['500px', '300px'],
+						content:  $("#add-main2") //这里content是一个普通的String
+					});
+				}
+				else {
+					alert("您还未办理会员哦")
+				}
+			},
+			error:function () {//错误的方法
+				alert("服务器正忙")
+			}
+		});
+	});
+	function xufeia() {
+		var time=$("#add-main2 .layui-form-radioed").parent().find("input").val();
+		/*var time=$("input[name='time']:checked").val();*/
+		alert(time);
+		$.ajax({
+			type:"POST",//提交7/的方式
+			url:"<%=path+"/xufei5"%>",//提交的地址
+			data:"carnum=${UserManagement.carnum}&time="+time,//提交的数据
+			/*	dataType:"text",//希望返回的数据类型*!/*/
+			success:function (msg) {
+				var jsonStr = JSON.stringify(msg);
+				/*alert(msg);*/
+				//成功的方法  msg为返回数据
+				if (msg==="20"){
+					alert("余额不足");
+					$("#xufei9").submit();
+
+				}
+				else {
+					alert("续费成功");
+					layer.closeAll();
+				}
+			},
+			error:function () {//错误的方法
+				alert("服务器正忙")
+			}
+		});
+	}
+
 </script>
 </html>

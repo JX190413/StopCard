@@ -36,7 +36,7 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     </select>
     <!--查询订单id-->
     <select id="selodnumber" parameterType="java.lang.String" resultType="int">
-       SELECT businessid from tbl_business where carnum=#{carnum}
+       SELECT businessid from tbl_business where carnum=#{carnum} and cartype='待缴费'
     </select>
     <!--查询车主的已缴费的订单-->
     <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" parameterType="java.lang.String" >
@@ -44,7 +44,7 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     </select>
     <!--车主未付款时删除之前车主的订单-->
     <delete id="delall" parameterType="java.lang.String">
-        DELETE from tbl_business  where carnum=#{carnum}
+        DELETE from tbl_business  where carnum=#{carnum} and cartype='待缴费'
     </delete>
     <!--扫码成功后修改订单状态-->
     <update id="uptype" parameterType="java.lang.String">
@@ -71,5 +71,23 @@ SELECT * from tbl_daile where dailetime like "%"#{nowday}"%"
     <select id="selcarbo" resultType="Combo">
         SELECT * from tbl_combo
     </select>
+    <select id="selbalance" parameterType="java.lang.String" resultType="UserManagement">
+SELECT * from tbl_user where carnum=#{carnum}
+    </select>
+    <update id="overmoney" parameterType="UserManagement">
+        UPDATE tbl_user SET balance=#{balance} where carnum=#{carnum}
+    </update>
+    <delete id="delwhile" parameterType="java.lang.String">
+        DELETE from tbl_white where carnum=#{carnum}
+    </delete>
+    <select id="selwhile" parameterType="java.lang.String" resultType="Whitelist">
+        SELECT * from tbl_white where carnum=#{carnum}
 
+    </select>
+    <update id="uptypecar" parameterType="java.lang.String">
+        UPDATE  tbl_business set cartype='已退费' where carnum=#{carnum}
+    </update>
+    <update id="uptime5" parameterType="java.lang.String">
+        UPDATE tbl_business set pasttime=#{time} where carnum=#{carnum} and cartype='已缴费'
+    </update>
 </mapper>

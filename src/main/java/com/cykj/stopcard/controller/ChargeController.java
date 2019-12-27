@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.ChargeService;
+import javafx.scene.input.DataFormat;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -42,6 +44,7 @@ public class ChargeController
 	private final String NOTIFY_URL = "http://公网地址/notifyUrl";
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
+	private final String RETURN_URL1 = "http://localhost:8080/StopCard/alipayNotifyNotice1";
 	@Resource
 	private ChargeService chargeService;
 	//计算
@@ -148,63 +151,59 @@ public class ChargeController
 	@RequestMapping("alipay1")
 	public  void zhifubao(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
+
 		//实例化客户端,填入所需参数
-		int id=chargeService.selcormid(time);
-		ZoneId z = ZoneId.of( "America/Montreal" );
-		List<Combo> list1=chargeService.selcomtime(time);
-		LocalDate today = LocalDate.now(z);
-		LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
-		Business business =new Business();
-		business.setComboid(list1.get(0).getTimeid());
-		business.setBusinessid(id);
-		business.setCarnum(carnum);
-		business.setPaytime(today.toString());
-		business.setPasttime(oneMonthLater.toString());
-		int ac=chargeService.deleall(carnum);
-		System.out.println("进入方法");
-		int a=chargeService.inserole(business);
-		System.out.println(carnum);
-		if (a>0){
-			List<Combo> list=chargeService.selcomtime(time);
-			int carnum2=chargeService.selodnumber(carnum);
-			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
-			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-			//在公共参数中设置回跳和通知地址
-			request.setReturnUrl(RETURN_URL);
-			request.setNotifyUrl(NOTIFY_URL);
-			//根据订单编号,查询订单相关信息
-	/*	Order order = payService.selectById(orderId);
-		//商户订单号，商户网站订单系统中唯一订单号，必填
-		String out_trade_no = order.getOrderId().toString();
-		//付款金额，必填
-		String total_amount = order.getOrderPrice().toString();
-		//订单名称，必填
-		String subject = order.getOrderName();*/
-			//商品描述，可空
-			String body = "";
-			request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
-					+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
-					+ "\"subject\":\""+ "会员缴费" +"\","
-					+ "\"body\":\""+ body +"\","
-					+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-			String form = "";
-			try {
-				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-			} catch (AlipayApiException e) {
-				e.printStackTrace();
+
+			int id=chargeService.selcormid(time);
+			ZoneId z = ZoneId.of( "America/Montreal" );
+			List<Combo> list1=chargeService.selcomtime(time);
+			LocalDate today = LocalDate.now(z);
+			LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
+			Business business =new Business();
+			business.setComboid(list1.get(0).getTimeid());
+			business.setBusinessid(id);
+			business.setCarnum(carnum);
+			business.setPaytime(today.toString());
+			business.setPasttime(oneMonthLater.toString());
+			System.out.println(carnum+"77777");
+			int ac=chargeService.deleall(carnum);
+			System.out.println("进入方法");
+			int a=chargeService.inserole(business);
+			System.out.println(carnum);
+			if (a>0){
+				List<Combo> list=chargeService.selcomtime(time);
+				int carnum2=chargeService.selodnumber(carnum);
+				AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+				AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+				//在公共参数中设置回跳和通知地址
+				request.setReturnUrl(RETURN_URL);
+				request.setNotifyUrl(NOTIFY_URL);
+				//商品描述，可空
+				String body = "";
+				request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
+						+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
+						+ "\"subject\":\""+ "会员缴费" +"\","
+						+ "\"body\":\""+ body +"\","
+						+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+				String form = "";
+				try {
+					form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+				} catch (AlipayApiException e) {
+					e.printStackTrace();
+				}
+				httpResponse.setContentType("text/html;charset=" + CHARSET);
+				httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+				httpResponse.getWriter().flush();
+				httpResponse.getWriter().close();
 			}
-			httpResponse.setContentType("text/html;charset=" + CHARSET);
-			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
-			httpResponse.getWriter().flush();
-			httpResponse.getWriter().close();
-		}
+
+
+
 	}
-
-
 	//支付宝异步通知界面
-	@RequestMapping(value = "alipayNotifyNotice")
+	@RequestMapping(value = "alipayNotifyNotice1")
 	@ResponseBody
-	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response) throws Exception {
+	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -224,14 +223,7 @@ public class ChargeController
 		//调用SDK验证签名
 		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
 
-		//——请在这里编写您的程序（以下代码仅作参考）——
 
-   /* 实际验证过程建议商户务必添加以下校验：
-   1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
-   2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
-   3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
-   4、验证app_id是否为该商户本身。
-   */
 		//验证成功
 		if(signVerified) {
 			//商户订单号
@@ -243,35 +235,6 @@ public class ChargeController
 			//付款金额
 			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
-			/*if(trade_status.equals("TRADE_FINISHED")){
-				//判断该笔订单是否在商户网站中已经做过处理
-				//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				//如果有做过处理，不执行商户的业务程序
-
-				//注意： 尚自习的订单没有退款功能, 这个条件判断是进不来的, 所以此处不必写代码
-				//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-			}*//*else if (trade_status.equals("TRADE_SUCCESS")){
-				//判断该笔订单是否在商户网站中已经做过处理
-				//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				//如果有做过处理，不执行商户的业务程序
-
-				//注意：
-				//付款完成后，支付宝系统发送该交易状态通知
-
-				// 修改叮当状态，改为 支付成功，已付款; 同时新增支付流水
-				*//*orderService.updateOrderStatus(out_trade_no, trade_no, total_amount);
-
-				Order order = orderService.getOrderById(out_trade_no);
-				Product product = productService.getProductById(order.getProductId());
-
-				log.info("********************** 支付成功(支付宝异步通知) **********************");
-				log.info("* 订单号: {}", out_trade_no);
-				log.info("* 支付宝交易号: {}", trade_no);
-				log.info("* 实付金额: {}", total_amount);
-				log.info("* 购买产品: {}", product.getName());
-				log.info("***************************************************************");*//*
-			}*/
-			/*log.info("支付成功...");*/
 			System.out.println("支付成功");
 			int uptype=chargeService.uptype(out_trade_no);
 			if (uptype>0){
@@ -286,7 +249,60 @@ public class ChargeController
 		}
 		return modelAndView;
 	}
+	@RequestMapping(value = "alipayNotifyNotice2" )
+	@ResponseBody
+	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time) throws Exception {
+		ModelAndView modelAndView=new ModelAndView();
+		System.out.println(carnum2);
+		String carnum3=new String(carnum2.getBytes("ISO8859-1"),"UTF-8");
+		System.out.println(carnum3);
+		System.out.println(carnum2+"3333333");
+		String data=chargeService.selhuiyuan(carnum3).get(0).getPasttime();
+		int id=chargeService.selcormid(time);
+		String data5=dat(data,id);
+		//获取支付宝POST过来反馈信息
+		Map<String,String> params = new HashMap<String,String>();
+		Map<String,String[]> requestParams = request.getParameterMap();
+		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+			String name = (String) iter.next();
+			String[] values = (String[]) requestParams.get(name);
+			String valueStr = "";
+			for (int i = 0; i < values.length; i++) {
+				valueStr = (i == values.length - 1) ? valueStr + values[i]
+						: valueStr + values[i] + ",";
+			}
+			//乱码解决，这段代码在出现乱码时使用
 
+		}
+		//调用SDK验证签名
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
+
+
+		//验证成功
+		if(signVerified) {
+			//商户订单号
+			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+			//支付宝交易号
+			String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+			//交易状态
+			/*	String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");*/
+			//付款金额
+			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
+
+			System.out.println("支付成功");
+			int uptype=chargeService.uptime5(data5,carnum3);
+			if (uptype>0){
+				modelAndView.addObject("out_trade_no",out_trade_no);
+				modelAndView.addObject("trade_no",trade_no);
+				modelAndView.addObject("total_amount",total_amount);
+				modelAndView.setViewName("/alipaySuccess1");
+			}
+		}else {//验证失败
+			/*log.info("支付, 验签失败...");*/
+			System.out.println("支付失败");
+		}
+		return modelAndView;
+	}
 //定时器定时增加
 /*@Scheduled(cron="0/60 * * * * ?")*/
 public void executeFileDownLoadTask() {
@@ -423,10 +439,95 @@ ModelAndView modelAndView=new ModelAndView();
 	}
 	@RequestMapping("tuifeia")
 	@ResponseBody
-	public String tuifeia(String money){
+	public String tuifeia(String money,String carnum){
+		String msg="";
 		System.out.println(money);
+		int money1=Integer.valueOf(money);
+		UserManagement userManagement=new UserManagement();
+		userManagement.setCarnum(carnum);
+		int money5=chargeService.selbance(carnum).get(0).getBalance();
+		userManagement.setBalance(money1+money5);
+		int flay=chargeService.overmoney(userManagement);
+		if (flay>0){
+			int flay1=chargeService.uptypecar(carnum);
+			if (flay1>0){
+				msg="20";
+			}
+	}
+	return msg;
+	}
+	@RequestMapping("xufei5")
+	@ResponseBody
+	public  String xufei5(String carnum,String time){
+	String msg="";
+		int money5=chargeService.selbance(carnum).get(0).getBalance();
+	int money=Integer.parseInt(chargeService.selcomtime(time).get(0).getCombomoney());
 
-	return null;
+	if(money>money5){
+		msg="20";
+	}
+	else {
+		int money2=money5-money;
+		UserManagement userManagement=new UserManagement();
+		userManagement.setCarnum(carnum);
+		userManagement.setBalance(money2);
+		int flay=chargeService.overmoney(userManagement);
+		if (flay>0){
+			msg="30";
+		}
+	}
+	return msg;
+	}
+
+	@RequestMapping("alipay2")
+	public  void zhifubao1(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
+	{
+
+		//实例化客户端,填入所需参数
+		Date date=new Date();
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time5=format.format(date);//time就是当前时间
+		ZoneId z = ZoneId.of("America/Montreal");
+		List<Combo> list1 = chargeService.selcomtime(time);
+
+			List<Combo> list = chargeService.selcomtime(time);
+			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+			//在公共参数中设置回跳和通知地址
+
+			request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice2?carnum2="+carnum+"");
+			request.setNotifyUrl(NOTIFY_URL);
+			//商品描述，可空
+			String body = "";
+			request.setBizContent("{\"out_trade_no\":\"" + time5 + "\"," + "\"total_amount\":\"" + list.get(0).getCombomoney() + "\"," + "\"subject\":\"" + "会员缴费" + "\"," + "\"body\":\"" + body + "\"," + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+			String form = "";
+			try
+			{
+				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+			} catch (AlipayApiException e)
+			{
+				e.printStackTrace();
+			}
+			httpResponse.setContentType("text/html;charset=" + CHARSET);
+			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+			httpResponse.getWriter().flush();
+			httpResponse.getWriter().close();
+		}
+
+
+
+	public  String dat(String time,int timeid){
+		Calendar c = Calendar.getInstance();//获得一个日历的实例
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try{
+			date = sdf.parse(time);//初始日期
+		}catch(Exception e){
+		}
+		c.setTime(date);//设置日历时间
+		c.add(Calendar.MONTH,timeid);//在日历的月份上增加6个月
+		return sdf.format(c.getTime());
 	}
 
 }
+

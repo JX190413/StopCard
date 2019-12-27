@@ -11,7 +11,7 @@ public class UserManagement
 	private String carnum;
 	private String usertime;
    private boolean flage;
-
+	private int balance;
 	public UserManagement()
 	{
 	}
@@ -26,6 +26,16 @@ public class UserManagement
 		this.carnum = carnum;
 		this.usertime = usertime;
 		this.flage = flage;
+	}
+
+	public int getBalance()
+	{
+		return balance;
+	}
+
+	public void setBalance(int balance)
+	{
+		this.balance = balance;
 	}
 
 	public String getUserid()

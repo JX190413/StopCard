@@ -43,4 +43,11 @@ public class ChargeService
 	public List<Cost> selmoney(String fasttime, String nexttime){return chargeDao.selmoney(fasttime,nexttime);}
 	public List<Daile> seldaile(String nowday){return chargeDao.seldaile(nowday);}
 	public List<Combo> selcarbo(){return chargeDao.selcarbo();}
+	public int overmoney(UserManagement userManagement){return  chargeDao.overmoney(userManagement);}
+	public int delwhile(String carnum){ return chargeDao.delwhile(carnum);}
+	public List<Whitelist> selwrile(String carnum){return chargeDao.selwhile(carnum);}
+	public int uptypecar(String carnum){ return chargeDao.uptypecar(carnum);}
+	public List<UserManagement> selbance(String carnum){ return chargeDao.selbalance(carnum);}
+	public  int uptime5(String time,String carnum){ return  chargeDao.uptime5(time,carnum);}
+
 }

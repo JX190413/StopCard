@@ -25,4 +25,10 @@ public interface ChargeDao
 	public List<Daile> seldaile(String nowday);
 	public List<Business> selcar(String carnum);
 	public List<Combo> selcarbo();
+	public int overmoney(UserManagement userManagement);
+	public int delwhile(String carnum);
+	public List<Whitelist> selwhile(String carnum);
+	public int uptypecar(String carnum);
+	public List<UserManagement> selbalance(String carnum);
+	public int uptime5(String time,String carnum);
 }

@@ -87,5 +87,7 @@ public interface AdminDao
 	public  Integer queryAdCount(@Param("adid") String adid);
 	//修改广告
 	public  Integer updateAd(Ad ad);
+	public  Map<String,Object> queryParameter();
+	public  Integer updateParameter(@Param("webname") String webname, @Param("mail") String mail, @Param("webhead") String webhead);
 
 }

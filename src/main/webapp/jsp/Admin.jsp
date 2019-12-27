@@ -13,6 +13,8 @@
 	String jsPath=request.getContextPath()+"/js/";
 	String servletPath=request.getContextPath();
 	String cssPath=request.getContextPath()+"/css/";
+
+
 %>
 <html>
 <head>
@@ -39,7 +41,9 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
 	<div class="layui-header">
-		<div class="layui-logo">智能停车系统后台管理</div>
+		<div class="layui-logo">${map2.get('webname')}</div>
+
+
 		<div class="consult_contact">
 			<div class="consult_wrap"><a href="jsp/text1.jsp" rel="nofollow" target="_blank">
 				<div class="tip" >Hello,欢迎来咨询~</div>
@@ -113,14 +117,9 @@
 		</div>
 	</div>
 
-
-
-
-
 	<div class="layui-footer">
 		<!-- 底部固定区域 -->
-		© layui.com - 底部固定区域
-
+		${map2.get('mail')}
 	</div>
 </div>
 <script src=<%=servletPath+"/layuiadmin/layui/layui.js"%> charset="utf-8"></script>

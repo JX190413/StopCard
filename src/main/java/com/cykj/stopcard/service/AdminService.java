@@ -6,6 +6,7 @@ import com.cykj.stopcard.bean.Menu;
 import com.cykj.stopcard.bean.Worker;
 import com.cykj.stopcard.dao.AdminDao;
 import com.cykj.stopcard.dao.AdminLoginDao;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -190,6 +191,16 @@ public class AdminService
 	//更新广告
 	public Integer updateAd(Ad ad){
 		return adminDao.updateAd(ad);
+	}
+
+	//参数查询
+	public Map<String, Object> queryParameter(){
+		return adminDao.queryParameter();
+	}
+
+	//参数修改
+	public Integer updateParameter(String webname, String mail, String webhead){
+		return adminDao.updateParameter(webname, mail, webhead);
 	}
 
 

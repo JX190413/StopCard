@@ -238,4 +238,24 @@
         WHERE adid=#{adid}
     </update>
 
+    <select id="queryParameter" resultType="map">
+        select * from tbl_parameter where parameterid='1'
+    </select>
+
+    <update id="updateParameter" >
+        update  tbl_parameter
+        <set>
+            <if test="webname!=null">
+                webname=#{webname},
+            </if>
+            <if test="mail!=null">
+                mail=#{mail},
+            </if>
+            <if test="webhead!=null">
+                webhead=#{webhead}
+            </if>
+        </set>
+        where parameterid='1'
+    </update>
+
 </mapper>

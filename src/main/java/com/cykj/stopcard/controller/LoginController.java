@@ -10,6 +10,7 @@ import com.cykj.stopcard.bean.*;
 
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
+import com.cykj.stopcard.service.AdminService;
 import com.cykj.stopcard.util.GetTon;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,8 @@ public class LoginController
 
 	@Resource
 	private AdminLoginService adminLoginService;
+	@Resource
+	private AdminService adminService;
 //后台账号密码的登录
 	@RequestMapping("/Login")
 	public ModelAndView AdminLogin(Worker worker, HttpSession httpSession)
@@ -69,10 +72,13 @@ public class LoginController
 
 				//调用查询菜单方法
 				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(worker1);
+				//调用查询参数方法
+				Map<String,Object> map2=adminService.queryParameter();
 //				httpSession.setAttribute("username",worker1.getWorkeraccount());
 				httpSession.setAttribute("workeraccount",worker1.getWorkeraccount());
 				mv.addObject("worker1",worker1);
 				mv.addObject("map",map);
+				mv.addObject("map2",map2);
 				mv.addObject("flage","1");
 				mv.setViewName("Admin");
 				return mv;

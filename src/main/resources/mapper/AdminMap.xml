@@ -28,9 +28,15 @@
         </where>
     </select>
 
+<resultMap id="menu" type="TreeNode">
+    <result property="id" column="menuid"></result>
+    <result property="parentId" column="fatherid"></result>
+    <result property="title" column="menuname"></result>
+    <result property="url" column="menuurl"></result>
 
-    <!--通过登录人员查询树形组件一级菜单-->
-    <select id="selectMenuTree" resultType="Menu">
+</resultMap>
+    <!--通过登录人员查询树形菜单-->
+    <select id="selectMenuTree" resultMap="menu">
         SELECT A.*
         FROM  (	SELECT A.*
         FROM tbl_menu A,tbl_worker B,tbl_rolemenu C,tbl_workeroler D
@@ -39,6 +45,7 @@
         AND D.workerid=B.workerid
         AND B.workeraccount=#{admin})A
     </select>
+
     <!--通过登录人员查询树形组件一级菜单-->
     <select id="selectTreeParent" resultType="map">
         SELECT A.*
@@ -48,7 +55,7 @@
         AND C.roleid=D.rolerid
         AND D.workerid=B.workerid
         AND B.workeraccount=#{admin})A
-        WHERE fatherid is NULL;
+        WHERE fatherid ='0';
     </select>
 
     <!--通过登录人员查询树形组件子菜单-->
@@ -65,7 +72,7 @@
 
     <!--    树的数据回显-->
     <!-- 根据角色查询其对应菜单 -->
-    <select id="queryTreeFather" resultType="Map">
+    <select id="queryTreeFather" resultMap="menu">
         SELECT A.* FROM tbl_menu A,tbl_rolemenu B,tbl_role C
         WHERE A.menuid=B.menuid
         AND B.roleid=C.roleid
@@ -94,7 +101,7 @@
 
     <!--    插入角色-权限关系表-->
     <insert id="addRoleMenu">
-        <if test="menuid!=null and nemuid.length>0">
+        <if test="menuid!=null and menuid.size()>0">
             INSERT INTO tbl_rolemenu (roleid,menuid)
             values
             <foreach item="i" index="index" collection="menuid" separator=",">
@@ -187,7 +194,7 @@
     </delete>
     <!-- 删除的菜单有子菜单的话，子菜单的fatherid滞空-->
     <update id="updateFatherid" >
-        UPDATE tbl_menu SET fatherid=NULL
+        UPDATE tbl_menu SET fatherid='0'
         WHERE fatherid IN (#{menuid})
     </update>
 

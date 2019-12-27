@@ -5,6 +5,7 @@ import com.cykj.stopcard.dao.AdminDao;
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
+import com.cykj.stopcard.util.TreeBuilder;
 import com.google.gson.Gson;
 import com.mysql.cj.xdevapi.UpdateParams;
 import org.springframework.stereotype.Controller;
@@ -56,52 +57,27 @@ public class AdminController
 		return list;
 	}
 
-	//树形组件一级菜单
 	@RequestMapping("/selectTreeParent")
 	@ResponseBody
-	public List<Object> selectTreeParent(HttpSession session)
+	public List<TreeNode> selectTreeParent1(HttpSession session)
 	{
 		Object admin = session.getAttribute("workeraccount");
-		List<Map<String, Object>> list;
-		if (null != admin)
-		{
-			list = adminService.selectTreeParent(admin.toString());
-			List<Object> list1 = new ArrayList<>();
-			if (null != list)
-			{
-				for (Map map : list)
-				{
-					Map<String, Object> map1 = new HashMap<>();
-					map1.put("title", map.get("menuname"));
-					map1.put("id", map.get("menuid"));
-					map1.put("children", selectTreeChild(admin.toString(), map.get("menuid").toString()));
-					list1.add(map1);
-				}
-			}
-			return list1;
-		}
-		return null;
+		List<TreeNode> treeNodes= TreeBuilder.bulid(adminService.selectMenuTree1(admin.toString()));
+		return treeNodes;
 	}
 
-	//树形组件子菜单
-	public List<Object> selectTreeChild(String admin, String fatherid)
-	{
-		List<Map<String, Object>> list = adminService.selectTreeChild(admin, fatherid);
-		List<Object> list1 = new ArrayList<>();
-		if (null != list1)
-		{
-			for (Map map : list)
-			{
-				Map<String, Object> map1 = new HashMap<>();
-				map1.put("title", map.get("menuname"));
-				map1.put("id", map.get("menuid"));
-				map1.put("children", selectTreeChild(admin, map.get("menuid").toString()));
-				list1.add(map1);
-			}
-		}
-		return list1;
-	}
 
+
+//	//数据权限树形菜单数据回显
+//	@RequestMapping("/queryRoleTree")
+//	@ResponseBody
+//	public List<TreeNode> queryRoleTree(HttpSession session,String role)
+//	{
+//		Object admin = session.getAttribute("workeraccount");
+//		List<TreeNode> treeNodes= TreeBuilder.bulid(adminService.selectMenuTree1(admin.toString()),adminService.queryRoleTree(role));
+//		return treeNodes;
+//
+//	}
 	//数据权限树形菜单数据回显
 	@RequestMapping("/queryRoleTree")
 	@ResponseBody
@@ -111,7 +87,6 @@ public class AdminController
 		return adminService.queryRoleTree(role);
 
 	}
-
 	//添加/修改角色
 	@RequestMapping("/addRole")
 	@ResponseBody
@@ -133,6 +108,7 @@ public class AdminController
 		{
 			list.add(map.get(key));
 		}
+		System.out.println(list.toString());
 		if (null == roleid)
 		{//增加角色
 			int num = adminService.addRole(role, msg);

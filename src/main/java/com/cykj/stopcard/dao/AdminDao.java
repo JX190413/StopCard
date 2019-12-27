@@ -1,9 +1,6 @@
 package com.cykj.stopcard.dao;
 
-import com.cykj.stopcard.bean.Ad;
-import com.cykj.stopcard.bean.AdminMenu;
-import com.cykj.stopcard.bean.Menu;
-import com.cykj.stopcard.bean.Worker;
+import com.cykj.stopcard.bean.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,12 +32,12 @@ public interface AdminDao
 	public  Map queryRolesID(String role);
 
 	//查询角色权限关系
-	public  int addRoleMenu(String roleID, List menuid);
+	public  int addRoleMenu(String roleID,List menuid);
 
 
 	//<!-- 树的数据回显-->
 	//<!-- 根据角色查询其对应菜单 -->
-	public  List<Map<String,String>> queryTreeFather(String role);
+	public  List<TreeNode> queryTreeFather(String role);
 
 	//<!-- 根据角色查询其对应菜单 -->
 	public  List<Map<String,String>> queryTreeChild(String role, String fatherid);
@@ -77,7 +74,7 @@ public interface AdminDao
 	public  Integer updateFatherid(String menuid);
 
 
-	public  List<Menu> selectMenuTree(String admin);
+	public  List<TreeNode> selectMenuTree(String admin);
 
 
 	//查询广告

@@ -466,14 +466,34 @@ public class ChargeController
 			msg="20";
 		}
 		else {
-			int money2=money5-money;
-			UserManagement userManagement=new UserManagement();
+			int money2=money5-
+					money;
+			UserManagement
+					userManagement=new UserManagement();
+
 			userManagement.setCarnum(carnum);
-			/*userManagement.setBalance(money2);
-			int flay=chargeService.overmoney(userManagement);
+
+			userManagement.setBalance(money2);
+			int
+					flay=chargeService.overmoney
+					(userManagement);
 			if (flay>0){
-				msg="30";
-			}*/
+
+				String
+						data=chargeService.selhuiyuan
+						(carnum,String.valueOf(chargeService.selstateid())).get(0).getPasttime();
+				int
+						id=chargeService.selcormid(time);
+				String
+						data5=dat(data,id);
+				int
+						uptype=chargeService.uptime5
+						(data5,carnum,String.valueOf(chargeService.selstateid()));
+				if (uptype>0){
+
+					msg="30";
+				}
+			}
 		}
 		return msg;
 	}

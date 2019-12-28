@@ -121,6 +121,14 @@ public interface AdminLoginDao
 	public int BillingRulesAdd(Rules rules);
 
 
+	//日志管理表格分页查询与带条件搜索
+	public List<Tblog> Logmanagementtb(Tblog tblog );
+
+
+
+
+	//日志管理表格总条数查询
+	public List<Tblog> Logmanagementzong(Tblog tblog);
 
 
 

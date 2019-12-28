@@ -97,6 +97,7 @@
 						<p>
 							<input type="text" style="font-size: 20px;text-align: center" name="carnum" lay-verify="title" autocomplete="off"  class="layui-input" value="${UserManagement.carnum}" readonly="readonly">
 						</p>
+
 					</div>
 					<div class="aui-well-hd">
 						<input  type="button" class="layui-btn"  data-toggle="modal" data-target="#myModal" style="margin-right: 53px"  value="个人信息">
@@ -109,6 +110,7 @@
 				<br>
 				<div class="aui-cell-box">
 					<p style="font-size: 25px;font-family: 黑体">办理车费业务:</p>
+
 					<div class="layui-row">
 						<div class="layui-form-item">
 							<div class="layui-input-block" style="padding-left: 100px">
@@ -121,10 +123,12 @@
 						</div>
 					</div>
 					<div class="layui-form-item">
-						<div class="layui-input-block" style="padding-left: 100px">
+						<div class="layui-input-block" style="padding-left: 250px">
+
 							<input class="layui-btn" value="办理"  onclick="xufei()">
 						</div>
 					</div>
+
 					<div class="layui-form-item">
 						<div class="layui-input-block" style="padding-left:100px">
 							<input class="layui-btn" value="续费" id="xufei2">
@@ -141,6 +145,92 @@
 			</div>
 </section>
 	</section>
+	<!-- 车主个人信息模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						车主个人信息
+					</h4>
+				</div>
+				<div class="modal-body">
+
+					<table style="width:300px;border: 1px;" align="center"  cellpadding="8" cellspacing="0">
+						<tr>
+
+							<td>车主姓名:</td>
+							<input type="hidden" id="userid" name="userid" value="${UserManagement.userid}">
+							<input type="hidden" id="flage" name="flage" value="false">
+							<td><input type="text" id="username" name="username" value="${UserManagement.username}"   readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text" height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>旧密码:</td>
+							<td><input type="password"   id="userpass" name="userpass" value="" onblur="Verification()"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>新密码:</td>
+							<td><input   type="password" id="newuserpass" name="newuserpass"  value=""></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车牌号：</td>
+							<td><input   type="text" id="carnum" name="carnum"  value="${UserManagement.carnum}"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>车主地址：</td>
+							<td><input   type="text" id="useraddress" name="useraddress"  value="${UserManagement.useraddress}" readonly="readonly"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+						</tr>
+						<tr>
+							<td>手机号：</td>
+							<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" onclick="UserManage()">
+						提交更改
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+
+
+</form>
+<div class="consult_contact">
+	<div class="consult_wrap"><a href="jsp/text.jsp" rel="nofollow" target="_blank">
+		<div class="tip" >Hello,欢迎来咨询~</div>
+		<img src="img/ball.png" class="ball" alt="">
+		<img src="img/bg_0.png" class="staff_img" alt="">
+		<img src="img/bg_1.png" class="bg-1" alt="">
+		<img src="img/bg_2.png" class="bg-2" alt="">
+		<img src="img/bg_3.png" class="bg-3" alt=""></a>  </div>
 </form>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -268,6 +358,10 @@
 		// });
 
 	});
+
+
+
+
 	function xufei() {
 		$.ajax({
 			type:"POST",//提交7/的方式
@@ -281,6 +375,7 @@
 					alert("已办理,请续费")
 				}
 				else if (jsonStr==='"20"') {
+					alert(888);
 					$("#banli").submit();
 				}
 			},
@@ -294,6 +389,7 @@
 		var userpass=$("#userpass").val();
 		var userid=$("#userid").val();
 		var ob = {userid:userid,userpass:userpass};
+
 		$.ajax({
 			type:"POST",//提交的方式
 			url:"/StopCard/selectPass",//提交的地址
@@ -301,9 +397,11 @@
 			dataType:"json",//希望返回的数据类型
 			async: true,//异步操作
 			success:function (data) {//成功的方法  msg为返回数据
+
                    if(data.msg==="1"){
 	                   $("#flage").val("true");
                    }else
+
 				if(data.msg==="2"){
 					alert("旧密码错误");
 				$("#flage").val("false");
@@ -313,7 +411,15 @@
 				alert("服务器正忙")
 			}
 		});
+
+
+
+
+
 	}
+
+
+
 	function UserManage() {
        var userid=  $("#userid").val();
 		var userpass=$("#newuserpass").val();

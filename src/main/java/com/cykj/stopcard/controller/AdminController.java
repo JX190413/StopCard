@@ -6,6 +6,7 @@ import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
 import com.google.gson.Gson;
+import com.mysql.cj.xdevapi.UpdateParams;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +28,6 @@ public class AdminController
 	@Resource
 	private  AdminService adminService;
 
-	//	@RequestMapping("/{url}")
-	//	public String matchURL(@PathVariable(value = "url") String path)
-	//	{
-	//		System.out.println("path" + path);
-	//		return path;
-	//	}
 
 	//角色数据展示
 	@RequestMapping("/queryRole")
@@ -293,15 +288,10 @@ public class AdminController
 			}
 			return "0";
 		}
-//		public static void main(String[] args)
-//		{  AdminService adminService=new AdminService();
-//			List<Ad> list = adminService.queryAd(null, -1, -1);
-//			System.out.println(System.getProperty("user.dir")+list.get(0).getAdimg());//user.dir指定了当前的路径
-//		}
+
 	//更新广告
 	@RequestMapping("/updateAdImg")
 	@ResponseBody
-//	@Log(operationType="修改广告",operationName="管理员进行修改广告")
 	public String updateAdImg(HttpServletRequest request, Ad ad, MultipartFile file)
 	{
 		System.out.println("开始文件上传");
@@ -327,6 +317,25 @@ public class AdminController
 		}
 
 		return code;
+	}
+	//更新网站参数
+	@RequestMapping("/updateParameter")
+	@ResponseBody
+	@Log(operationType="更新网站参数",operationName="管理员进行更新网站参数")
+	public String AopupdateParameter(String webname, String mail, String webhead){
+
+		if(adminService.updateParameter(webname,mail,webhead)>0){
+			return "200";
+		}
+		return "0";
+	}
+
+	//查询参数
+	@RequestMapping("/queryParameter")
+	@ResponseBody
+	public Object queryParameter(){
+
+		return adminService.queryParameter();
 	}
 }
 

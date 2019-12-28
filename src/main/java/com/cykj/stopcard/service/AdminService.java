@@ -1,11 +1,9 @@
 package com.cykj.stopcard.service;
 
-import com.cykj.stopcard.bean.Ad;
-import com.cykj.stopcard.bean.AdminMenu;
-import com.cykj.stopcard.bean.Menu;
-import com.cykj.stopcard.bean.Worker;
+import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.dao.AdminDao;
 import com.cykj.stopcard.dao.AdminLoginDao;
+import com.cykj.stopcard.util.TreeBuilder;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,53 +49,13 @@ public class AdminService
 		return adminDao.queryRoleCount( role);
 	}
 
-	//树形组件菜单
-	public List<Object> selectMenuTree(String admin)
-	{
-		List<Menu> list=adminDao.selectMenuTree( admin);
-		List<Object> list1=new ArrayList<Object> ();
-		for(int i=0;i<list.size();i++)
-		{
-			int menuid = list.get(i).getMenuid();
-			String menuname = list.get(i).getMenuname();
-			Map<String, Object> map1 = new HashMap<String, Object>();
-			List<Object> list2=new ArrayList<Object>();
-			for (int j = 0; j < list.size(); j++)
-			{
-				int menuid2 = list.get(j).getFatherid();
-				if(menuid==menuid2){
-					map1.put("title",menuname);
-					map1.put("id", menuid);
-					Map<String, Object> map2 = new HashMap<>();
-					map2.put("title", list.get(j).getMenuname());
-					map2.put("id", menuid2);
-					list2.add(map2);
-					map1.put("children",list2);
-				}
-			}
-			list1.add(map1);
-		}
-		return list1;
+	//树菜单
+	public List<TreeNode> selectMenuTree1(String admin){
+
+		return adminDao.selectMenuTree( admin);
 	}
 
-	//树形组件菜单
-	public List<Object> selectMenuTree2(int fatherid,List<Menu> list)
-	{
-		List<Object> list1=new ArrayList<Object> ();
-		Map<String, Object> map1 = new HashMap<String, Object>();
-		for(int i=0;i<list.size();i++)
-		{
-			int menuid = list.get(i).getMenuid();
-			String menuname = list.get(i).getMenuname();
-			if(menuid==fatherid){
-				map1.put("title",menuname);
-				map1.put("id", menuid);
-				map1.put("children",selectMenuTree2(menuid,list));
-				list1.add(map1);
-			}
-		}
-		return list1;
-	}
+
 	//树形组件一级菜单
 	public List<Map<String,Object>> selectTreeParent(String admin)
 	{
@@ -148,18 +106,22 @@ public class AdminService
 	}
 
 	//树形结构数据回显
-	public  List queryRoleTree(String role){
+	public  List<Integer> queryRoleTree(String role){
 		System.out.println("----------------------"+role);
-		List<Map<String,String>> list1=adminDao.queryTreeFather(role);
-		List list2 = new ArrayList<>();
-		if(null!=list1){
-			for (Map map : list1)
+		List<TreeNode> treeNodes=adminDao.queryTreeFather(role);
+		List<Integer> list2 = new ArrayList<>();
+		for (TreeNode treeNode : treeNodes)
+		{   int count=0;
+			for (TreeNode node : treeNodes)
 			{
-				List<Map<String,String>> list3=adminDao.queryTreeChild(role,map.get("menuid").toString());
-				if(null==list3||list3.size()==0){
-					list2.add(map.get("menuid").toString());
+				if(treeNode.getId()==node.getParentId()){
+					count++;
 				}
 			}
+			if(count==0){
+				list2.add(treeNode.getId());
+			}
+
 		}
 		System.out.println("----------------------"+list2.toString());
 		return list2;

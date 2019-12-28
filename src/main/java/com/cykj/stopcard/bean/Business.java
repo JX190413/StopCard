@@ -8,6 +8,17 @@ public  int businessid;
 	public String paytime;
 	public String pasttime;
 	public String carnum;
+public String cartype;
+
+	public String getCartype()
+	{
+		return cartype;
+	}
+
+	public void setCartype(String cartype)
+	{
+		this.cartype = cartype;
+	}
 
 	public int getBusinessid()
 	{

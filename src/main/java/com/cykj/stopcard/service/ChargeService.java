@@ -32,10 +32,10 @@ public class ChargeService
 		return  chargeDao.inserole(business);
 	}
 	public List<Combo> selcomtime(String time){return chargeDao.selcomboid(time);}
-	public int selodnumber(String carnum){return chargeDao.selodnumber(carnum) ;}
-	public List<Business> selhuiyuan(String carnum){return chargeDao.selhuiyuan(carnum) ;}
-	public int deleall(String carnum){return chargeDao.delall(carnum) ;}
-	public int uptype(String out_trade_no){return chargeDao.uptype(out_trade_no) ;}
+	public int selodnumber(String carnum,String cartype){return chargeDao.selodnumber(carnum,cartype) ;}
+	public List<Business> selhuiyuan(String carnum,String cartype){return chargeDao.selhuiyuan(carnum,cartype) ;}
+	public int deleall(String carnum,String cartype){return chargeDao.delall(carnum,cartype) ;}
+	public int uptype(String out_trade_no,String cartype){return chargeDao.uptype(out_trade_no,cartype) ;}
 	public int selallnumber(String where){return chargeDao.selallnumber(where);}
 	public int selcarid(String statename){return chargeDao.selcarid(statename);}
 	public int upcartype(CardPort cardPort){return chargeDao.upcartype(cardPort);}
@@ -46,8 +46,12 @@ public class ChargeService
 	public int overmoney(UserManagement userManagement){return  chargeDao.overmoney(userManagement);}
 	public int delwhile(String carnum){ return chargeDao.delwhile(carnum);}
 	public List<Whitelist> selwrile(String carnum){return chargeDao.selwhile(carnum);}
-	public int uptypecar(String carnum){ return chargeDao.uptypecar(carnum);}
+	public int uptypecar(String carnum,String cartype){ return chargeDao.uptypecar(carnum,cartype);}
 	public List<UserManagement> selbance(String carnum){ return chargeDao.selbalance(carnum);}
-	public  int uptime5(String time,String carnum){ return  chargeDao.uptime5(time,carnum);}
+	public  int uptime5(String time,String carnum,String cartype){ return  chargeDao.uptime5(time,carnum,cartype);}
+	public  int selstateid(){return  chargeDao.selstateid();}
+	public  int selstateid2(){return  chargeDao.selstateid2();}
+	public  int selstateid3(){return  chargeDao.selstateid3();}
+	public   String selusermoney(String carnum){return chargeDao.selusermoney(carnum);}
 
 }

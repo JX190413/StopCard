@@ -23,7 +23,7 @@
 
     </resultMap>
     <select id="selcormid" parameterType="java.lang.String" resultType="Integer">
-        SELECT comboid from tbl_combo  where  combotime=#{time}
+        SELECT timeid from tbl_combo  where  combotime=#{time}
     </select>
     <!--增加订单-->
     <insert id="inserole" parameterType="Business">

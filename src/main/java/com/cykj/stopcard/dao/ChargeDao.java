@@ -31,4 +31,5 @@ public interface ChargeDao
 	public int uptypecar(String carnum);
 	public List<UserManagement> selbalance(String carnum);
 	public int uptime5(String time,String carnum);
+
 }

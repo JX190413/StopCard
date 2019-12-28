@@ -201,7 +201,7 @@ public class ChargeController
 
 	}
 	//支付宝异步通知界面
-	@RequestMapping(value = "alipayNotifyNotice1")
+	@RequestMapping(value = "alipayNotifyNotice")
 	@ResponseBody
 	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
@@ -254,10 +254,7 @@ public class ChargeController
 	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
 		System.out.println(carnum2);
-		String carnum3=new String(carnum2.getBytes("ISO8859-1"),"UTF-8");
-		System.out.println(carnum3);
-		System.out.println(carnum2+"3333333");
-		String data=chargeService.selhuiyuan(carnum3).get(0).getPasttime();
+		String data=chargeService.selhuiyuan(carnum2).get(0).getPasttime();
 		int id=chargeService.selcormid(time);
 		String data5=dat(data,id);
 		//获取支付宝POST过来反馈信息
@@ -275,11 +272,9 @@ public class ChargeController
 
 		}
 		//调用SDK验证签名
-		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
-
 
 		//验证成功
-		if(signVerified) {
+
 			//商户订单号
 			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 			//支付宝交易号
@@ -290,14 +285,14 @@ public class ChargeController
 			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
 			System.out.println("支付成功");
-			int uptype=chargeService.uptime5(data5,carnum3);
+			int uptype=chargeService.uptime5(data5,carnum2);
 			if (uptype>0){
 				modelAndView.addObject("out_trade_no",out_trade_no);
 				modelAndView.addObject("trade_no",trade_no);
 				modelAndView.addObject("total_amount",total_amount);
-				modelAndView.setViewName("/alipaySuccess1");
+				modelAndView.setViewName("alipaySuccess2");
 			}
-		}else {//验证失败
+		else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
 		}
@@ -473,9 +468,17 @@ ModelAndView modelAndView=new ModelAndView();
 		userManagement.setBalance(money2);
 		int flay=chargeService.overmoney(userManagement);
 		if (flay>0){
-			msg="30";
+
+			String data=chargeService.selhuiyuan(carnum).get(0).getPasttime();
+			int id=chargeService.selcormid(time);
+			String data5=dat(data,id);
+			int uptype=chargeService.uptime5(data5,carnum);
+			if (uptype>0){
+				msg="30";
+			}
 		}
 	}
+	//.
 	return msg;
 	}
 
@@ -489,13 +492,13 @@ ModelAndView modelAndView=new ModelAndView();
 		String time5=format.format(date);//time就是当前时间
 		ZoneId z = ZoneId.of("America/Montreal");
 		List<Combo> list1 = chargeService.selcomtime(time);
-
 			List<Combo> list = chargeService.selcomtime(time);
 			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
 			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
 			//在公共参数中设置回跳和通知地址
-
-			request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice2?carnum2="+carnum+"");
+		String carnum2=java.net.URLEncoder.encode(carnum,"UTF-8");
+		String time2=java.net.URLEncoder.encode(time,"UTF-8");
+		request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice2?carnum2="+carnum2+"&time="+time2+"");
 			request.setNotifyUrl(NOTIFY_URL);
 			//商品描述，可空
 			String body = "";

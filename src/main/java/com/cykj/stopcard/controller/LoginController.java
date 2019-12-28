@@ -714,7 +714,7 @@ public Worker onListStudent(HttpServletRequest request,
 			mv.addObject("total_amount", total_amount);
 			mv.addObject("carNum", session.getAttribute("carNum"));
 			mv.addObject("flag", "success");
-			mv.setViewName("CarOut2");
+			mv.setViewName("CarOut1");
 			return mv;
 
 			//			return "alipaySuccess";//跳转付款成功页面

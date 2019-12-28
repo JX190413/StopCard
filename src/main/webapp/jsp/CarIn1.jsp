@@ -398,6 +398,11 @@
 
 					alert("停车成功！");
 					clearNavi();
+					setTimeout(function () {
+							window.location.href="Reception.jsp";
+						}
+						, 2000);
+
 				}
 				, 2000);
 		})

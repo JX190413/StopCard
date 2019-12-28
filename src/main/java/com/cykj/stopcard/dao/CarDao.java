@@ -50,6 +50,8 @@ public interface CarDao
 	public int updateCarOut(CarInOut carInOut);
 	//缴费后修改缴费状态
 	public int updateCarOutState(@Param("stateid") String stateid,@Param("carnum") String carnum);
+	//缴费后修改缴费状态
+	public int updatePortState2(@Param("stateid") String stateid,@Param("carnum") String carnum);
 
 
 }

@@ -90,6 +90,10 @@ public class CarService
 	public int updateCarOutState(String stateid,String carnum){
 		return carDao.updateCarOutState(stateid,carnum);
 	}
+	//缴费后修改车位状态
+	public int updatePortState2(String stateid,String carnum){
+		return carDao.updatePortState2(stateid,carnum);
+	}
 
 
 

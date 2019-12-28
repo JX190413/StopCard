@@ -18,13 +18,13 @@
 <div id="div1"> </div>
 <div class="layui-row" style="padding-top: 200px">
 	<div class="layui-col-md4">
-		<div class="grid-demo grid-demo-bg1" style="height: 100px">0:00 --8:00 共收款 :${morning} 元</div>
+		<div class="grid-demo grid-demo-bg1" >0:00 --8:00 共收款 :${morning} 元</div>
 	</div>
 	<div class="layui-col-md4">
-		<div class="grid-demo" style="height: 100px">8:00 --16:00 共收款 : ${noon} 元</div>
+		<div class="grid-demo" >8:00 --16:00 共收款 : ${noon} 元</div>
 	</div>
 	<div class="layui-col-md4">
-		<div class="grid-demo grid-demo-bg1" style="height: 100px">16:00 --24:00 共收款 : ${night} 元</div>
+		<div class="grid-demo grid-demo-bg1" >16:00 --24:00 共收款 : ${night} 元</div>
 	</div>
 </div>>
 <script>

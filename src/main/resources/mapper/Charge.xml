@@ -99,7 +99,15 @@ SELECT * from tbl_user where carnum=#{carnum}
     <select id="selstateid3" resultType="Integer">
         SELECT  stateid from tbl_state where statename='已退费'
     </select>
+   <!-- 查找余额-->
     <select id="selusermoney" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT balance from tbl_user where carnum=#{carnum}
     </select>
+  <!--  查找comboid-->
+    <select id="selcombo" resultType="Combo" parameterType="java.lang.String">
+        SELECT * from tbl_combo where combomoney = #{money}
+    </select>
+    <insert id="insetsell" parameterType="java.lang.String">
+        INSERT into tbl_sell(sellmoney,comboid,selltime,carnum,selltype) VALUES(#{money},#{comboid},#{time},#{carnum},#{selltype})
+    </insert>
 </mapper>

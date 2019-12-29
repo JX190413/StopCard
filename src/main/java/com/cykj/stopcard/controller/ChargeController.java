@@ -44,7 +44,7 @@ public class ChargeController
 	private final String NOTIFY_URL = "http://公网地址/notifyUrl";
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
-	private final String RETURN_URL1 = "http://localhost:8080/StopCard/alipayNotifyNotice1";
+
 	@Resource
 	private ChargeService chargeService;
 	//计算
@@ -177,7 +177,9 @@ public class ChargeController
 			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
 			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
 			//在公共参数中设置回跳和通知地址
-			request.setReturnUrl(RETURN_URL);
+			String time2=java.net.URLEncoder.encode(time,"utf-8");
+			String carnum8=java.net.URLEncoder.encode(carnum,"utf-8");
+			request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice?carnum2="+carnum8+"&time2="+time2+"");
 			request.setNotifyUrl(NOTIFY_URL);
 			//商品描述，可空
 			String body = "";
@@ -202,9 +204,10 @@ public class ChargeController
 
 	}
 	//支付宝异步通知界面
+	//办理
 	@RequestMapping(value = "alipayNotifyNotice")
 	@ResponseBody
-	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response) throws Exception {
+	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response,String carnum2) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -221,12 +224,12 @@ public class ChargeController
 			/*valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");*/
 			params.put(name, valueStr);
 		}
-		//调用SDK验证签名
-		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
+/*		//调用SDK验证签名
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);*/
 
 
 		//验证成功
-		if(signVerified) {
+	/*	if(signVerified) {*/
 			//商户订单号
 			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 			//支付宝交易号
@@ -240,22 +243,31 @@ public class ChargeController
 
 			int uptype=chargeService.uptype(out_trade_no,String.valueOf(chargeService.selstateid()));
 			if (uptype>0){
-				modelAndView.addObject("out_trade_no",out_trade_no);
-				modelAndView.addObject("trade_no",trade_no);
-				modelAndView.addObject("total_amount",total_amount);
-				modelAndView.setViewName("/alipaySuccess2");
+				Date date = new Date();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String money = strs(total_amount);
+				System.out.println(money);
+				int carid = chargeService.selcombo(money).get(0).getComboid();
+				int flay = chargeService.insetsell(total_amount, String.valueOf(carid), dateFormat.format(date), carnum2,"会员缴费");
+				if (flay>0){
+					modelAndView.addObject("out_trade_no",out_trade_no);
+					modelAndView.addObject("trade_no",trade_no);
+					modelAndView.addObject("total_amount",total_amount);
+					modelAndView.setViewName("/alipaySuccess2");
+				}
+
 			}
-		}else {//验证失败
+		/*}*/else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
 		}
 		return modelAndView;
 	}
+	//续费
 	@RequestMapping(value = "alipayNotifyNotice2" )
 	@ResponseBody
 	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time2) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
-		System.out.println(carnum2);
 		String data=chargeService.selhuiyuan(carnum2,String.valueOf(chargeService.selstateid())).get(0).getPasttime();
 		int id=chargeService.selcormid(time2);
 		String data5=dat(data,id);
@@ -271,11 +283,10 @@ public class ChargeController
 						: valueStr + values[i] + ",";
 			}
 			//乱码解决，这段代码在出现乱码时使用
-
+			params.put(name, valueStr);
 		}
 		//调用SDK验证签名
-		/*	boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
-		 */
+			/*boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);*/
 
 		//验证成功
 		/*if(signVerified) {*/
@@ -290,13 +301,23 @@ public class ChargeController
 
 		System.out.println("支付成功");
 		int uptype=chargeService.uptime5(data5,carnum2,String.valueOf(chargeService.selstateid()));
-		if (uptype>0){
-			modelAndView.addObject("out_trade_no",out_trade_no);
-			modelAndView.addObject("trade_no",trade_no);
-			modelAndView.addObject("total_amount",total_amount);
-			modelAndView.setViewName("/alipaySuccess2");
-
-		}else {//验证失败
+		if (uptype>0)
+		{
+			Date date = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String money = strs(total_amount);
+			System.out.println(money);
+			int carid = chargeService.selcombo(money).get(0).getComboid();
+			int flay = chargeService.insetsell(total_amount, String.valueOf(carid), dateFormat.format(date), carnum2,"会员续费");
+			if (flay > 0)
+			{
+				modelAndView.addObject("out_trade_no", out_trade_no);
+				modelAndView.addObject("trade_no", trade_no);
+				modelAndView.addObject("total_amount", total_amount);
+				modelAndView.setViewName("/alipaySuccess2");
+			}
+		}
+		/*}*/else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
 		}
@@ -461,37 +482,31 @@ public class ChargeController
 		String msg="";
 		int money5=chargeService.selbance(carnum).get(0).getBalance();
 		int money=Integer.parseInt(chargeService.selcomtime(time).get(0).getCombomoney());
-
 		if(money>money5){
 			msg="20";
 		}
 		else {
-			int money2=money5-
-					money;
-			UserManagement
-					userManagement=new UserManagement();
-
+			int money2=money5- money;
+			UserManagement userManagement=new UserManagement();
 			userManagement.setCarnum(carnum);
-
 			userManagement.setBalance(money2);
-			int
-					flay=chargeService.overmoney
-					(userManagement);
+			int flay=chargeService.overmoney(userManagement);
 			if (flay>0){
-
-				String
-						data=chargeService.selhuiyuan
+				String data=chargeService.selhuiyuan
 						(carnum,String.valueOf(chargeService.selstateid())).get(0).getPasttime();
+				int id=chargeService.selcormid(time);
+				String data5=dat(data,id);
 				int
-						id=chargeService.selcormid(time);
-				String
-						data5=dat(data,id);
-				int
-						uptype=chargeService.uptime5
-						(data5,carnum,String.valueOf(chargeService.selstateid()));
+						uptype=chargeService.uptime5(data5,carnum,String.valueOf(chargeService.selstateid()));
 				if (uptype>0){
-
+					int carid=chargeService.selcombo(String.valueOf(money)).get(0).getComboid();
+					Date date = new Date();
+					SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+				int flay2=chargeService.insetsell(String.valueOf(money),String.valueOf(carid),dateFormat.format(date),carnum,"会员续费");
+				if (flay2>0){
 					msg="30";
+				}
+
 				}
 			}
 		}
@@ -548,6 +563,18 @@ public class ChargeController
 		c.setTime(date);//设置日历时间
 		c.add(Calendar.MONTH,timeid);//在日历的月份上增加6个月
 		return sdf.format(c.getTime());
+	}
+
+	private static String strs(String str)
+	{
+if (str.indexOf(".") > 0)
+	{
+		str = str.replaceAll("0+?$", "");//删掉尾数为0的字符
+			str = str.replaceAll("[.]$", "");//结尾如果是小数点，则去掉
+	}
+	return str;
+
+
 	}
 
 }

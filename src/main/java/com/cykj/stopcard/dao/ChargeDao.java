@@ -35,4 +35,6 @@ public interface ChargeDao
 	public  int selstateid2();
 	public  int selstateid3();
 	public  String selusermoney(String carnum);
+	public  List<Combo> selcombo(String money);
+	public int insetsell(String money,String comboid,String time,String carnum,String selltype);
 }

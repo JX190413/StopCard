@@ -12,11 +12,13 @@ public class UserManagement
 	private String usertime;
    private boolean flage;
 	private int balance;
+	private String pasttime;
+
 	public UserManagement()
 	{
 	}
 
-	public UserManagement(String userid, String username, String userpass, String userphone, String useraddress, String carnum, String usertime, boolean flage)
+	public UserManagement(String userid, String username, String userpass, String userphone, String useraddress, String carnum, String usertime, boolean flage, int balance, String pasttime)
 	{
 		this.userid = userid;
 		this.username = username;
@@ -26,16 +28,8 @@ public class UserManagement
 		this.carnum = carnum;
 		this.usertime = usertime;
 		this.flage = flage;
-	}
-
-	public int getBalance()
-	{
-		return balance;
-	}
-
-	public void setBalance(int balance)
-	{
 		this.balance = balance;
+		this.pasttime = pasttime;
 	}
 
 	public String getUserid()
@@ -116,5 +110,25 @@ public class UserManagement
 	public void setFlage(boolean flage)
 	{
 		this.flage = flage;
+	}
+
+	public int getBalance()
+	{
+		return balance;
+	}
+
+	public void setBalance(int balance)
+	{
+		this.balance = balance;
+	}
+
+	public String getPasttime()
+	{
+		return pasttime;
+	}
+
+	public void setPasttime(String pasttime)
+	{
+		this.pasttime = pasttime;
 	}
 }

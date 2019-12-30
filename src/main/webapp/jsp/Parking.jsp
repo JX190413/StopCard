@@ -196,7 +196,7 @@
 		<ul>
 			<li><span class="codition-first"></span>占用车位</li>
 			<li><span class="codition-second"></span>空闲车位</li>
-			<%--		<li><span class="codition-third"></span>固定车位</li>--%>
+			<li><span class="codition-third"></span>固定车位</li>
 		</ul>
 	</div>
 	<div class="i-test-tip fix" id="i-test-tip">

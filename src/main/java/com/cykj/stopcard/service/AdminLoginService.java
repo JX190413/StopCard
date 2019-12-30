@@ -28,6 +28,19 @@ public class AdminLoginService
 
 		return   adminLoginDao.queryMenu(worker);
 }
+
+//删除管理员
+	public int deleteAdmin(Worker worker){
+
+		return  adminLoginDao.deleteAdmin(worker);
+
+
+
+
+
+	}
+
+
 //人脸识别
 	@Transactional
 	public  List<Worker>  selectAllUsers(){
@@ -45,6 +58,32 @@ public class AdminLoginService
 
 
 	}
+	@Transactional
+	public Worker selectworkerid(Worker worker){
+		return adminLoginDao.selectWorkerid(worker);
+
+	}
+
+
+//修改管理员的角色
+@Transactional
+	public int updateRole(UpdateRole updateRole){
+
+		return adminLoginDao.updateRole(updateRole);
+
+	}
+//查询所有管理员角色
+@Transactional
+public List<Role> selectRole(){
+		return  adminLoginDao.selectRole();
+
+}
+//添加管理员角色
+@Transactional
+public int insertRole(UpdateRole updateRole){
+
+		return  adminLoginDao.insertRole(updateRole);
+}
 	//查询工作人员用户条数
 	@Transactional
 	public List<Worker> queryPage(Worker worker){

@@ -12,7 +12,8 @@ public interface AdminLoginDao
 
 	//后台用户登录
 	Worker queryAdmin(Worker worker);
-
+   //删除管理员
+	int deleteAdmin(Worker worker);
 
 	//后台用户获取菜单
 	ArrayList<AdminMenu> queryMenu(Worker worker);
@@ -22,6 +23,14 @@ public interface AdminLoginDao
 	int saveUser(Worker worker);
 //查询所有的工作人员信息
 	 List<Worker> queryWorker(Worker worker);
+
+//查询所有管理员
+    List<Role> selectRole();
+//添加管理员的角色
+	int insertRole(UpdateRole updateRole);
+//修改管理员角色
+	int updateRole(UpdateRole updateRole);
+  Worker selectWorkerid(Worker worker);
 	//查询所有的工作人员条数
 	List<Worker> queryPage(Worker worker);
 

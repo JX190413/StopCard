@@ -104,6 +104,14 @@
 						<input  type="button" class="layui-btn"  data-toggle="modal" data-target="#myModal" style="margin-right: 53px"  value="个人信息">
 						<%--						<img src="images/icon-mem.png"  alt="">--%>
 					</div>
+					<div class="aui-well-hd" style="    /* margin: 11px; */
+    padding-top: 44px;
+    padding-left: -14px;
+    margin-left: -88px;
+width: 76px;
+">
+					<input type="text" style="border:none;" value="到期时间：${UserManagement.pasttime}" readonly="readonly">
+					</div>
 				</div>
 				<br>
 				<br>
@@ -214,6 +222,11 @@
 						<td><input   type="text" id="userphone" name="userphone"  value="${UserManagement.userphone}" ></td>
 					</tr>
 					<tr>
+						<td></td>
+						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
+					</tr>
+					<tr>
+
 						<td>余额：</td>
 						<td><input   type="text" id="bance" name="userphone"  value="${UserManagement.balance}" ></td>
 					</tr>

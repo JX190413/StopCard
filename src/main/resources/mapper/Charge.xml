@@ -50,27 +50,44 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     <update id="uptype" parameterType="java.lang.String">
 UPDATE tbl_business set cartype=#{cartype} where businessid=#{out_trade_no}
     </update>
+   <!-- 车辆查看总页数-->
     <select id="selallnumber" resultType="int" parameterType="java.lang.String">
        select COUNT(*) from tbl_carport where portarea LIKE "%"#{where}"%"
     </select>
+    <select id="selallnumber2" resultType="int" parameterType="java.lang.String">
+        select COUNT(*) from tbl_business WHERE paytime &gt; #{fast} and pasttime &lt; #{last}
+    </select>
+    <select id="selallnumber3" resultType="int" parameterType="java.lang.String">
+        select COUNT(*) from tbl_business WHERE paytime &gt; #{fast}
+    </select>
+    <select id="selallnumber4" resultType="int" parameterType="java.lang.String">
+      SELECT COUNT(*) FROM tbl_inout where carnum like "%"#{where}"%" and payid=#{payid}
+    </select>
+    <!-- 查看状态id-->
     <select id="selcarid" parameterType="java.lang.String" resultType="Integer">
         SELECT stateid from tbl_state WHERE statename=#{statename}
     </select>
+    <!-- 修改缴费状态-->
     <update id="upcartype" parameterType="com.cykj.stopcard.bean.CardPort" >
         UPDATE tbl_carport SET stateid=#{stateid} where portarea=#{portarea}
     </update>
+    <!-- 日期判断-->
     <select id="selmoney" parameterType="java.lang.String" resultType="com.cykj.stopcard.bean.Cost">
         SELECT a.money from tbl_inout a WHERE a.outtime &lt; #{nexttime} and a.intime &gt; #{fasttime}
     </select>
+    <!-- 时间段增加-->
     <insert id="insetdaile" parameterType="java.lang.String">
         INSERT into tbl_daile (dailetime,dailemoney) VALUES(#{dailetime} ,#{money})
     </insert>
+    <!-- 查询时间段-->
     <select id="seldaile" resultType="Daile" parameterType="java.lang.String">
 SELECT * from tbl_daile where dailetime like "%"#{nowday}"%"
     </select>
+
     <select id="selcarbo" resultType="Combo">
         SELECT * from tbl_combo
     </select>
+
     <select id="selbalance" parameterType="java.lang.String" resultType="UserManagement">
 SELECT * from tbl_user where carnum=#{carnum}
     </select>
@@ -110,4 +127,16 @@ SELECT * from tbl_user where carnum=#{carnum}
     <insert id="insetsell" parameterType="java.lang.String">
         INSERT into tbl_sell(sellmoney,comboid,selltime,carnum,selltype) VALUES(#{money},#{comboid},#{time},#{carnum},#{selltype})
     </insert>
+    <select id="selbus" resultType="Business" parameterType="Page">
+        SELECT * from tbl_business where  paytime &gt; #{fast}  ORDER BY businessid  LIMIT #{page},#{limit}
+    </select>
+    <select id="selbus2" resultType="Business" parameterType="Page">
+        SELECT * from tbl_business where  paytime &gt; #{fast} and pasttime &lt; #{last} ORDER BY businessid  LIMIT #{page},#{limit}
+    </select>
+    <select id="selbus3" resultType="CarInOut" parameterType="Page">
+        SELECT * from tbl_inout  where  carnum like "%"#{where}"%" and payid=#{payid} ORDER BY inoutid  LIMIT #{page},#{limit}
+    </select>
+    <select id="selpeyid" resultType="int">
+        SELECT payid from tbl_pay where paytype='临时'
+    </select>
 </mapper>

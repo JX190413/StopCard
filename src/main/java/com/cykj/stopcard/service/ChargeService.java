@@ -25,6 +25,42 @@ public class ChargeService
 		page2.setPage(page);
 		page2.setWhere(where);
 		return  chargeDao.selall(page2);}
+		public List<Business> selbus(int limit, int page1,String fast){
+			int page=0;
+			if (page1>1){
+				page=(page1-1)*10;
+			}
+			Page page2=new Page();
+			page2.setLimit(limit);
+			page2.setPage(page);
+			page2.setFast(fast);
+
+		return  chargeDao.selbus(page2);
+	}
+	public List<Business> selbus2(int limit, int page1,String fast,String last){
+		int page=0;
+		if (page1>1){
+			page=(page1-1)*10;
+		}
+		Page page2=new Page();
+		page2.setLimit(limit);
+		page2.setPage(page);
+		page2.setFast(fast);
+		page2.setLast(last);
+		return  chargeDao.selbus2(page2);
+	}
+	public List<CarInOut> selbus3(int limit, int page1,String where,int payid){
+		int page=0;
+		if (page1>1){
+			page=(page1-1)*10;
+		}
+		Page page2=new Page();
+		page2.setLimit(limit);
+		page2.setPage(page);
+		page2.setWhere(where);
+		page2.setPayid(payid);
+		return  chargeDao.selbus3(page2);
+	}
 	public int  selcormid(String time){
 		return  chargeDao.selcormid(time);
 	}
@@ -37,6 +73,9 @@ public class ChargeService
 	public int deleall(String carnum,String cartype){return chargeDao.delall(carnum,cartype) ;}
 	public int uptype(String out_trade_no,String cartype){return chargeDao.uptype(out_trade_no,cartype) ;}
 	public int selallnumber(String where){return chargeDao.selallnumber(where);}
+	public int selallnumber2(String fast,String last){return chargeDao.selallnumber2(fast,last);}
+	public int selallnumber3(String fast){return chargeDao.selallnumber3(fast);}
+	public int selallnumber4(String where,String payid){return chargeDao.selallnumber4(where,payid);}
 	public int selcarid(String statename){return chargeDao.selcarid(statename);}
 	public int upcartype(CardPort cardPort){return chargeDao.upcartype(cardPort);}
 	public int insetdaile(String dailetime,String money){return chargeDao.insetdaile(dailetime,money);}
@@ -55,5 +94,5 @@ public class ChargeService
 	public   String selusermoney(String carnum){return chargeDao.selusermoney(carnum);}
 	public  List<Combo> selcombo(String money){return  chargeDao.selcombo(money);}
 	public int insetsell(String money,String comboid,String time,String carnum,String selltype){ return chargeDao.insetsell(money,comboid,time,carnum,selltype);}
-
+	public int selpeyid(){return chargeDao.selpeyid();}
 }

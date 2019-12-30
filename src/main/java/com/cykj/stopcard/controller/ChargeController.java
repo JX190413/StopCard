@@ -47,7 +47,7 @@ public class ChargeController
 
 	@Resource
 	private ChargeService chargeService;
-	//计算
+	//计费规则
 	public String selmoney(String minute){
 		int minte1=Integer.parseInt(minute);
 		String money="";
@@ -132,6 +132,7 @@ public class ChargeController
 		}
 		return modelAndView;
 	}
+	//查询是否是会员
 	@RequestMapping("/selhuiyuan")
 	@ResponseBody
 	public String selhuiyuan(String carnum){
@@ -263,7 +264,7 @@ public class ChargeController
 		}
 		return modelAndView;
 	}
-	//续费
+	//续费异步接口
 	@RequestMapping(value = "alipayNotifyNotice2" )
 	@ResponseBody
 	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time2) throws Exception {
@@ -361,6 +362,7 @@ public class ChargeController
 				break;
 		}
 	}
+	//计算时间段的总金额
 	public int Calculatemoney(List<Cost> list){
 		int money=0;
 		for (int i = 0; i <list.size() ; i++)
@@ -415,6 +417,7 @@ public class ChargeController
 		modelAndView.setViewName("Check");
 		return  modelAndView;
 	}
+	//退费判断
 	@RequestMapping("tuifei")
 	@ResponseBody
 	public Map<String,Object> tuifei(String carnum){
@@ -435,6 +438,7 @@ public class ChargeController
 		}
 		return usemap;
 	}
+	//距离某个日期加上几个月
 	public int daysBetween(String dateStr)
 	{
 		Date today = new Date();
@@ -455,6 +459,7 @@ public class ChargeController
 		long between_days = (time2 - time1) / (1000 * 3600 * 24);
 		return Integer.parseInt(String.valueOf(between_days));
 	}
+	//某个判断
 	@RequestMapping("tuifeia")
 	@ResponseBody
 	public Map<String,Object> tuifeia(String money,String carnum){
@@ -476,6 +481,7 @@ public class ChargeController
 		}
 		return data;
 	}
+	//续费判断吧应该
 	@RequestMapping("xufei5")
 	@ResponseBody
 	public  String xufei5(String carnum,String time){
@@ -512,7 +518,7 @@ public class ChargeController
 		}
 		return msg;
 	}
-
+//续费走的支付宝接口
 	@RequestMapping("alipay2")
 	public  void zhifubao1(String time, HttpServletResponse httpResponse, String type,String carnum) throws IOException
 	{
@@ -551,7 +557,7 @@ public class ChargeController
 	}
 
 
-
+//在某个日期上加上几个月
 	public  String dat(String time,int timeid){
 		Calendar c = Calendar.getInstance();//获得一个日历的实例
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -564,7 +570,7 @@ public class ChargeController
 		c.add(Calendar.MONTH,timeid);//在日历的月份上增加6个月
 		return sdf.format(c.getTime());
 	}
-
+//去掉小数点后的和点
 	private static String strs(String str)
 	{
 if (str.indexOf(".") > 0)
@@ -576,6 +582,55 @@ if (str.indexOf(".") > 0)
 
 
 	}
+	//月缴用户查询
+	@RequestMapping("payment")
+	@ResponseBody
+	public  Msg selpayment(  String limit,String page ,String fast,String last){
+		String fast1="";
+		int page1=Integer.valueOf(page);
+		int limit1=Integer.valueOf(limit);
+		Msg msg=new Msg();
+		System.out.println("月缴管理");
+		 if (last!=null&&fast!=null&&last.length()>0&&fast.length()>0){
 
+			List<Business> list=chargeService.selbus2(limit1,page1,fast,last);
+			int count=chargeService.selallnumber2(fast,last);
+			msg.setCode(0);
+			msg.setMsg("");
+			msg.setCount(count);
+			msg.setData(list);
+		}
+		else {
+
+			List<Business> list=chargeService.selbus(limit1,page1,fast1);
+			int count=chargeService.selallnumber3(fast1);
+			msg.setCode(0);
+			msg.setMsg("");
+			msg.setCount(count);
+			msg.setData(list);
+		}
+
+		return  msg;
+	}
+	@RequestMapping("Temporary")
+	@ResponseBody
+	public  Msg Temporary(  String limit,String page ,String id){
+		String caenum2="";
+		int page1=Integer.valueOf(page);
+		int limit1=Integer.valueOf(limit);
+		Msg msg=new Msg();
+		System.out.println("临时车辆查看");
+		if (id==null){
+			id=caenum2;
+		}
+		int payid=chargeService.selpeyid();
+			List<CarInOut> list=chargeService.selbus3(limit1,page1,id,payid);
+			int count=chargeService.selallnumber4(id,String.valueOf(payid));
+			msg.setCode(0);
+			msg.setMsg("");
+			msg.setCount(count);
+			msg.setData(list);
+		return  msg;
+	}
 }
 

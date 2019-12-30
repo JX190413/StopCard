@@ -28,7 +28,7 @@
     <!--增加订单-->
     <insert id="inserole" parameterType="Business">
 INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
-(#{comboid},#{paytime},#{pasttime},#{carnum},'待缴费')
+(#{comboid},#{paytime},#{pasttime},#{carnum},#{cartype})
     </insert>
     <!--联查时间段的金钱-->
     <select id="selcomboid" resultType="com.cykj.stopcard.bean.Combo" parameterType="java.lang.String">
@@ -36,19 +36,19 @@ INSERT INTO tbl_business(comboid,paytime,pasttime,carnum,cartype)VALUES
     </select>
     <!--查询订单id-->
     <select id="selodnumber" parameterType="java.lang.String" resultType="int">
-       SELECT businessid from tbl_business where carnum=#{carnum} and cartype='待缴费'
+       SELECT businessid from tbl_business where carnum=#{carnum} and cartype=#{cartype}
     </select>
     <!--查询车主的已缴费的订单-->
     <select id="selhuiyuan" resultType="com.cykj.stopcard.bean.Business" parameterType="java.lang.String" >
-       SELECT * from tbl_business a WHERE a.cartype='已缴费' and a.carnum=#{carnum}
+       SELECT * from tbl_business a WHERE a.cartype=#{cartype} and a.carnum=#{carnum}
     </select>
     <!--车主未付款时删除之前车主的订单-->
     <delete id="delall" parameterType="java.lang.String">
-        DELETE from tbl_business  where carnum=#{carnum} and cartype='待缴费'
+        DELETE from tbl_business  where carnum=#{carnum} and cartype=#{cartype}
     </delete>
     <!--扫码成功后修改订单状态-->
     <update id="uptype" parameterType="java.lang.String">
-UPDATE tbl_business set cartype='已缴费' where businessid=#{ID}
+UPDATE tbl_business set cartype=#{cartype} where businessid=#{out_trade_no}
     </update>
     <select id="selallnumber" resultType="int" parameterType="java.lang.String">
        select COUNT(*) from tbl_carport where portarea LIKE "%"#{where}"%"
@@ -85,9 +85,29 @@ SELECT * from tbl_user where carnum=#{carnum}
 
     </select>
     <update id="uptypecar" parameterType="java.lang.String">
-        UPDATE  tbl_business set cartype='已退费' where carnum=#{carnum}
+        UPDATE  tbl_business set cartype=#{cartype} where carnum=#{carnum}
     </update>
     <update id="uptime5" parameterType="java.lang.String">
-        UPDATE tbl_business set pasttime=#{time} where carnum=#{carnum} and cartype='已缴费'
+        UPDATE tbl_business set pasttime=#{time} where carnum=#{carnum} and cartype=#{cartype}
     </update>
+    <select id="selstateid" resultType="Integer">
+        SELECT  stateid from tbl_state where statename='已办理'
+    </select>
+    <select id="selstateid2" resultType="Integer">
+        SELECT  stateid from tbl_state where statename='未办理'
+    </select>
+    <select id="selstateid3" resultType="Integer">
+        SELECT  stateid from tbl_state where statename='已退费'
+    </select>
+   <!-- 查找余额-->
+    <select id="selusermoney" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT balance from tbl_user where carnum=#{carnum}
+    </select>
+  <!--  查找comboid-->
+    <select id="selcombo" resultType="Combo" parameterType="java.lang.String">
+        SELECT * from tbl_combo where combomoney = #{money}
+    </select>
+    <insert id="insetsell" parameterType="java.lang.String">
+        INSERT into tbl_sell(sellmoney,comboid,selltime,carnum,selltype) VALUES(#{money},#{comboid},#{time},#{carnum},#{selltype})
+    </insert>
 </mapper>

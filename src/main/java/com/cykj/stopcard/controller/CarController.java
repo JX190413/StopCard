@@ -132,10 +132,11 @@ public class CarController
 				//缴费金额
 				carInOut.setMoney(money);
 				if(money.equals("0")){
-					carInOut.setStateid(5);
+					carInOut.setStateid(3);
+					cardService.updatePortState2("5",carnum);
 				}
 				carInOut.setStoptime(timeDiff.toString());
-				//写入数据库
+				//写入数据库（车辆出场信息）
 				int num=cardService.updateCarOut(carInOut);
 				if(num==0){
 					map1.put("code", 0);
@@ -185,6 +186,13 @@ public class CarController
 		}
 		return CardPort;
 	}
+	//免缴费车辆出场！
+	@RequestMapping("/carOut")
+	public String carOut(HttpServletRequest request,String carNum){
+		request.setAttribute("carNum",carNum);
+		return "CarOut1";
+	}
+
 
 	//获取分区标注
 	@RequestMapping("/carArea")

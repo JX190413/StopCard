@@ -27,7 +27,6 @@
     UPDATE  tbl_inout SET portname=#{portname} WHERE carnum=#{carnum} AND portname is NULL
     </update>
 
-
     <!--    反向寻车-->
     <select id="searchCardPort" resultType="CardPort">
         SELECT A.* FROM tbl_carport A,tbl_inout B
@@ -42,7 +41,7 @@
 
     <!--    缴费业务-->
     <select id="searchBusiness" resultType="map">
-    SELECT * FROM `tbl_business` WHERE carnum=#{carnum}
+    SELECT * FROM `tbl_business` WHERE carnum=#{carnum} AND cartype='8'
     </select>
 
     <!--    车辆出场查询车辆停放信息-->
@@ -52,9 +51,16 @@
 
     <!--    写入出场时间，停放时长，缴费类型，缴费金额-->
     <update id="updateCarOut">
-    UPDATE  tbl_inout SET outtime=#{outtime},stoptime=#{stoptime},payid=#{payid},money=#{money}
+    UPDATE  tbl_inout SET outtime=#{outtime},stoptime=#{stoptime},payid=#{payid},money=#{money},stateid=#{stateid}
     WHERE carnum=#{carnum} AND stateid='4'
     </update>
+
+    <!--    修改车位状态-->
+    <update id="updatePortState2">
+    UPDATE  tbl_carport SET stateid=#{stateid}
+    WHERE portname=(SELECT portname FROM tbl_inout  WHERE carnum=#{carnum} AND stateid='4' )
+    </update>
+
 
     <!--    缴费后修改缴费状态-->
     <update id="updateCarOutState">
@@ -69,12 +75,13 @@
 
     <!--    被点击车位信息查询-->
     <select id="carPortClick" resultType="CardPort">
-        SELECT T1.*,tbl_inout.carnum FROM
+        SELECT T1.*,A.carnum FROM
         (SELECT * FROM tbl_carport WHERE portcardid=#{ID}) T1
         LEFT JOIN
-        tbl_inout
+        (SELECT * FROM tbl_inout WHERE  stateid='4' )A
         ON
-        T1.portname=tbl_inout.portname
+        T1.portname=A.portname
+
     </select>
 
     <!--    获取分区标注信息-->

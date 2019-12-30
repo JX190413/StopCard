@@ -13,10 +13,10 @@ public interface ChargeDao
 	public  int selcormid(String time);
 	public  int inserole(Business business);
 	public List<Combo> selcomboid(String selcomboid);
-	public int selodnumber(String carnum);
-	public List<Business> selhuiyuan(String carnum);
-	public int delall(String carnum);
-	public  int uptype(String out_trade_no);
+	public int selodnumber(String carnum,String cartype);
+	public List<Business> selhuiyuan(String carnum,String cartype);
+	public int delall(String carnum,String cartype);
+	public  int uptype(String out_trade_no,String cartype);
 	public  int selallnumber(String where);
 	public int selcarid(String statename);
 	public int upcartype(CardPort cardPort);
@@ -28,8 +28,13 @@ public interface ChargeDao
 	public int overmoney(UserManagement userManagement);
 	public int delwhile(String carnum);
 	public List<Whitelist> selwhile(String carnum);
-	public int uptypecar(String carnum);
+	public int uptypecar(String carnum,String cartype);
 	public List<UserManagement> selbalance(String carnum);
-	public int uptime5(String time,String carnum);
-
+	public int uptime5(String time,String carnum,String cartype);
+	public  int selstateid();
+	public  int selstateid2();
+	public  int selstateid3();
+	public  String selusermoney(String carnum);
+	public  List<Combo> selcombo(String money);
+	public int insetsell(String money,String comboid,String time,String carnum,String selltype);
 }

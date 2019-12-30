@@ -239,7 +239,6 @@
             <if test="adurl!=null">
                 adurl=#{adurl}
             </if>
-
         </set>
 
         WHERE adid=#{adid}

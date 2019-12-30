@@ -3,7 +3,6 @@ package com.cykj.stopcard.dao;
 import com.cykj.stopcard.bean.Area;
 import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -50,6 +49,8 @@ public interface CarDao
 	public int updateCarOut(CarInOut carInOut);
 	//缴费后修改缴费状态
 	public int updateCarOutState(@Param("stateid") String stateid,@Param("carnum") String carnum);
+	//缴费后修改缴费状态
+	public int updatePortState2(@Param("stateid") String stateid,@Param("carnum") String carnum);
 
 
 }

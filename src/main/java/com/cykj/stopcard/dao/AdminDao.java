@@ -34,7 +34,6 @@ public interface AdminDao
 	//查询角色权限关系
 	public  int addRoleMenu(String roleID,List menuid);
 
-
 	//<!-- 树的数据回显-->
 	//<!-- 根据角色查询其对应菜单 -->
 	public  List<TreeNode> queryTreeFather(String role);
@@ -62,6 +61,7 @@ public interface AdminDao
 	public  Integer queryMenuCount(@Param("menuname") String menuname);
 	//增加菜单
 	public  Integer addMenu(Menu menu);
+
 	//编辑菜单
 	public  Integer updateMenu(Menu menu);
 

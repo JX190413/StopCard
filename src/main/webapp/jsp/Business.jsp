@@ -386,22 +386,11 @@
 					alert("服务器正忙")
 				}
 			});
-
-
-
-
-
-
-
 		}else {
 
 			alert("你的旧密码还是错的哦")
 		}
-
-
-
 		alert(userid);
-
 	}
 
 
@@ -448,12 +437,13 @@
 			type:"POST",//提交的方式
 			url:"/StopCard/tuifeia",//提交的地址
 			data:"money="+money+"&carnum=${UserManagement.carnum}",//提交的数据
-			dataType:"text",//希望返回的数据类型
-			async: true,//异步操作
-			success:function (msg) {//成功的方法  msg为返回数据
-				if(msg==="20"){
+			/*dataType:"text",//希望返回的数据类型*/
+			/*async: true,//异步操作*/
+			success:function (data) {//成功的方法  msg为返回数据
+				if(data.msg==="20"){
 					$("#lable3").text("0");
 					alert("退费成功");
+					$("#bance").val(data.msg1);
 					layer.closeAll();
 				}
 				else

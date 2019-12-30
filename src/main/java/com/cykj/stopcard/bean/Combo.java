@@ -1,5 +1,6 @@
 package com.cykj.stopcard.bean;
 
+//业务实体类
 public class Combo
 {
 	private  int comboid;

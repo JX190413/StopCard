@@ -44,7 +44,7 @@ public class ChargeController
 	private final String NOTIFY_URL = "http://公网地址/notifyUrl";
 	//支付宝同步通知路径,也就是当付款完毕后跳转本项目的页面,可以不是公网地址
 	private final String RETURN_URL = "http://localhost:8080/StopCard/alipayNotifyNotice";
-	private final String RETURN_URL1 = "http://localhost:8080/StopCard/alipayNotifyNotice1";
+
 	@Resource
 	private ChargeService chargeService;
 	//计算
@@ -136,7 +136,7 @@ public class ChargeController
 	@ResponseBody
 	public String selhuiyuan(String carnum){
 		String msg="";
-		List<Business> list=chargeService.selhuiyuan(carnum);
+		List<Business> list=chargeService.selhuiyuan(carnum,String.valueOf(chargeService.selstateid()));
 		if (list.size()==0){
 			System.out.println(5555);
 			msg="20";
@@ -154,56 +154,60 @@ public class ChargeController
 
 		//实例化客户端,填入所需参数
 
-			int id=chargeService.selcormid(time);
-			ZoneId z = ZoneId.of( "America/Montreal" );
-			List<Combo> list1=chargeService.selcomtime(time);
-			LocalDate today = LocalDate.now(z);
-			LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
-			Business business =new Business();
-			business.setComboid(list1.get(0).getTimeid());
-			business.setBusinessid(id);
-			business.setCarnum(carnum);
-			business.setPaytime(today.toString());
-			business.setPasttime(oneMonthLater.toString());
-			System.out.println(carnum+"77777");
-			int ac=chargeService.deleall(carnum);
-			System.out.println("进入方法");
-			int a=chargeService.inserole(business);
-			System.out.println(carnum);
-			if (a>0){
-				List<Combo> list=chargeService.selcomtime(time);
-				int carnum2=chargeService.selodnumber(carnum);
-				AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
-				AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-				//在公共参数中设置回跳和通知地址
-				request.setReturnUrl(RETURN_URL);
-				request.setNotifyUrl(NOTIFY_URL);
-				//商品描述，可空
-				String body = "";
-				request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
-						+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
-						+ "\"subject\":\""+ "会员缴费" +"\","
-						+ "\"body\":\""+ body +"\","
-						+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-				String form = "";
-				try {
-					form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-				} catch (AlipayApiException e) {
-					e.printStackTrace();
-				}
-				httpResponse.setContentType("text/html;charset=" + CHARSET);
-				httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
-				httpResponse.getWriter().flush();
-				httpResponse.getWriter().close();
+		int id=chargeService.selcormid(time);
+		ZoneId z = ZoneId.of( "America/Montreal" );
+		List<Combo> list1=chargeService.selcomtime(time);
+		LocalDate today = LocalDate.now(z);
+		LocalDate oneMonthLater = today.plusMonths( list1.get(0).getTimeid() );
+		Business business =new Business();
+		business.setComboid(list1.get(0).getTimeid());
+		business.setBusinessid(id);
+		business.setCarnum(carnum);
+		business.setPaytime(today.toString());
+		business.setPasttime(oneMonthLater.toString());
+		business.setCartype(String.valueOf(chargeService.selstateid2()));
+		System.out.println(carnum+"77777");
+		int ac=chargeService.deleall(carnum,String.valueOf(chargeService.selstateid2()));
+		System.out.println("进入方法");
+		int a=chargeService.inserole(business);
+		System.out.println(carnum);
+		if (a>0){
+			List<Combo> list=chargeService.selcomtime(time);
+			int carnum2=chargeService.selodnumber(carnum,String.valueOf(chargeService.selstateid2()));
+			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+			//在公共参数中设置回跳和通知地址
+			String time2=java.net.URLEncoder.encode(time,"utf-8");
+			String carnum8=java.net.URLEncoder.encode(carnum,"utf-8");
+			request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice?carnum2="+carnum8+"&time2="+time2+"");
+			request.setNotifyUrl(NOTIFY_URL);
+			//商品描述，可空
+			String body = "";
+			request.setBizContent("{\"out_trade_no\":\""+ carnum2 +"\","
+					+ "\"total_amount\":\""+ list.get(0).getCombomoney() +"\","
+					+ "\"subject\":\""+ "会员缴费" +"\","
+					+ "\"body\":\""+ body +"\","
+					+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+			String form = "";
+			try {
+				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+			} catch (AlipayApiException e) {
+				e.printStackTrace();
 			}
+			httpResponse.setContentType("text/html;charset=" + CHARSET);
+			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+			httpResponse.getWriter().flush();
+			httpResponse.getWriter().close();
+		}
 
 
 
 	}
 	//支付宝异步通知界面
+	//办理
 	@RequestMapping(value = "alipayNotifyNotice")
 	@ResponseBody
-	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response) throws Exception {
+	public ModelAndView alipayNotifyNotice1(HttpServletRequest request, HttpServletRequest response,String carnum2) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -220,12 +224,12 @@ public class ChargeController
 			/*valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");*/
 			params.put(name, valueStr);
 		}
-		//调用SDK验证签名
-		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);
+/*		//调用SDK验证签名
+		boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);*/
 
 
 		//验证成功
-		if(signVerified) {
+	/*	if(signVerified) {*/
 			//商户订单号
 			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 			//支付宝交易号
@@ -236,26 +240,36 @@ public class ChargeController
 			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
 			System.out.println("支付成功");
-			int uptype=chargeService.uptype(out_trade_no);
+
+			int uptype=chargeService.uptype(out_trade_no,String.valueOf(chargeService.selstateid()));
 			if (uptype>0){
-				modelAndView.addObject("out_trade_no",out_trade_no);
-				modelAndView.addObject("trade_no",trade_no);
-				modelAndView.addObject("total_amount",total_amount);
-				modelAndView.setViewName("/alipaySuccess2");
+				Date date = new Date();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String money = strs(total_amount);
+				System.out.println(money);
+				int carid = chargeService.selcombo(money).get(0).getComboid();
+				int flay = chargeService.insetsell(total_amount, String.valueOf(carid), dateFormat.format(date), carnum2,"会员缴费");
+				if (flay>0){
+					modelAndView.addObject("out_trade_no",out_trade_no);
+					modelAndView.addObject("trade_no",trade_no);
+					modelAndView.addObject("total_amount",total_amount);
+					modelAndView.setViewName("/alipaySuccess2");
+				}
+
 			}
-		}else {//验证失败
+		/*}*/else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
 		}
 		return modelAndView;
 	}
+	//续费
 	@RequestMapping(value = "alipayNotifyNotice2" )
 	@ResponseBody
-	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time) throws Exception {
+	public ModelAndView alipayNotifyNotice(HttpServletRequest request, HttpServletRequest response,String carnum2,String time2) throws Exception {
 		ModelAndView modelAndView=new ModelAndView();
-		System.out.println(carnum2);
-		String data=chargeService.selhuiyuan(carnum2).get(0).getPasttime();
-		int id=chargeService.selcormid(time);
+		String data=chargeService.selhuiyuan(carnum2,String.valueOf(chargeService.selstateid())).get(0).getPasttime();
+		int id=chargeService.selcormid(time2);
 		String data5=dat(data,id);
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -269,82 +283,93 @@ public class ChargeController
 						: valueStr + values[i] + ",";
 			}
 			//乱码解决，这段代码在出现乱码时使用
-
+			params.put(name, valueStr);
 		}
 		//调用SDK验证签名
+			/*boolean signVerified = AlipaySignature.rsaCheckV1(params, Alipayconfig.ALIPAY_PUBLIC_KEY, Alipayconfig.CHARSET, Alipayconfig.SIGN_TYPE);*/
 
 		//验证成功
+		/*if(signVerified) {*/
+		//商户订单号
+		String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+		//支付宝交易号
+		String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+		//交易状态
+		/*	String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");*/
+		//付款金额
+		String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 
-			//商户订单号
-			String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-			//支付宝交易号
-			String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
-			//交易状态
-			/*	String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");*/
-			//付款金额
-			String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
-
-			System.out.println("支付成功");
-			int uptype=chargeService.uptime5(data5,carnum2);
-			if (uptype>0){
-				modelAndView.addObject("out_trade_no",out_trade_no);
-				modelAndView.addObject("trade_no",trade_no);
-				modelAndView.addObject("total_amount",total_amount);
-				modelAndView.setViewName("alipaySuccess2");
+		System.out.println("支付成功");
+		int uptype=chargeService.uptime5(data5,carnum2,String.valueOf(chargeService.selstateid()));
+		if (uptype>0)
+		{
+			Date date = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String money = strs(total_amount);
+			System.out.println(money);
+			int carid = chargeService.selcombo(money).get(0).getComboid();
+			int flay = chargeService.insetsell(total_amount, String.valueOf(carid), dateFormat.format(date), carnum2,"会员续费");
+			if (flay > 0)
+			{
+				modelAndView.addObject("out_trade_no", out_trade_no);
+				modelAndView.addObject("trade_no", trade_no);
+				modelAndView.addObject("total_amount", total_amount);
+				modelAndView.setViewName("/alipaySuccess2");
 			}
-		else {//验证失败
+		}
+		/*}*/else {//验证失败
 			/*log.info("支付, 验签失败...");*/
 			System.out.println("支付失败");
 		}
 		return modelAndView;
 	}
-//定时器定时增加
-/*@Scheduled(cron="0/60 * * * * ?")*/
-public void executeFileDownLoadTask() {
-	System.out.println("定时任务启动");
-	int nowtime=nowti();
-	int money=0;
-	System.out.println(nowtime);
-	SimpleDateFormat time1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-	SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
-	SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16:00:00");
-	SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
-    List<Cost> list;
-	switch (nowtime){
-		case 1:
-			list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
-			 money=Calculatemoney(list);
-			 String money1=String.valueOf(money);
-			 chargeService.insetdaile(time.format(new Date()),money1);
-			System.out.println(money);
-		break;
-		case 2:
-			list=chargeService.selmoney(time.format(new Date()),time2.format(new Date()));
-			 money=Calculatemoney(list);
-			System.out.println(money);
-			String money2=String.valueOf(money);
-			chargeService.insetdaile(time2.format(new Date()),money2);
-			break;
-		case 3:
-			list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
-			money=Calculatemoney(list);
-			String money3=String.valueOf(money);
-			chargeService.insetdaile(time1.format(new Date()),money3);
-			System.out.println("增加成功");
-			break;
+	//定时器定时增加
+	/*@Scheduled(cron="0/60 * * * * ?")*/
+	public void executeFileDownLoadTask() {
+		System.out.println("定时任务启动");
+		int nowtime=nowti();
+		int money=0;
+		System.out.println(nowtime);
+		SimpleDateFormat time1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 08:00:00");
+		SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16:00:00");
+		SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+		List<Cost> list;
+		switch (nowtime){
+			case 1:
+				list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
+				money=Calculatemoney(list);
+				String money1=String.valueOf(money);
+				chargeService.insetdaile(time.format(new Date()),money1);
+				System.out.println(money);
+				break;
+			case 2:
+				list=chargeService.selmoney(time.format(new Date()),time2.format(new Date()));
+				money=Calculatemoney(list);
+				System.out.println(money);
+				String money2=String.valueOf(money);
+				chargeService.insetdaile(time2.format(new Date()),money2);
+				break;
+			case 3:
+				list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
+				money=Calculatemoney(list);
+				String money3=String.valueOf(money);
+				chargeService.insetdaile(time1.format(new Date()),money3);
+				System.out.println("增加成功");
+				break;
 			default:
 				break;
+		}
 	}
-}
-public int Calculatemoney(List<Cost> list){
+	public int Calculatemoney(List<Cost> list){
 		int money=0;
-	for (int i = 0; i <list.size() ; i++)
-	{
-		money=Integer.valueOf(list.get(i).getMoney())+money;
-	}
+		for (int i = 0; i <list.size() ; i++)
+		{
+			money=Integer.valueOf(list.get(i).getMoney())+money;
+		}
 		return money;
-}
-//判断当前时间返回int值
+	}
+	//判断当前时间返回int值
 	public static int  nowti()
 	{
 		int time3=0;
@@ -371,7 +396,7 @@ public int Calculatemoney(List<Cost> list){
 	//转发到日接单页面
 	@RequestMapping("Check")
 	public ModelAndView daile(){
-ModelAndView modelAndView=new ModelAndView();
+		ModelAndView modelAndView=new ModelAndView();
 		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd 8");
 		SimpleDateFormat time2 = new SimpleDateFormat("yyyy-MM-dd 16");
 		SimpleDateFormat time3 = new SimpleDateFormat("yyyy-MM-dd 0");
@@ -393,9 +418,8 @@ ModelAndView modelAndView=new ModelAndView();
 	@RequestMapping("tuifei")
 	@ResponseBody
 	public Map<String,Object> tuifei(String carnum){
-		System.out.println(carnum);
 		Map<String,Object> usemap=new HashMap<>();
-		List<Business> list=chargeService.selhuiyuan(carnum);
+		List<Business> list=chargeService.selhuiyuan(carnum,String.valueOf(chargeService.selstateid()));
 		if (list.size()==0){
 			usemap.put("msg","20");
 		}
@@ -409,8 +433,7 @@ ModelAndView modelAndView=new ModelAndView();
 			String money2=String.valueOf(overmoney);
 			usemap.put("msg2",money2);
 		}
-
-	return usemap;
+		return usemap;
 	}
 	public int daysBetween(String dateStr)
 	{
@@ -434,8 +457,8 @@ ModelAndView modelAndView=new ModelAndView();
 	}
 	@RequestMapping("tuifeia")
 	@ResponseBody
-	public String tuifeia(String money,String carnum){
-		String msg="";
+	public Map<String,Object> tuifeia(String money,String carnum){
+		Map<String,Object> data=new HashMap<>();
 		System.out.println(money);
 		int money1=Integer.valueOf(money);
 		UserManagement userManagement=new UserManagement();
@@ -444,42 +467,50 @@ ModelAndView modelAndView=new ModelAndView();
 		userManagement.setBalance(money1+money5);
 		int flay=chargeService.overmoney(userManagement);
 		if (flay>0){
-			int flay1=chargeService.uptypecar(carnum);
+			int flay1=chargeService.uptypecar(carnum,String.valueOf(chargeService.selstateid3()));
 			if (flay1>0){
-				msg="20";
+				String money8=chargeService.selusermoney(carnum);
+				data.put("msg","20");
+				data.put("msg1",money8);
 			}
-	}
-	return msg;
+		}
+		return data;
 	}
 	@RequestMapping("xufei5")
 	@ResponseBody
 	public  String xufei5(String carnum,String time){
-	String msg="";
+		String msg="";
 		int money5=chargeService.selbance(carnum).get(0).getBalance();
-	int money=Integer.parseInt(chargeService.selcomtime(time).get(0).getCombomoney());
+		int money=Integer.parseInt(chargeService.selcomtime(time).get(0).getCombomoney());
+		if(money>money5){
+			msg="20";
+		}
+		else {
+			int money2=money5- money;
+			UserManagement userManagement=new UserManagement();
+			userManagement.setCarnum(carnum);
+			userManagement.setBalance(money2);
+			int flay=chargeService.overmoney(userManagement);
+			if (flay>0){
+				String data=chargeService.selhuiyuan
+						(carnum,String.valueOf(chargeService.selstateid())).get(0).getPasttime();
+				int id=chargeService.selcormid(time);
+				String data5=dat(data,id);
+				int
+						uptype=chargeService.uptime5(data5,carnum,String.valueOf(chargeService.selstateid()));
+				if (uptype>0){
+					int carid=chargeService.selcombo(String.valueOf(money)).get(0).getComboid();
+					Date date = new Date();
+					SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
+				int flay2=chargeService.insetsell(String.valueOf(money),String.valueOf(carid),dateFormat.format(date),carnum,"会员续费");
+				if (flay2>0){
+					msg="30";
+				}
 
-	if(money>money5){
-		msg="20";
-	}
-	else {
-		int money2=money5-money;
-		UserManagement userManagement=new UserManagement();
-		userManagement.setCarnum(carnum);
-		userManagement.setBalance(money2);
-		int flay=chargeService.overmoney(userManagement);
-		if (flay>0){
-
-			String data=chargeService.selhuiyuan(carnum).get(0).getPasttime();
-			int id=chargeService.selcormid(time);
-			String data5=dat(data,id);
-			int uptype=chargeService.uptime5(data5,carnum);
-			if (uptype>0){
-				msg="30";
+				}
 			}
 		}
-	}
-	//.
-	return msg;
+		return msg;
 	}
 
 	@RequestMapping("alipay2")
@@ -489,33 +520,35 @@ ModelAndView modelAndView=new ModelAndView();
 		//实例化客户端,填入所需参数
 		Date date=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String time5=format.format(date);//time就是当前时间
+		String time5=format.format(date);
 		ZoneId z = ZoneId.of("America/Montreal");
-		List<Combo> list1 = chargeService.selcomtime(time);
-			List<Combo> list = chargeService.selcomtime(time);
-			AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
-			AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-			//在公共参数中设置回跳和通知地址
-		String carnum2=java.net.URLEncoder.encode(carnum,"UTF-8");
-		String time2=java.net.URLEncoder.encode(time,"UTF-8");
-		request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice2?carnum2="+carnum2+"&time="+time2+"");
-			request.setNotifyUrl(NOTIFY_URL);
-			//商品描述，可空
-			String body = "";
-			request.setBizContent("{\"out_trade_no\":\"" + time5 + "\"," + "\"total_amount\":\"" + list.get(0).getCombomoney() + "\"," + "\"subject\":\"" + "会员缴费" + "\"," + "\"body\":\"" + body + "\"," + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-			String form = "";
-			try
-			{
-				form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
-			} catch (AlipayApiException e)
-			{
-				e.printStackTrace();
-			}
-			httpResponse.setContentType("text/html;charset=" + CHARSET);
-			httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
-			httpResponse.getWriter().flush();
-			httpResponse.getWriter().close();
+
+		List<Combo> list = chargeService.selcomtime(time);
+		AlipayClient alipayClient = new DefaultAlipayClient(GATEWAY_URL, APP_ID, APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
+		AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+
+		//中文转码
+		String time2=java.net.URLEncoder.encode(time,"utf-8");
+		String carnum2=java.net.URLEncoder.encode(carnum,"utf-8");
+		//在公共参数中设置回跳和通知地址
+		request.setReturnUrl("http://localhost:8080/StopCard/alipayNotifyNotice2?carnum2="+carnum2+"&time2="+time2+"");
+		request.setNotifyUrl(NOTIFY_URL);
+		//商品描述，可空
+		String body = "";
+		request.setBizContent("{\"out_trade_no\":\"" + time5 + "\"," + "\"total_amount\":\"" + list.get(0).getCombomoney() + "\"," + "\"subject\":\"" + "会员缴费" + "\"," + "\"body\":\"" + body + "\"," + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+		String form = "";
+		try
+		{
+			form = alipayClient.pageExecute(request).getBody(); // 调用SDK生成表单
+		} catch (AlipayApiException e)
+		{
+			e.printStackTrace();
 		}
+		httpResponse.setContentType("text/html;charset=" + CHARSET);
+		httpResponse.getWriter().write(form);// 直接将完整的表单html输出到页面
+		httpResponse.getWriter().flush();
+		httpResponse.getWriter().close();
+	}
 
 
 
@@ -530,6 +563,18 @@ ModelAndView modelAndView=new ModelAndView();
 		c.setTime(date);//设置日历时间
 		c.add(Calendar.MONTH,timeid);//在日历的月份上增加6个月
 		return sdf.format(c.getTime());
+	}
+
+	private static String strs(String str)
+	{
+if (str.indexOf(".") > 0)
+	{
+		str = str.replaceAll("0+?$", "");//删掉尾数为0的字符
+			str = str.replaceAll("[.]$", "");//结尾如果是小数点，则去掉
+	}
+	return str;
+
+
 	}
 
 }

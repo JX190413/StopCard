@@ -17,5 +17,6 @@
         <mapper resource="mapper/AdminMap.xml" />
         <mapper resource="mapper/UserMap.xml" />
         <mapper resource="mapper/Charge.xml" />
+        <mapper resource="mapper/WechatMap.xml" />
     </mappers>
 </configuration>

@@ -106,6 +106,7 @@
 	<p class="test">车牌号：<span  class="car" id="car"></span></p>
 	<br><br><br><br><br><br>
 	<button class="layui-btn" id="pay" onclick="pay()"> 缴费</button>
+	<button class="layui-btn" id="out" onclick="ulrHtml()"> 出场</button>
 </div>
 
 <form method="post" id="myform" action="<%=path+"/alipay.action"%>">
@@ -113,7 +114,9 @@
 	<input hidden id="money1"  name="money">
 	<input hidden id="inoutid1"  name="inoutid">
 </form>
-
+<form method="post" id="myform2" action="<%=path+"/carOut"%>">
+	<input hidden id="carNum" name="carNum">
+</form>
 
 <script>
 	var carnum;
@@ -126,13 +129,14 @@
 		$("#myform").submit()
 	}
 
-	function ulrHtml(node) {
-		var toUrl = "CarIn1.jsp?car=" + $("#car").html();
-		window.open(toUrl);
+	function ulrHtml() {
+		$("#carNum").val(carnum);
+		$("#myform2").submit()
 	}
 	//每5秒从数据库获取车位情况
 	$(function () {
 		$("#pay").hide();
+		$("#out").hide();
 		freePort();
 		setInterval("freePort()",5000);
 	});
@@ -195,6 +199,8 @@
 					$("#money").html(money+"元("+res.paytype+")");
 					if(eval(res.msg.money)!==0){
 						$("#pay").show();
+					}else{
+						$("#out").show();
 					}
 				}
 			}

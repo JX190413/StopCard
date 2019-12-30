@@ -73,4 +73,5 @@ public class WechatControl
 		UserManagement userManagement=wechatService.wechatLogin(username);
 		return userManagement;
 	}
+
 }

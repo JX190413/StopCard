@@ -226,6 +226,7 @@ width: 76px;
 						<td><input type="text"  height="10px" style="border: none;height: 20px;background-color: white" disabled> </td>
 					</tr>
 					<tr>
+
 						<td>余额：</td>
 						<td><input   type="text" id="bance" name="userphone"  value="${UserManagement.balance}" ></td>
 					</tr>

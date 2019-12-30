@@ -54,9 +54,16 @@
     </insert>
      <!--用户登录-->
     <select id="selectUser" parameterType="UserManagement" resultType="UserManagement">
-           select * from
-           tbl_user
-           where username=#{username} and userpass=#{userpass}
+
+
+      select  a.*,b.pasttime
+      from tbl_user a,tbl_business b
+      where a.carnum=b.carnum
+      and b.cartype=8
+      and a.username=#{username}
+      and a.userpass=#{userpass}
+
+
     </select>
 
     <!--    白名单数据删除-->

@@ -101,11 +101,18 @@ public class LoginController
     @Log(operationType="添加后台管理员",operationName="超级管理员进行添加后台管理员")
 
     public Msg AopAddWorker(Worker worker){
-
+	    //获取当前系统时间
+	    Date currentTime = new Date();
+	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	    String dateString = formatter.format(currentTime);
+	    worker.setWorktime(dateString);
+    UpdateRole updateRole=new UpdateRole();
 	int i= adminLoginService.save(worker);
 	    Msg msg=new Msg();
 	    if(i>0){
-
+		Worker worker1=    adminLoginService.selectworkerid(worker);
+		    updateRole.setWorkerid(worker1.getWorkerid());
+		    adminLoginService.insertRole(updateRole);
 		    msg.setMsg("1");
 
 	    }else {
@@ -116,6 +123,38 @@ public class LoginController
 
 
     }
+
+//查询角色
+	@RequestMapping("/selectRole")
+	@ResponseBody
+	public List<Role> selectRole(){
+
+	List<Role> role=adminLoginService.selectRole();
+
+       return role;
+
+	}
+//角色赋值
+	@RequestMapping("/UpdateRole")
+	@ResponseBody
+	public Msg UpdateRole(UpdateRole updateRole){
+
+	int i=	adminLoginService.updateRole(updateRole);
+
+
+		Msg msg=new Msg();
+		if(i>0){
+
+			msg.setMsg("1");
+
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+
+
+
+	}
 
 
 
@@ -188,7 +227,27 @@ public Worker onListStudent(HttpServletRequest request,
 		return  msg;
 	}
 
+//删除管理员
+	@RequestMapping("/deleteAdmin")
+	@ResponseBody
+	@Log(operationType="删除后台管理员",operationName="超级管理员进行删除后台管理员")
+	public Msg deleteAdmin(Worker worker){
 
+            int i=adminLoginService.deleteAdmin(worker);
+	  	Msg msg=new Msg();
+		if(i>0){
+
+			msg.setMsg("1");
+
+		}else {
+			msg.setMsg("2");
+		}
+		  return msg;
+
+
+
+
+	}
 
 
 

@@ -74,4 +74,5 @@ public class WechatControl
 		return userManagement;
 	}
 
+
 }

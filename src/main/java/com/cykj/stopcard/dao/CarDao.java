@@ -3,7 +3,6 @@ package com.cykj.stopcard.dao;
 import com.cykj.stopcard.bean.Area;
 import com.cykj.stopcard.bean.CarInOut;
 import com.cykj.stopcard.bean.CardPort;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

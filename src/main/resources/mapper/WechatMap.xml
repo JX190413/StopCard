@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这个是要引用的SQL语句类型文件夹-->
+<mapper namespace="com.cykj.stopcard.dao.WechatDao">
+
+<!--    用户登录-->
+
+    <select id="wechatLogin" resultType="UserManagement">
+        SELECT * FROM tbl_user WHERE username=#{username}
+    </select>
+<!--    业务信息查询-->
+    <select id="comboQuery" resultType="Combo">
+        SELECT * FROM tbl_combo
+    </select>
+
+<!--    用户注册-->
+    <insert id="insertUser" parameterType="UserManagement">
+          insert into  tbl_user
+              (username,userpass,userphone,useraddress,carnum,usertime)
+            values
+              (#{username},#{userpass},#{userphone},#{useraddress},#{carnum},#{usertime})
+    </insert>
+
+
+
+
+</mapper>

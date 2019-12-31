@@ -22,7 +22,7 @@ and workerpass=#{workerpass} and a.stateid=b.stateid
 <!--    查询角色菜单-->
 <resultMap id="AdminMenu" type="AdminMenu"></resultMap>
 <select id="queryMenu" parameterType="Worker"  resultMap="AdminMenu">
-SELECT g.workerid,g.workeraccount,g.statename,g.menuname  fathername,h.menuname chilename,h.menuurl menuurl from (SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid,b.menuurl from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
+SELECT DISTINCT g.workerid,g.workeraccount,g.statename,g.menuname  fathername,h.menuname chilename,h.menuurl menuurl from (SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid,b.menuurl from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
 where a.workerid=e.workerid
 and e.rolerid=c.roleid
 and c.roleid=d.roleid

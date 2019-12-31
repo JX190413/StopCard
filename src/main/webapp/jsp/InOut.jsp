@@ -52,6 +52,7 @@
 				,layEvent: 'LAYTABLE_TIPS'
 				,icon: 'layui-icon-tips'
 			}]
+
 			,title: '用户数据表'
 			,cols: [[ //表头
 				{type: 'checkbox', fixed: 'left'}

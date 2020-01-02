@@ -48,16 +48,6 @@
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
 
-	// function checkRole(node){
-	// 	var role=$(node).val();
-	// 	$.post("/StopCard/checkRole", { role: role},
-	// 		function(data){
-	// 			if(eval(data)===0){
-	// 				layer.msg(role+"角色已存在！请重新输入！");
-	// 				$(node).val("")
-	// 			}
-	// 		});
-	// }
 	//角色下拉框动态赋值
 	function selectRender(form) {
 		$.post("/StopCard/queryMenu",function (obj) {

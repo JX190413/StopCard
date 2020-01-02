@@ -184,8 +184,12 @@
     <!--    根据menuid删除角色-权限关系表-->
     <delete id="deleteRoleMenu2">
        DELETE FROM tbl_rolemenu
-       WHERE menuid IN (SELECT menuid FROM tbl_menu WHERE fatherid=#{menuid} OR menuid=#{menuid})
+       WHERE menuid =#{menuid}
     </delete>
+<!--<delete id="deleteRoleMenu2">-->
+<!--       DELETE FROM tbl_rolemenu-->
+<!--       WHERE menuid IN (SELECT menuid FROM tbl_menu WHERE fatherid=#{menuid} OR menuid=#{menuid})-->
+<!--    </delete>-->
 
     <!--    删除菜单-->
     <delete id="deleteMenu" >

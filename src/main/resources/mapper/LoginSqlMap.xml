@@ -22,7 +22,7 @@ and workerpass=#{workerpass} and a.stateid=b.stateid
 <!--    查询角色菜单-->
 <resultMap id="AdminMenu" type="AdminMenu"></resultMap>
 <select id="queryMenu" parameterType="Worker"  resultMap="AdminMenu">
-SELECT g.workerid,g.workeraccount,g.statename,g.menuname  fathername,h.menuname chilename,h.menuurl menuurl from (SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid,b.menuurl from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
+SELECT DISTINCT g.workerid,g.workeraccount,g.statename,g.menuname  fathername,h.menuname chilename,h.menuurl menuurl from (SELECT a.workerid, a.workeraccount,f.statename,b.menuname,d.menuid,b.fatherid,b.menuurl from tbl_worker a,tbl_menu b,tbl_role c,tbl_rolemenu d,tbl_workeroler e,tbl_state f
 where a.workerid=e.workerid
 and e.rolerid=c.roleid
 and c.roleid=d.roleid
@@ -45,13 +45,34 @@ and g.workeraccount=#{workeraccount}
 <!--添加工作人员-->
  <insert id="saveUser"  parameterType="Worker"  >
 		insert into tbl_worker
-		(workeraccount,workerpass,stateid,face)
-		values (#{workeraccount},#{workerpass},1,#{face,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
+		(workeraccount,workerpass,stateid,worktime,face)
+		values (#{workeraccount},#{workerpass},1,#{worktime},#{face,typeHandler=org.apache.ibatis.type.BlobTypeHandler})
 	</insert>
+<!--    添加角色-->
+  <insert id="insertRole" parameterType="UpdateRole">
+      insert  into tbl_workeroler
+      (
+       workerid
+
+      )
+
+      values (#{workerid})
+  </insert>
+
+
+<!--    删除工作人员-->
+    <delete id="deleteAdmin" parameterType="Worker" >
+
+        delete  from tbl_worker
+        where workerid=#{workerid}
+    </delete>
+
+
+
 <!--查询所有工作人员-->
     <select id="queryWorker" parameterType="Worker" resultMap="Worker">
         select * from
-        (select f.workeraccount,g.rolename,f.statename,f.worktime from
+        (select f.workerid,f.workeraccount,g.rolename,f.statename,f.worktime from
         (select c.workerid,c.workeraccount,c.statename,c.worktime,d.rolerid from
         (select a.workerid,a.workeraccount,a.worktime,b.statename from tbl_worker a,tbl_state b
         where a.stateid=b.stateid) c LEFT JOIN tbl_workeroler d
@@ -103,6 +124,34 @@ and g.workeraccount=#{workeraccount}
         from tbl_devic a, tbl_state b
         <where>a.devicstate=b.stateid</where>
     </select>
+<!--查询所有的管理员角色-->
+    <resultMap id="Role" type="Role"></resultMap>
+    <select id="selectRole" resultMap="Role">
+        select  * from tbl_role
+
+
+
+
+    </select>
+
+    <select id="selectWorkerid" parameterType="Worker" resultType="Worker">
+        select * from tbl_worker
+        where workeraccount=#{workeraccount}
+
+
+
+
+
+    </select>
+
+<!--修改管理员角色-->
+    <update id="updateRole" parameterType="UpdateRole">
+        update  tbl_workeroler
+       set   rolerid=#{rolerid}
+         where workerid=#{workerid}
+
+
+    </update>
 
     <!--    //自助设备添加重复查询-->
     <select id="repeatevic" parameterType="devic" resultType="devic">

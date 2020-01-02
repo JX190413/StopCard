@@ -48,10 +48,10 @@
 
 	<script type="text/html" id="table-useradmin-admin">
 
-		<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+
+		<a class="layui-btn layui-btn-xs" lay-event="edit">角色管理</a>
 		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="power">权限管理</a>
+
 
 	</script>
 </div>
@@ -71,6 +71,7 @@
 			,limit:5
 			,cols: [[
 				{checkbox: true, fixed: true}
+				, {field:'workerid', align:"center", title: 'ID'}
 				, {field:'workeraccount', align:"center", title: '管理员名字'}
 				,{field:'rolename', align:"center", title: '职位', sort: true}
 				,{field:'statename', align:"center", title: '状态', sort: true}
@@ -115,28 +116,21 @@
 						var body = layer.getChildFrame('body', index);
 
 						// body.find("#USERID").val(data.USERID);
-						body.find("#USERNAME").val(data.tb_name);
-						body.find("#REGISTTIME").val(data.tb_time);
-						body.find("#INTEGRAL").val(data.tb_integral);
-						body.find("#UPLOAD").val(data.tb_upload);
-						body.find("#DOWNLOAD").val(data.tb_dowload);
-						if(data.tt_name=='启用'){
-							body.find("#TYPE").prop("checked",true);
-						}else if(data.tt_name=='禁用'){
-							body.find("#TYPE").prop("checked",false);
+						body.find("#workerid").val(data.workerid);
+						body.find("#workeraccount").val(data.workeraccount);
 
-						}
+
 					}
 					// ,value: data.USERNAME
 				});
 			} else if(obj.event === 'del'){
 				layer.confirm('真的删除行么', function(index){
-					var tb_name=data.tb_name;
+					var workerid=data.workerid;
 
-					var ob = {tb_name:tb_name};
+					var ob = {workerid:workerid};
 					$.ajax({
 						type:"POST",//提交的方式
-						url:"deleteServlet.action",//提交的地址
+						url:"deleteAdmin",//提交的地址
 						data:ob,//提交的数据
 						dataType:"json",//希望返回的数据类型
 						async: true,//异步操作
@@ -164,7 +158,7 @@
 				layer.open({
 					skin: 'demo-class'
 					,type: 2
-					,title: '编辑'
+					,title: '角色编辑'
 					,content: 'jsp/Update.jsp'
 					,maxmin: false
 					,area: ['480px', '570px']
@@ -172,30 +166,22 @@
 					, success : function(layero, index) {
 						var body = layer.getChildFrame('body', index);
 						// body.find("#USERID").val(data.USERID);
-						body.find("#USERNAME").val(data.tb_name);
-						body.find("#REGISTTIME").val(data.tb_time);
-						body.find("#INTEGRAL").val(data.tb_integral);
-						body.find("#UPLOAD").val(data.tb_upload);
-						body.find("#DOWNLOAD").val(data.tb_dowload);
-						if(data.tt_name=='启用'){
-							body.find("#TYPE").prop("checked",true);
-						}else if(data.tt_name=='禁用'){
-							body.find("#TYPE").prop("checked",false);
-
-						}
-
+						body.find("#workerid").val(data.workerid);
+						body.find("#workeraccount").val(data.workeraccount);
 					}
 					,yes:function (index, layero) {
-						var tb_name=$(layero).find('iframe')[0].contentWindow.USERNAME.value;
-						var tt_name=$(layero).find('iframe')[0].contentWindow.TYPE.value;
-						if(tt_name==='on'){
+						var workerid=$(layero).find('iframe')[0].contentWindow.workerid.value;
+
+						var rolerid=$(layero).find('iframe')[0].contentWindow.roleid.value;
+
+						if(workerid.length===0){
 							layer.close(index); //关闭弹窗
 						}else {
-							var ob = {tb_name:tb_name,tt_name:tt_name};
+							var ob = {workerid:workerid,rolerid:rolerid};
 
 							$.ajax({
 								type:"POST",//提交的方式
-								url:"UpdateServlet.action",//提交的地址
+								url:"UpdateRole",//提交的地址
 								data:ob,//提交的数据
 								dataType:"json",//希望返回的数据类型
 								async: true,//异步操作

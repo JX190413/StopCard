@@ -124,8 +124,8 @@ public class AdminController
 		{//修改角色
 			if (adminService.editRole(role, msg, roleid) > 0)
 			{
-				//				System.out.println("-------------------"+roleid);
-				//				System.out.println("*******************"+list);
+				System.out.println("************"+roleid);
+				System.out.println("************"+list.size());
 				adminService.addRoleMenu(roleid, list);
 				return "修改成功！";
 			}

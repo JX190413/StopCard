@@ -95,8 +95,8 @@
 </div>
 <div class="layui-body">
 	<!-- 内容主体区域 -->
-	<div style="padding: 15px;">
-		<iframe src="" frameborder="0" style="width: 100%;" height="100%;" name="page-view" id="myiframe">
+	<div style=" margin-top: 10px">
+		<iframe src="jsp/Default.jsp" frameborder="0"  style="width: 100%;" height="100%;" name="page-view" id="myiframe">
 
 		</iframe>
 

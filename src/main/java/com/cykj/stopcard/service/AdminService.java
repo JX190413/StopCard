@@ -93,6 +93,9 @@ public class AdminService
 
 	//添加角色权限关系
 	public  int addRoleMenu(String roleid,List menuid){
+		if(menuid==null||menuid.size()==0){
+			return 1;
+		}
 		return adminDao.addRoleMenu(roleid,menuid);
 	}
 

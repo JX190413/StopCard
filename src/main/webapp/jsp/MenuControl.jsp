@@ -28,8 +28,7 @@
 				<div class="layui-inline">
 					<label class="layui-form-label">菜单名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="menuname" id="menuname" placeholder="请输入菜单名称" autocomplete="off"
-						       class="layui-input">
+						<input type="text" name="menuname" id="menuname" placeholder="请输入菜单名称" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-inline">
@@ -78,7 +77,6 @@
 
 		//清除搜索条件
 		$("#clear").click(function () {
-
 			$("#menuname").val("");
 		});
 
@@ -167,7 +165,6 @@
 									if(eval(msg)>0){
 										layer.msg("修改成功！");
 									}else{layer.msg("修改失败！");}
-									$("#menuname").remove();
 									table.reload('testReload');
 									layer.close(index); //关闭弹层
 								});
@@ -223,7 +220,6 @@
 								if(eval(msg)>0){
 									layer.msg("添加成功！");
 								}else{layer.msg("添加失败！");}
-								$("#menuname").remove();
 								table.reload('testReload');
 								layer.close(index); //关闭弹层
 							});

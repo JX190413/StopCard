@@ -74,7 +74,6 @@
 							html += "<option value=" + data[i].menuid + ">" + data[i].menuid+"."+data[i].menuname + "</option>";
 						}
 					}
-
 				}
 				$("#fatherid").append(html);
 			}

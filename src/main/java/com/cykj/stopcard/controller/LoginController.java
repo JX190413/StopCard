@@ -12,6 +12,7 @@ import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
 import com.cykj.stopcard.util.GetTon;
+import com.cykj.stopcard.util.TreeBuilder;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class LoginController
 		Worker worker1 = adminLoginService.queryAdmin(worker);
 		if (worker1 != null)
 		{
-
+			List<TreeNode> treeNodes= TreeBuilder.bulid(adminService.selectMenuTree1(worker.getWorkeraccount()));
 			if("启用".equals(worker1.getStatename())){
 
 				//调用查询菜单方法
@@ -77,7 +78,6 @@ public class LoginController
 //				httpSession.setAttribute("username",worker1.getWorkeraccount());
 				httpSession.setAttribute("workeraccount",worker1.getWorkeraccount());
 				mv.addObject("worker1",worker1);
-				mv.addObject("map",map);
 				mv.addObject("map2",map2);
 				mv.addObject("flage","1");
 				mv.setViewName("Admin");

@@ -18,10 +18,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%>>
 	<script type="text/javascript" src=<%=jsPath+"jquery.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
+
+
+
+
+
 <div id="add-main" style="display: none;">
 	<form class="layui-form" id="add-form"  action="<%=path+"/updatetype"%>">
 		<div class="layui-form-item center" >
@@ -49,23 +55,34 @@
 </div>
 
 <div class="demoTable">
-	搜索分区：
-	<div class="layui-inline">
-		<div class="layui-input-block">
-			<select  name="interest" lay-filter="aihao" id="demoload" style="width: 120px;height: 30px">
-				<option value="" selected="">请选择</option>
-				<option value="A区">A区</option>
-				<option value="B区" >B区</option>
-				<option value="C区">C区</option>
-				<option value="D区">D区</option>
-				<option value="F区">F区</option>
-			</select>
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">搜索分区：</label>
+					<div class="layui-input-block">
+						<select  name="interest" lay-filter="aihao" id="demoload" style="width: 120px;height: 30px">
+							<option value="" selected="">请选择</option>
+							<option value="A区">A区</option>
+							<option value="B区" >B区</option>
+							<option value="C区">C区</option>
+							<option value="D区">D区</option>
+							<option value="F区">F区</option>
+						</select>
+					</div>
+				</div>
+				<button class="layui-btn" data-type="reload">搜索</button>
+				<button data-method="notice" class="layui-btn" id="xiugai">修改车位状态</button>
+			</div>
+		</div>
+		<div class="layui-card-body">
+			<table class="layui-hide" id="test" lay-filter="test"></table>
 		</div>
 	</div>
-	<button class="layui-btn" data-type="reload">搜索</button>
-	<button data-method="notice" class="layui-btn" id="xiugai">修改车位状态</button>
+
+
 </div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+
 <script type="text/html" id="toolbarDemo">
 </script>
 <script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>
@@ -85,15 +102,10 @@
 			}]
 			,title: '用户数据表'
 			,cols: [[ //表头
-				{type: 'checkbox', fixed: 'left'}
-				,{field: 'portid', title: 'ID', width:80, sort: true, fixed: 'left'}
-				/*,{field: 'portcardid', title: '用户名', width:80}*/
-				,{field: 'portarea', title: '区域', width:100, sort: true}
-				,{field: 'portname', title: '车位号', width:150}
-				,{field: 'statename', title: '车位状态', width: 150 }
-				/*,{field: 'innumber', title: '下载文件数', width: 177, sort: true}*/
-				/*,{field: 'usertype', title: '状态', width: 80, sort: true}
-				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}*/
+				{field: 'portid', title: 'ID',align: 'center'}
+				,{field: 'portarea', title: '区域',align: 'center'}
+				,{field: 'portname', title: '车位号',align: 'center'}
+				,{field: 'statename', title: '车位状态', align: 'center' }
 			]]
 			,page: true
 		});

@@ -22,39 +22,46 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=servletpath+"/layuiadmin/layui/css/layui.css"%> media="all">
+	<link rel="stylesheet" href=<%=servletpath+"/layuiadmin/style/admin.css"%> media="all">
 	<script type="text/javascript" src=<%=Jspath+"jquery-3.4.1.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
-<div class="demoTable">
-	搜索ID：
-	<div class="layui-inline">
-		<input class="layui-input" name="id" id="demoReload" autocomplete="off">
-	</div>
-	<button class="layui-btn" data-type="reload">搜索</button>
-</div>
-<div class="layui-card-body">
-	<div style="padding-bottom: 10px;">
-		<%--		<button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>--%>
-		<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
 
-	</div>
+<div class="layui-fluid">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="layui-inline">
+					<label class="layui-form-label">搜索ID：</label>
+					<div class="layui-inline">
+						<input class="layui-input" name="id" id="demoReload" autocomplete="off">
+					</div>
+					<button class="layui-btn" data-type="reload">搜索</button>
+				</div>
+			</div>
+		</div>
 
-	<div style="text-align: center;font-family: 'Adobe 楷体 Std R'">
-		<div class="layui-inline" style="text-align: center;">
-			<table class="layui-hide" id="LAY_table_user"  lay-filter="useruv" style="text-align: center;" ></table>
+		<div class="layui-card-body">
+			<div style="padding-bottom: 10px;">
+				<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+			</div>
+			<div style="text-align: center;font-family: 'Adobe 楷体 Std R'">
+				<div class="layui-inline" style="text-align: center;">
+					<table class="layui-hide" id="LAY_table_user"  lay-filter="useruv" style="text-align: center;" ></table>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<script type="text/html" id="table-useradmin-admin">
-
-
-		<a class="layui-btn layui-btn-xs" lay-event="edit">角色管理</a>
-		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-
-
-	</script>
 </div>
+<script type="text/html" id="table-useradmin-admin">
+
+
+	<a class="layui-btn layui-btn-xs" lay-event="edit">角色管理</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+
+</script>
 <script src=<%=servletpath+"/layuiadmin/layui/layui.js"%>  charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>

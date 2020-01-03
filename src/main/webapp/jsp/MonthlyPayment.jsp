@@ -15,6 +15,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href="<%=uiPath+"style/admin.css"%>" media="all">
 	<script src=<%=jspath+"/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=jspath+"/layui/layui.js"%>></script>
 	<title>月缴产品表格界面</title>
@@ -47,18 +48,19 @@
 
 
 		<div class="layui-card-body">
-
+			<table class="layui-hide" id="demo" lay-filter="test"></table>
 			<script type="text/html" id="barDemo">
 <%--                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">修改</a>--%>
 <%--                    <a class="layui-btn layui-btn-xs" lay-event="edit">状态</a>--%>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
 			</script>
 		</div>
 	</div>
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+
 
 
 <script>

@@ -15,6 +15,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%>>
 	<script src=<%=jspath+"/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=jspath+"/layui/layui.js"%>></script>
 	<title>计费规则表</title>
@@ -22,10 +23,10 @@
 
 <body>
 
-<div class="demoTable">
+<div class="layui-fluid">
 	<div class="layui-card">
 		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
-<%--			<div class="layui-form-item">--%>
+			<div class="layui-form-item">
 <%--				<div class="layui-inline">--%>
 <%--					<label class="layui-form-label">计费规则名</label>--%>
 <%--					<div class="layui-input-block">--%>
@@ -46,7 +47,7 @@
 		</div>
 
 		<div class="layui-card-body">
-
+			<table class="layui-hide" id="demo" lay-filter="test"></table>
 			<script type="text/html" id="barDemo">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">修改</a>
 <%--                    <a class="layui-btn layui-btn-xs" lay-event="edit">状态</a>--%>
@@ -57,7 +58,7 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+
 
 
 <script>

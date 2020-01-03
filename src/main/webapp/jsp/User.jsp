@@ -29,7 +29,7 @@
 	<div class="layui-card">
 		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
 			<div class="layui-form-item">
-				<div class="demoTable" style="padding-left: 15%;padding-top: 8%;">
+				<div class="demoTable" >
 					用户名：
 					<div class="layui-inline">
 						<input class="layui-input" name="username" id="username" autocomplete="off">

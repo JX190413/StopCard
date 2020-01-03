@@ -2,7 +2,7 @@ function changeURL(node) {
 
 
 	var url = $(node).attr("title");
-	alert(url);
+
 	$(node).attr("title",(url+"?handle="+$("#user-name-label").html()));
 
 

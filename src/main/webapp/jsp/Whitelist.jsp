@@ -28,7 +28,7 @@
 	<div class="layui-card">
 		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
 			<div class="layui-form-item">
-				<div class="demoTable" style="padding-left: 35%;padding-top: 8%;">
+				<div class="demoTable" >
 					车牌号：
 					<div class="layui-inline">
 						<input class="layui-input" name="carnum" id="carnum" autocomplete="off">

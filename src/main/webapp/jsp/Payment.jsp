@@ -18,6 +18,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%>>
 	<script type="text/javascript" src=<%=jsPath+"jquery.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
@@ -25,27 +26,38 @@
 
 
 <div class="demoTable">
-	<div class="layui-form">
-		<div class="layui-form-item">
-	开始时间:
-	<div class="layui-inline">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				<div class="layui-form">
+					<div class="layui-form-item">
+						开始时间:
+						<div class="layui-inline">
 
-			<input type="text" class="layui-input" id="fast" placeholder="yyyy-MM-dd">
+							<input type="text" class="layui-input" id="fast" placeholder="yyyy-MM-dd">
 
-	</div>
-	到期时间:
-	<div class="layui-inline">
+						</div>
+						到期时间:
+						<div class="layui-inline">
 
 
-		<input type="text" class="layui-input" id="last" placeholder="yyyy-MM-dd">
-	</div>
-			<button class="layui-btn" data-type="reload">搜索</button>
+							<input type="text" class="layui-input" id="last" placeholder="yyyy-MM-dd">
+						</div>
+						<button class="layui-btn" data-type="reload">搜索</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-card-body">
+			<table class="layui-hide" id="test" lay-filter="test"></table>
 		</div>
 	</div>
 
-	<%--<button data-method="notice" class="layui-btn" id="xiugai">修改车位状态</button>--%>
+
+
 </div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+
 <script type="text/html" id="toolbarDemo">
 </script>
 <script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>

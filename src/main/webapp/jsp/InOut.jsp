@@ -18,23 +18,39 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%>>
 	<script type="text/javascript" src=<%=jsPath+"jquery.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
 
 <div class="demoTable">
-	搜索分区：
-	<div class="layui-inline">
-		<div class="layui-input-block">
-			<div class="layui-input-block">
-				<input type="text"  placeholder="请输入车牌号" class="layui-input" id="carnum">
+	<div class="layui-card">
+		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+			<div class="layui-form-item">
+				搜索分区：
+				<div class="layui-inline">
+					<div class="layui-input-block">
+						<div class="layui-input-block">
+							<input type="text"  placeholder="请输入车牌号" class="layui-input" id="carnum">
+						</div>
+					</div>
+				</div>
+				<button class="layui-btn" data-type="reload">搜索</button>
 			</div>
 		</div>
+
+		<div class="layui-card-body">
+			<table class="layui-hide" id="test" lay-filter="test"></table>
+		</div>
 	</div>
-	<button class="layui-btn" data-type="reload">搜索</button>
+
+
+
+
+
 </div>
-<table class="layui-hide" id="test" lay-filter="test"></table>
+
 <script type="text/html" id="toolbarDemo">
 </script>
 <script type="text/javascript" src="<%=layuipath+"layui.js"%>"></script>

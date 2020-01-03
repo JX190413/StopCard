@@ -15,6 +15,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
+	<link rel="stylesheet" href=<%=uiPath+"style/admin.css"%>>
 	<script src=<%=jspath+"/js/jquery-3.4.1.js"%>></script>
 	<script src=<%=jspath+"/layui/layui.js"%>></script>
 	<title>自助设备管理表界面</title>
@@ -41,14 +42,12 @@
 					</button>
 					<button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
 				</div>
-
-
 			</div>
 		</div>
 
 
 		<div class="layui-card-body">
-
+			<table class="layui-hide" id="demo" lay-filter="test"></table>
 			<script type="text/html" id="barDemo">
                     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">修改</a>
                     <a class="layui-btn layui-btn-xs" lay-event="edit">状态</a>
@@ -59,7 +58,7 @@
 </div>
 
 
-<table class="layui-hide" id="demo" lay-filter="test"></table>
+
 
 
 <script>

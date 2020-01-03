@@ -7,26 +7,50 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+	String layuicsspath = request.getContextPath()+"/layuiadmin/layui/css/";
+	String layuistyle = request.getContextPath()+"/layuiadmin/style/";
+	String layuipath = request.getContextPath()+"/layuiadmin/layui/";
+	String path =application.getContextPath();
+	String jsPath=request.getContextPath()+"/js/";
+	String cssPath=request.getContextPath()+"/css/";
+	String uiPath = request.getContextPath() + "/layuiadmin/";
+%>
 <html>
 <head>
 	<title>Title</title>
-	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
-	<link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+	<link rel="stylesheet" href=<%=uiPath+"layui/css/layui.css"%>>
 </head>
 <body>
-当前时间:
-<div id="div1"> </div>
+<form class="layui-form">
+	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+		<legend>当前时间</legend>
+	</fieldset>
+<div id="div1" style="font-size: 18px"> </div>
 <div class="layui-row" style="padding-top: 200px">
 	<div class="layui-col-md4">
-		<div class="grid-demo grid-demo-bg1" >0:00 --8:00 共收款 :${morning} 元</div>
+		<div class="grid-demo grid-demo-bg1" >
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+				<legend>0:00 --8:00 共收款 :${morning} 元</legend>
+			</fieldset>
+		</div>
 	</div>
 	<div class="layui-col-md4">
-		<div class="grid-demo" >8:00 --16:00 共收款 : ${noon} 元</div>
+		<div class="grid-demo" >
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+				<legend>8:00 --16:00 共收款 : ${noon} 元</legend>
+			</fieldset>
+		</div>
 	</div>
 	<div class="layui-col-md4">
-		<div class="grid-demo grid-demo-bg1" >16:00 --24:00 共收款 : ${night} 元</div>
+		<div class="grid-demo grid-demo-bg1" >
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+				<legend>16:00 --24:00 共收款 : ${night} 元</legend>
+			</fieldset>
+		</div>
 	</div>
 </div>>
+</form>
 <script>
 	window.onload = function(){
 		var oDiv = document.getElementById('div1');

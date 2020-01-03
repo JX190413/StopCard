@@ -36,13 +36,15 @@ public interface ChargeDao
 	public  int selstateid();
 	public  int selstateid2();
 	public  int selstateid3();
+	public  int selstateid4();
 	public  String selusermoney(String carnum);
 	public  List<Combo> selcombo(String money);
 	public int insetsell(String money,String comboid,String time,String carnum,String selltype);
 	public List<Business> selbus(Page page);
 	public List<Business> selbus2(Page page);
 	public List<CarInOut> selbus3(Page page);
-	public  int selpeyid();
+	public int selpeyid();
+	public List<UserManagement> seluser(UserManagement userManagement);
 
 
 

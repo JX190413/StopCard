@@ -325,7 +325,7 @@ public class ChargeController
 		return modelAndView;
 	}
 	//定时器定时增加
-	/*@Scheduled(cron="0/60 * * * * ?")*/
+	@Scheduled(cron="0 0 0,8,16 * * ?")
 	public void executeFileDownLoadTask() {
 		System.out.println("定时任务启动");
 		int nowtime=nowti();
@@ -631,6 +631,24 @@ if (str.indexOf(".") > 0)
 			msg.setCount(count);
 			msg.setData(list);
 		return  msg;
+	}
+	@RequestMapping("Ceshi")
+	@ResponseBody
+	public String ceshi(String zhanghao, String mima){
+		String msg="2";
+		UserManagement userManagementr=new UserManagement();
+		userManagementr.setUsername(zhanghao);
+		userManagementr.setUserpass(mima);
+		List<UserManagement> list=chargeService.seluser(userManagementr);
+		System.out.println(zhanghao);
+		System.out.println(mima);
+		System.out.println("微信小程序进来了");
+		if (list.size()>0){
+			System.out.println("登录成功");
+		msg="1";
+		}
+
+		return msg;
 	}
 }
 

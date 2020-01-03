@@ -91,8 +91,10 @@ public class ChargeService
 	public  int selstateid(){return  chargeDao.selstateid();}
 	public  int selstateid2(){return  chargeDao.selstateid2();}
 	public  int selstateid3(){return  chargeDao.selstateid3();}
+	public  int selstateid4(){return  chargeDao.selstateid4();}
 	public   String selusermoney(String carnum){return chargeDao.selusermoney(carnum);}
 	public  List<Combo> selcombo(String money){return  chargeDao.selcombo(money);}
 	public int insetsell(String money,String comboid,String time,String carnum,String selltype){ return chargeDao.insetsell(money,comboid,time,carnum,selltype);}
 	public int selpeyid(){return chargeDao.selpeyid();}
+	public List<UserManagement> seluser(UserManagement worker){return  chargeDao.seluser(worker);}
 }

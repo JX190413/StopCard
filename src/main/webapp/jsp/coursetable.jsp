@@ -75,6 +75,8 @@
 					<th>${requestScope.tableHead[2]}<br>星期三</th>
 					<th>${requestScope.tableHead[3]}<br>星期四</th>
 					<th>${requestScope.tableHead[4]}<br>星期五</th>
+					<th>${requestScope.tableHead[5]}<br>星期六</th>
+					<th>${requestScope.tableHead[6]}<br>星期日</th>
 				</tr>
 				</thead>
 				<tbody id="table-body">
@@ -181,6 +183,48 @@
 									</c:if>
 								</c:forEach>
 							</td>
+
+							<td>
+								<input type="hidden" value="${requestScope.tableHead[5]}">
+								<c:forEach items="${i.value}" begin="0" step="1" var="j">
+									<c:if test="${j.arrangetime==requestScope.tableHead[5]}">
+										<c:choose>
+											<c:when test="${j.workerid == 26}">
+												<button type="button" class="btn btn-schedule layui-btn layui-btn-primary" value="${j.workerid}"
+												        onclick="showRegistered(this)" couId="${j.arrangeid}">${j.workeraccount}</button>
+											</c:when>
+											<c:otherwise>
+												<button type="button" class="btn btn-schedule layui-btn" value="${j.workerid}"
+												        onclick="showRegistered(this)" couId="${j.arrangeid}">${j.workeraccount}</button>
+											</c:otherwise>
+										</c:choose>
+
+									</c:if>
+								</c:forEach>
+							</td>
+
+
+							<td>
+								<input type="hidden" value="${requestScope.tableHead[6]}">
+								<c:forEach items="${i.value}" begin="0" step="1" var="j">
+									<c:if test="${j.arrangetime==requestScope.tableHead[6]}">
+										<c:choose>
+											<c:when test="${j.workerid == 26}">
+												<button type="button" class="btn btn-schedule layui-btn layui-btn-primary" value="${j.workerid}"
+												        onclick="showRegistered(this)" couId="${j.arrangeid}">${j.workeraccount}</button>
+											</c:when>
+											<c:otherwise>
+												<button type="button" class="btn btn-schedule layui-btn" value="${j.workerid}"
+												        onclick="showRegistered(this)" couId="${j.arrangeid}">${j.workeraccount}</button>
+											</c:otherwise>
+										</c:choose>
+
+									</c:if>
+								</c:forEach>
+							</td>
+
+
+
 						</tr>
 
 					</c:forEach>

@@ -12,6 +12,7 @@ import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
 import com.cykj.stopcard.util.GetTon;
+import com.cykj.stopcard.util.Tool;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -910,6 +911,226 @@ public Worker onListStudent(HttpServletRequest request,
 		msg= new Msg(0,"",mun,list);
 		return msg;
 	}
+
+	//产品管理修改
+	@RequestMapping("/GaiMonthlyPayment.action")
+	@ResponseBody
+	@Log(operationType="产品管理修改",operationName="管理员进行产品管理修改")
+	public Msg GaiMonthlyPayment(Combo combo)
+	{
+
+		int i =adminLoginService.GaiMonthlyPayment(combo);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+
+	//	自助设备南丁格尔玫瑰图界面
+	@RequestMapping("EChars3")
+	//	@Log(operationType="南丁格尔玫瑰图界面",operationName="南丁格尔玫瑰图界面显示方法")
+	public ModelAndView EChars3(){
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("Postcount3");
+		return mv;
+	}
+
+
+
+	//车辆南丁格尔玫瑰图显示
+	@RequestMapping("/VehicleECharts3.action")
+	@ResponseBody
+	//	@Log(operationType="南丁格尔玫瑰图数据",operationName="管理员打开南丁格尔玫瑰图")
+	public List<Inout>  VehicleECharts3(){
+
+
+
+		List<Inout> list= adminLoginService.VehicleECharts3();
+
+
+
+		return list;
+	}
+
+
+	//	排班界面
+	@RequestMapping("Schedule")
+	public ModelAndView Schedule(HttpServletRequest request){
+
+		Date date = new Date(System.currentTimeMillis());
+
+		ModelAndView mv = new ModelAndView();
+		List<Date> dateList = Tool.dateToWeek(date);
+		List<String> days = Tool.getDateType(dateList);
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("startDate", days.get(0));
+		map2.put("endDate", days.get(days.size() - 1));
+
+		System.out.println("日期时间"+days);
+		Map<String, List<Arrange>> map = adminLoginService.ShiftArrange(map2);
+
+		if (!(map.size() > 0))
+		{
+
+			List<Arrange> courseList2 = new ArrayList<Arrange>();
+			for (int i = 0; i < 7; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					Arrange arrange = new Arrange();
+					arrange.setArrangetime(days.get(i));
+					System.out.println("日期--------"+arrange.getArrangetime());
+					arrange.setArrid(String.valueOf(j + 1));
+					System.out.println("序号--------"+arrange.getArrid());
+					arrange.setWorkerid(26);
+					courseList2.add(arrange);
+
+				}
+			}
+			adminLoginService.ShiftInsertion(courseList2);
+			for (int i = 0; i <courseList2.size() ; i++)
+			{
+				System.out.println("日期+++++++++++++++-----------------"+courseList2.get(i).getArrangetime());
+				System.out.println("序号+++++++++++++++-----------------"+courseList2.get(i).getArrid());
+
+			}
+			map = adminLoginService.ShiftArrange(map2);
+
+		}
+		if(null!=map){
+			request.setAttribute("tableBody", map);
+			request.setAttribute("tableHead", days);
+
+			mv.setViewName("coursetable");
+			return mv;
+		}
+		return null;
+	}
+
+
+//	查看上下周课程表
+
+	@RequestMapping("/weekcourseTable.action")
+
+	public ModelAndView weekcourseTable(HttpServletRequest request, HttpServletResponse response, String cid)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		String nowDate = request.getParameter("now-Date");
+		String doWhich = request.getParameter("doWhich");
+		Date date = Tool.getDateType(nowDate);
+
+		Map<String, List<Arrange>> map;
+		List<String> days;
+		if ("上一周".equals(doWhich))
+		{
+			List<Date> dateList = Tool.dateToWeek(Tool.getLastWeekMonday(date));
+			List<String> daySting = Tool.getDateType(dateList);
+			Date toDay = new Date(System.currentTimeMillis());
+			List<Date> toDays = Tool.dateToWeek(toDay);
+			List<String> toDaysSting = Tool.getDateType(toDays);
+			Date date1 = Tool.getDateType((toDaysSting.get(6)));
+			Date date2 = Tool.getDateType((daySting.get(6)));
+			if (dateList.get(6).getTime() > toDays.get(6).getTime())
+			{
+				days = Tool.getDateType(dateList);
+			} else
+			{
+				days = Tool.getDateType(toDays);
+			}
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("startDate", days.get(0));
+			map2.put("endDate", days.get(days.size() - 1));
+
+			map = adminLoginService.ShiftArrange(map2);
+		} else
+		{
+			List<Date> dateList = Tool.dateToWeek(Tool.getNextWeekMonday(date));
+			days = Tool.getDateType(dateList);
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("startDate", days.get(0));
+			map2.put("endDate", days.get(days.size() - 1));
+			map2.put("cid", cid);
+			map = adminLoginService.ShiftArrange(map2);
+			if (!(map.size() > 0))
+			{
+				List<Arrange> courseList2 = new ArrayList<Arrange>();
+				for (int i = 0; i < 7; i++)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						Arrange arrange = new Arrange();
+						arrange.setArrangetime(days.get(i));
+						arrange.setArrid(String.valueOf(j + 1));
+						arrange.setWorkerid(26);
+						courseList2.add(arrange);
+					}
+				}
+				adminLoginService.ShiftInsertion(courseList2);
+				map = adminLoginService.ShiftArrange(map2);
+			}
+		}
+
+		if(null!=map){
+			request.setAttribute("tableBody", map);
+			request.setAttribute("tableHead", days);
+
+			mv.setViewName("coursetable");
+			return mv;
+		}
+		return null;
+	}
+
+
+
+//	 排班下拉框
+
+	@RequestMapping("/findSubject.action")
+	public ModelAndView findSubject()
+	{
+		List<Arrange> subjects = adminLoginService.findSubject();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("courseadd");
+		modelAndView.addObject("subjects", subjects);
+		return modelAndView;
+	}
+
+
+	//排班
+
+	//计费规则表格修改
+	@RequestMapping("/ScheduleGai.action")
+	@ResponseBody
+	public Msg ScheduleGai(HttpServletRequest req ,Arrange arrange)
+	{
+		String subjects = req.getParameter("subjects");
+		String couId = req.getParameter("couId");
+		arrange.setWorkerid(Integer.valueOf(subjects));
+		arrange.setArrangeid(Integer.valueOf(couId));
+		System.out.println("排班号--------------"+arrange.getWorkerid());
+		System.out.println("序号--------------"+arrange.getArrangeid());
+		int i =adminLoginService.ScheduleGai(arrange);
+		Msg msg =new Msg();
+		if (i>0){
+			msg.setMsg("1");
+		}else {
+			msg.setMsg("2");
+		}
+		return msg;
+	}
+
+
+
+
+
+
+
 
 
 

@@ -352,6 +352,78 @@ and g.workeraccount=#{workeraccount}
 
     </select>
 
+    <!--    //产品管理修改-->
+    <update id="GaiMonthlyPayment" parameterType="combo" >
+          update tbl_combo
+        set combomoney=#{combomoney} where comboid=#{comboid}
+
+    </update>
+
+
+
+    <!--    自助设备统计-->
+    <select id="VehicleECharts3" resultType="Inout">
+    select  b.paytype paytypename,count(a.inoutid) numbers
+    from tbl_inout a,tbl_pay b
+    where a.payid=b.payid
+    group by paytypename
+
+
+    </select>
+
+
+    <!--    排班-->
+<!--    <select id="ShiftArrange"  parameterType="map" resultType="java.util.Map">-->
+<!--    select-->
+<!--    from tbl_arrange a,tbl_state b,tbl_worker c-->
+<!--    where a.state=b.state-->
+<!--    and a.workerid=c.workerid-->
+<!--    AND a.arrangetime &gt;= #{startDate}-->
+<!--    AND a.arrangetime &lt;= #{endDate}-->
+
+<!--    </select>-->
+    <select id="ShiftArrange"  resultType="arrange">
+        select a.arrangetime,a.arrid,b.workeraccount,a.arrangeid
+    from tbl_arrange a ,tbl_worker b
+    where a.workerid=b.workerid
+    and a.arrangetime &gt;= #{startDate}
+    AND a.arrangetime &lt;= #{endDate}
+
+    </select>
+
+
+<!--    //排班初始插入-->
+    <insert id="ShiftInsertion" parameterType="java.util.List" >
+        INSERT INTO tbl_arrange
+        (arrangetime,arrid,workerid)
+        values
+        <foreach collection ="list" item="x" index= "index" separator =",">
+            (
+            #{x.arrangetime},
+            #{x.arrid},
+            #{x.workerid}
+
+            )
+        </foreach >
+    </insert>
+
+<!--    排班添加界面收费员下拉框-->
+    <select id="findSubject"  resultType="arrange">
+
+        select a.workeraccount,b.workerid
+        from tbl_worker a,tbl_workeroler b
+        where a.workerid=b.workerid
+        and b.rolerid=2
+        and a.workerid &lt;&gt;26
+    </select>
+
+    <!--    //排班人员添加修改-->
+    <update id="ScheduleGai" parameterType="arrange" >
+        update tbl_arrange
+        set workerid=#{workerid}
+        where arrangeid=#{arrangeid}
+    </update>
+
 
 
 </mapper>

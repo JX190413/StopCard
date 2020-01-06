@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 //后台用户方法接口
 @Mapper
 public interface AdminLoginDao
@@ -139,6 +141,29 @@ public interface AdminLoginDao
 	//日志管理表格总条数查询
 	public List<Tblog> Logmanagementzong(Tblog tblog);
 
+	//产品管理修改
+
+	public int GaiMonthlyPayment(Combo combo);
 
 
+
+	//车辆统计
+
+	public List<Inout> VehicleECharts3();
+
+
+	//排班
+	public List<Arrange>  ShiftArrange(Map<String, Object> map );
+
+
+	//排班初始插入
+	public boolean ShiftInsertion(List<Arrange> courseList2);
+
+	//排班添加界面
+	public List<Arrange> findSubject();
+
+
+	//排班人员添加进去
+
+	public int ScheduleGai(Arrange arrange);
 }

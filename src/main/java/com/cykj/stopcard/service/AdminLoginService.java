@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //后台操作层
 @Service
@@ -317,6 +319,76 @@ public int insertRole(UpdateRole updateRole){
 	{
 
 		return  adminLoginDao.Logmanagementzong(tblog);
+	}
+
+	//产品管理修改
+	@Transactional
+	public int GaiMonthlyPayment(Combo combo)
+	{
+
+		return adminLoginDao.GaiMonthlyPayment(combo);
+	}
+
+	//临时停车缴费图
+	@Transactional
+	public List<Inout> VehicleECharts3()
+	{
+
+		return  adminLoginDao.VehicleECharts3();
+	}
+
+	//排班初始插入
+	public boolean ShiftInsertion(List<Arrange> courseList2)
+	{
+
+		return  adminLoginDao.ShiftInsertion(courseList2);
+	}
+	//排班
+	@Transactional
+	public Map<String, List<Arrange>>  ShiftArrange(Map<String, Object> map2 )
+	{
+		Map<String, List<Arrange>> map = null;
+		List<Arrange> lis=adminLoginDao.ShiftArrange(map2);
+		map = new HashMap<>();
+		for (int i = 0; i < lis.size(); i++)
+		{
+
+			Arrange arrange = lis.get(i);
+			if (map.containsKey(arrange.getArrid()))
+			{
+				List<Arrange> list = map.get(arrange.getArrid());
+				list.add(arrange);
+			} else
+			{
+				List<Arrange> list = new ArrayList<>();
+				list.add(arrange);
+				map.put(arrange.getArrid(), list);
+			}
+		}
+		return map;
+//
+//		return adminLoginDao.ShiftArrange(map);
+	}
+
+
+
+
+
+	//排班添加界面
+	@Transactional
+	public List<Arrange> findSubject(){
+		return adminLoginDao.findSubject();
+	}
+
+
+
+
+	//排班人员添加进去
+	@Transactional
+	public int ScheduleGai(Arrange arrange)
+	{
+
+		return adminLoginDao.ScheduleGai(arrange);
 	}
 
 

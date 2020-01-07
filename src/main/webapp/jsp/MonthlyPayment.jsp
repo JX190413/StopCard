@@ -50,7 +50,7 @@
 		<div class="layui-card-body">
 			<table class="layui-hide" id="demo" lay-filter="test"></table>
 			<script type="text/html" id="barDemo">
-<%--                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">修改</a>--%>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">修改</a>
 <%--                    <a class="layui-btn layui-btn-xs" lay-event="edit">状态</a>--%>
                     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 
@@ -172,42 +172,42 @@
 				layer.open({
 					type: 2
 					,title: '修改'
-					,content: 'jsp/gaiDevic.jsp'
+					,content: 'jsp/GaiMonthlyPayment.jsp'
 					,maxmin: true
 					,area: ['500px', '450px']
 					,btn: ['确定', '取消']
 					, success : function(layero, index) {
 						var body = layer.getChildFrame('body', index);
 
-						body.find("#devicid").val(data.devicid);
-						
+						body.find("#comboid").val(data.comboid);
+						body.find("#combotime").val(data.combotime);
 					}
 					,yes: function(index, layero){
 
 
-						var devicid = $(layero).find('iframe')[0].contentWindow.devicid.value;
-						alert("设备序号-----"+devicid);
+						var comboid = $(layero).find('iframe')[0].contentWindow.comboid.value;
+						alert("产品序号-----"+comboid);
 
 
-						var devicearea = $(layero).find('iframe')[0].contentWindow.devicearea.value;
-						alert("设备区域-----"+devicearea);
+						var combotime = $(layero).find('iframe')[0].contentWindow.combotime.value;
+						alert("产品名字-----"+combotime);
 
 
 						//设备名字
-						var devicname = $(layero).find('iframe')[0].contentWindow.devicname.value;
-						alert("设备名字-----"+devicname);
+						var combomoney = $(layero).find('iframe')[0].contentWindow.combomoney.value;
+						alert("产品价格-----"+combomoney);
 
 
 						var ob = {
-							devicid: devicid,
-							devicearea: devicearea,
-							devicname:devicname
+							comboid: comboid,
+							combotime: combotime,
+							combomoney:combomoney
 
 						};
 
 						$.ajax({
 							type: "POST",//提交的方式
-							url: "/StopCard/revisedevic.action",//提交的地址
+							url: "/StopCard/GaiMonthlyPayment.action",//提交的地址
 							data: ob,//提交的数据
 							dataType: "json",//希望返回的数据类型
 							async: true,//异步操作

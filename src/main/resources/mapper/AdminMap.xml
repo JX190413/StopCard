@@ -104,7 +104,7 @@
         <if test="menuid!=null and menuid.size()>0">
             INSERT INTO tbl_rolemenu (roleid,menuid)
             values
-            <foreach item="i" index="index" collection="menuid" separator=",">
+            <foreach collection="menuid" item="i" index="index"  separator=",">
                 (#{roleID},#{i})
             </foreach>
 

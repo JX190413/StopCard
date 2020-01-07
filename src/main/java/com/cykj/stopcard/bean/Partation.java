@@ -2,7 +2,7 @@ package com.cykj.stopcard.bean;
 
 public class Partation
 {
-	//
+	////
 	private  int partitionid;
 	private  String partitionname;
 	private  String image;

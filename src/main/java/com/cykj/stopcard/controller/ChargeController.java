@@ -326,6 +326,8 @@ public class ChargeController
 	}
 	//定时器定时增加
 	@Scheduled(cron="0 0 0,8,16 * * ?")
+	//五秒测试一次
+//	@Scheduled(cron="*/5 * * * * ?")
 	public void executeFileDownLoadTask() {
 		System.out.println("定时任务启动");
 		int nowtime=nowti();
@@ -341,7 +343,7 @@ public class ChargeController
 				list=chargeService.selmoney(time1.format(new Date()),time.format(new Date()));
 				money=Calculatemoney(list);
 				String money1=String.valueOf(money);
-				chargeService.insetdaile(time.format(new Date()),money1);
+				chargeService.insetdaile(time.format(new Date()),money1,"早班");
 				System.out.println(money);
 				break;
 			case 2:
@@ -349,13 +351,13 @@ public class ChargeController
 				money=Calculatemoney(list);
 				System.out.println(money);
 				String money2=String.valueOf(money);
-				chargeService.insetdaile(time2.format(new Date()),money2);
+				chargeService.insetdaile(time2.format(new Date()),money2,"午班");
 				break;
 			case 3:
 				list= chargeService.selmoney(time2.format(new Date()),time3.format(new Date()));
 				money=Calculatemoney(list);
 				String money3=String.valueOf(money);
-				chargeService.insetdaile(time1.format(new Date()),money3);
+				chargeService.insetdaile(time1.format(new Date()),money3,"晚班");
 				System.out.println("增加成功");
 				break;
 			default:
@@ -632,6 +634,7 @@ if (str.indexOf(".") > 0)
 			msg.setData(list);
 		return  msg;
 	}
+	//小程序登录
 	@RequestMapping("Ceshi")
 	@ResponseBody
 	public String ceshi(String zhanghao, String mima){
@@ -645,10 +648,80 @@ if (str.indexOf(".") > 0)
 		System.out.println("微信小程序进来了");
 		if (list.size()>0){
 			System.out.println("登录成功");
-		msg="1";
+			msg="1";
 		}
 
 		return msg;
+	}
+	//小程序注册
+	@RequestMapping("Ceshi2")
+	@ResponseBody
+	public String ceshi2(String username,String psw,String number,String adress,String carnum){
+		String msg="2";
+		List<UserManagement>list=chargeService.selname(username);
+		List<UserManagement>list2=chargeService.selname2(carnum);
+		if (list.size()>0){
+			msg="3";
+		}
+		else if (list2.size()>0){
+			msg="4";
+		}
+		else {
+			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date(System.currentTimeMillis());
+			UserManagement userManagement=new UserManagement();
+			userManagement.setUsername(username);
+			userManagement.setCarnum(carnum);
+			userManagement.setUserpass(psw);
+			userManagement.setUserphone(number);
+			userManagement.setUseraddress(adress);
+			userManagement.setUsertime(formatter.format(date));
+			int flay=chargeService.insetuser(userManagement);
+			if (flay>0){
+				msg="1";
+			}
+		}
+
+
+		return msg;
+	}
+	//首页导航
+	@RequestMapping("lunbo")
+	@ResponseBody
+	public  Map<String,Object> lunbo(){
+		System.out.println("进入首页导航");
+		int typeid=chargeService.selstateid5("导航");
+		int typeid2=chargeService.selstateid5("轮播图");
+			List<Partation> list=chargeService.selpartitio(typeid);
+		System.out.println(list.get(0).getJumpurl());
+		List<Partation> list2=chargeService.selpartitio(typeid2);
+		Map<String,Object> map=new HashMap<>();
+		map.put("list",list);
+		map.put("list2",list2);
+		return map;
+	}
+	@RequestMapping("shop")
+	@ResponseBody
+	public  List<Commodity> shop(String title){
+		System.out.println("进入商品查询页面");
+		Map<String,Object> map=new HashMap<>();
+		List<Commodity> list=chargeService.selcommid(title);
+		return list;
+	}
+
+	@RequestMapping("shoplunbo")
+	@ResponseBody
+	public  Map<String,Object> shop2(String uid){
+		System.out.println(uid);
+		System.out.println("进入商品主页面");
+		List<Partation> list=chargeService.selshoplunbo(uid,"商品轮播图");
+		List<Partation> list3=chargeService.selshoplunbo(uid,"商品介绍图");
+		List<Commodity> list2=chargeService.selcommid2(Integer.valueOf(uid));
+		Map<String,Object> map=new HashMap<>();
+		map.put("list",list);
+		map.put("list2",list2);
+		map.put("list3",list3);
+		return map;
 	}
 }
 

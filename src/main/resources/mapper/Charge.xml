@@ -77,7 +77,7 @@ UPDATE tbl_business set cartype=#{cartype} where businessid=#{out_trade_no}
     </select>
     <!-- 时间段增加-->
     <insert id="insetdaile" parameterType="java.lang.String">
-        INSERT into tbl_daile (dailetime,dailemoney) VALUES(#{dailetime} ,#{money})
+        INSERT into tbl_daile (dailetime,dailemoney,dailetime2) VALUES(#{dailetime} ,#{money},#{dailetime2})
     </insert>
     <!-- 查询时间段-->
     <select id="seldaile" resultType="Daile" parameterType="java.lang.String">
@@ -144,5 +144,32 @@ SELECT * from tbl_user where carnum=#{carnum}
 </select>
     <select id="seluser" parameterType="UserManagement" resultType="UserManagement">
        SELECT * from tbl_user where username=#{username} and userpass=#{userpass}
+    </select>
+    <insert id="insetuser" parameterType="UserManagement">
+        INSERT into  tbl_user(username,userpass,userphone,useraddress,carnum,usertime) VALUES(#{username},#{userpass},#{userphone},#{useraddress},#{carnum},#{usertime})
+    </insert>
+    <select id="selname" parameterType="java.lang.String" resultType="UserManagement">
+        SELECT * from tbl_user where username=#{username}
+    </select>
+    <select id="selname2" parameterType="java.lang.String" resultType="UserManagement">
+        SELECT * from tbl_user where carnum=#{carnum}
+    </select>
+    <select id="selpartitio" parameterType="Integer" resultType="Partation">
+        SELECT * from tbl_partitio where typeid=#{typeid}
+    </select>
+    <select id="selpartitio2" parameterType="Integer" resultType="Partation">
+        SELECT image from tbl_partitio where typeid=#{typeid}
+    </select>
+    <select id="selstateid5" parameterType="java.lang.String" resultType="Integer">
+        SELECT stateid from tbl_state where statename=#{statename}
+    </select>
+    <select id="selcommid" resultType="Commodity" parameterType="java.lang.String">
+        SELECT * from tbl_commodity where  partitionname=#{partitionname}
+    </select>
+    <select id="selcommid2" resultType="Commodity" parameterType="Integer">
+        SELECT * from tbl_commodity where  commodityid=#{commodityid}
+    </select>
+    <select id="selshoplunbo" parameterType="java.lang.String" resultType="Partation">
+        SELECT * from tbl_partitio where typeid=#{typeid} and partitionname=#{partitionname}
     </select>
 </mapper>

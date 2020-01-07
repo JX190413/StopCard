@@ -78,7 +78,7 @@ public class ChargeService
 	public int selallnumber4(String where,String payid){return chargeDao.selallnumber4(where,payid);}
 	public int selcarid(String statename){return chargeDao.selcarid(statename);}
 	public int upcartype(CardPort cardPort){return chargeDao.upcartype(cardPort);}
-	public int insetdaile(String dailetime,String money){return chargeDao.insetdaile(dailetime,money);}
+	public int insetdaile(String dailetime,String money,String dailetime2){return chargeDao.insetdaile(dailetime,money,dailetime2);}
 	public List<Cost> selmoney(String fasttime, String nexttime){return chargeDao.selmoney(fasttime,nexttime);}
 	public List<Daile> seldaile(String nowday){return chargeDao.seldaile(nowday);}
 	public List<Combo> selcarbo(){return chargeDao.selcarbo();}
@@ -92,9 +92,18 @@ public class ChargeService
 	public  int selstateid2(){return  chargeDao.selstateid2();}
 	public  int selstateid3(){return  chargeDao.selstateid3();}
 	public  int selstateid4(){return  chargeDao.selstateid4();}
+	public  int selstateid5(String statename){return  chargeDao.selstateid5(statename);}
 	public   String selusermoney(String carnum){return chargeDao.selusermoney(carnum);}
 	public  List<Combo> selcombo(String money){return  chargeDao.selcombo(money);}
 	public int insetsell(String money,String comboid,String time,String carnum,String selltype){ return chargeDao.insetsell(money,comboid,time,carnum,selltype);}
 	public int selpeyid(){return chargeDao.selpeyid();}
 	public List<UserManagement> seluser(UserManagement worker){return  chargeDao.seluser(worker);}
+	public int insetuser(UserManagement userManagement){return  chargeDao.insetuser(userManagement);}
+	public List<UserManagement> selname(String username){return chargeDao.selname(username);}
+	public List<UserManagement> selname2(String carnum){return chargeDao.selname2(carnum);}
+	public List<Partation> selpartitio(int typeid){return  chargeDao.selpartitio(typeid);}
+	public List<Partation> selpartitio2(int typeid){return  chargeDao.selpartitio2(typeid);}
+	public List<Commodity> selcommid(String partitionname){return  chargeDao.selcommid(partitionname);}
+	public List<Commodity> selcommid2(int selcommid2){return  chargeDao.selcommid2(selcommid2);}
+	public List<Partation> selshoplunbo(String typeid,String partitionname){return  chargeDao.selshoplunbo(typeid,partitionname);}
 }

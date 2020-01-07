@@ -24,7 +24,7 @@ public interface ChargeDao
 	public int selcarid(String statename);
 	public int upcartype(CardPort cardPort);
 	public List<Cost> selmoney(String fasttime,String nexttime);
-	public int insetdaile(String dailetime,String money);
+	public int insetdaile(String dailetime,String money,String dailetime2);
 	public List<Daile> seldaile(String nowday);
 	public List<Combo> selcarbo();
 	public int overmoney(UserManagement userManagement);
@@ -37,6 +37,7 @@ public interface ChargeDao
 	public  int selstateid2();
 	public  int selstateid3();
 	public  int selstateid4();
+	public  int selstateid5(String statename);
 	public  String selusermoney(String carnum);
 	public  List<Combo> selcombo(String money);
 	public int insetsell(String money,String comboid,String time,String carnum,String selltype);
@@ -45,7 +46,12 @@ public interface ChargeDao
 	public List<CarInOut> selbus3(Page page);
 	public int selpeyid();
 	public List<UserManagement> seluser(UserManagement userManagement);
-
-
-
+	public int insetuser(UserManagement userManagement);
+	public List<UserManagement> selname(String username);
+	public List<UserManagement> selname2(String carnum);
+	public List<Partation> selpartitio(int typeid);
+	public List<Partation> selpartitio2(int typeid);
+	public List<Commodity> selcommid(String partitionname);
+	public List<Commodity> selcommid2(int commodityid);
+	public List<Partation> selshoplunbo(String typeid,String partitionname);
 }

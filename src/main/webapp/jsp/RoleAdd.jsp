@@ -10,10 +10,8 @@
 <head>
 	<title>添加角色</title>
 	<script src="../js/jquery-3.4.1.js"></script>
-<%--	<link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">--%>
 	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
 
-</head>
 <body>
 
 <div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">

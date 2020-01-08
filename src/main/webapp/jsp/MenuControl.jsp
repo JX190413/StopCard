@@ -149,7 +149,7 @@
 							body.find("#menuid").val(data.menuid);  //设置子窗口指定元素的值
 							body.find("#menuname").val(data.menuname);  //设置子窗口指定元素的值
 							body.find("#menuurl").val(data.menuurl);  //设置子窗口指定元素的值
-							body.find("#fatherid1").val(data.fatherid);  //设置子窗口指定元素的值
+							body.find("#father").val(data.fatherid);  //设置子窗口指定元素的值
 							// 记得重新渲染表单
 							form.render();
 						}
@@ -161,7 +161,7 @@
 								var field = msg.field; //获取提交的字段\
 								console.log(field);
 								//提交 Ajax 成功后，静态更新表格中的数据
-								$.post('<%=path+"/updateMenu"%>',{menuid:data.menuid,menuname:field.menuname,fatherid:field.fatherid,menuurl:field.menuurl},function (msg) {
+								$.post('<%=path+"/updateMenu"%>',{menuid:data.menuid,menuname:field.menuname,fatherid:field.father,menuurl:field.menuurl},function (msg) {
 									if(eval(msg)>0){
 										layer.msg("修改成功！");
 									}else{layer.msg("修改失败！");}
@@ -214,9 +214,9 @@
 						//监听提交
 						iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function (data) {
 							var field = data.field; //获取提交的字段\
-							// console.log(field);
+							console.log(field);
 							//提交 Ajax 成功后，静态更新表格中的数据
-							$.post('<%=path+"/addMenu"%>',{menuname:field.menuname,fatherid:field.fatherid,menuurl:field.menuurl},function (msg) {
+							$.post('<%=path+"/addMenu"%>',{menuname:field.menuname,fatherid:field.father,menuurl:field.menuurl},function (msg) {
 								if(eval(msg)>0){
 									layer.msg("添加成功！");
 								}else{layer.msg("添加失败！");}

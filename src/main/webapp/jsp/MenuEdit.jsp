@@ -11,7 +11,10 @@
 	<title>添加角色</title>
 	<script src="../js/jquery-3.4.1.js"></script>
 	<link rel="stylesheet" href="../layui/css/layui.css" media="all">
-
+	<%--	//zTree的js/css--%>
+	<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css" media="all">
+	<script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../js/jquery.ztree.excheck.js"></script>
 </head>
 <body>
 
@@ -25,8 +28,8 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">上级菜单</label>
 		<div class="layui-input-block">
-			<select id="fatherid" name="fatherid"  lay-filter="LAY-user-adminrole-type">
-			</select>
+			<ul id="treeDemo" class="ztree" ></ul>
+			<input type="hidden" name="father" id="father"  autocomplete="off" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -41,36 +44,76 @@
 	<div class="layui-form-item layui-hide">
 		<button class="layui-btn" lay-submit lay-filter="LAY-user-role-submit" id="LAY-user-role-submit">提交</button>
 	</div>
-	<input hidden id="menuid">
-	<input hidden id="fatherid1">
+	<input hidden id="menuid" >
 </div>
 
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
 
-	//角色下拉框动态赋值
-	function selectRender(form) {
-		$.post("/StopCard/queryMenu",function (obj) {
-			console.log(obj.data);
-			if (obj != undefined && obj != null && obj != "") {
-				var data=obj.data;
-				var html = "<option ></option>";
-				console.log($("#menuid").val());
-				for (var i = 0; i < data.length; i++) {
-					if($("#menuid").val()!=data[i].menuid){
-						if($("#fatherid1").val()==data[i].menuid){
-							html += "<option selected value=" + data[i].menuid + " >" + data[i].menuid+"."+data[i].menuname + "</option>";
-						}else{
-							html += "<option value=" + data[i].menuid + ">" + data[i].menuid+"."+data[i].menuname + "</option>";
-						}
-					}
-				}
-				$("#fatherid").append(html);
-			}
-			//重新渲染select
-			form.render();
-		});
+	function zTreeOnCheck(event, treeId, treeNode) {
+		// alert(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);
+		if(treeNode.checked){
+			$("#father").val(treeNode.id)
+		}else {
+			$("#father").val("0")
+		}
+
 	}
+	//
+	var setting = {
+		check: { //表示tree的节点在点击时的相关设置
+			enable: true, //是否显示radio/checkbox
+			autoCheckTrigger: false,
+			chkStyle: "radio",//值为checkbox或者radio表示
+			radioType:"all",
+			chkboxType: {"Y": "", "N": ""}//表示父子节点的联动效果，不联动
+		},
+
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+
+		callback:{//zTree单选框选择回调
+			onCheck:zTreeOnCheck
+		}
+	};
+
+	//数据源
+	var zNodes;
+
+	var code;
+	function setCheck() {
+		var type = $("#level").attr("checked")? "level":"all";
+		setting.check.radioType = type;
+		showCode('setting.check.radioType = "' + type + '";');
+		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+	}
+	function showCode(str) {
+		if (!code) code = $("#code");
+		code.empty();
+		code.append("<li>"+str+"</li>");
+	}
+
+
+	$(function () {
+		$.post("/StopCard/selectzTree", function (obj) {
+			// console.log(obj.data);
+			console.log(obj);
+			for (var i = 0; i <obj.length ; i++) {
+				if(eval($("#menuid").val())===eval(obj[i].id)){
+					obj[i]['checked']="true";
+				}
+			}
+			console.log(obj);
+			zNodes=obj;
+			setCheck();
+			$("#level").bind("change", setCheck);
+			$("#all").bind("change", setCheck);
+		});
+	});
+
 	layui.config({
 		base: '../layuiadmin/' //静态资源所在路径
 	}).extend({
@@ -78,7 +121,6 @@
 	}).use(['index', 'form'], function () {
 		var $ = layui.$
 			, form = layui.form;
-		selectRender(form)
 	});
 </script>
 </body>

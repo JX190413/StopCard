@@ -11,6 +11,7 @@ import com.cykj.stopcard.bean.*;
 import com.cykj.stopcard.log.Log;
 import com.cykj.stopcard.service.AdminLoginService;
 import com.cykj.stopcard.service.AdminService;
+import com.cykj.stopcard.service.RedisService;
 import com.cykj.stopcard.util.GetTon;
 import com.cykj.stopcard.util.Tool;
 import net.sf.json.JSONObject;
@@ -55,10 +56,50 @@ public class LoginController
 
 	@Resource
 	private AdminLoginService adminLoginService;
+
+	@Resource
+	private RedisService redisService;
 	@Resource
 	private AdminService adminService;
-//后台账号密码的登录
-	@RequestMapping("/Login")
+	//后台账号密码的登录
+//	@RequestMapping("/Login")
+//	public ModelAndView AdminLogin(Worker worker, HttpSession httpSession)
+//	{
+//		System.out.println("进来了吗");
+//		System.out.println(worker.getWorkeraccount());
+//		System.out.println(worker.getWorkerpass());
+//		ModelAndView mv = new ModelAndView();
+//		Worker worker1 = redisService.queryAdmin(worker);
+//		if (worker1 != null &&worker1.getWorkerpass().equals(worker.getWorkerpass()))
+//		{
+//
+//			if("启用".equals(worker1.getStatename())){
+//
+//				//调用查询菜单方法
+//				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(worker1);
+//				//调用查询参数方法
+//				Map<String,Object> map2=adminService.queryParameter();
+//				httpSession.setAttribute("workeraccount",worker1.getWorkeraccount());
+//				mv.addObject("worker1",worker1);
+//				mv.addObject("map",map);
+//				mv.addObject("map2",map2);
+//				mv.addObject("flage","1");
+//				mv.setViewName("Admin");
+//				return mv;
+//
+//			}else {
+//
+//				mv.addObject("flage","3");
+//
+//			}
+//
+//		   }else  if(worker1 == null){
+//			mv.addObject("flage","2");
+//		  }
+//		    mv.setViewName("AdminLogin");
+//              return mv;
+//	}
+			@RequestMapping("/Login")
 	public ModelAndView AdminLogin(Worker worker, HttpSession httpSession)
 	{
 		System.out.println("进来了吗");
@@ -75,7 +116,6 @@ public class LoginController
 				LinkedHashMap<String, ArrayList<AdminMenu>> map=queryMenu(worker1);
 				//调用查询参数方法
 				Map<String,Object> map2=adminService.queryParameter();
-//				httpSession.setAttribute("username",worker1.getWorkeraccount());
 				httpSession.setAttribute("workeraccount",worker1.getWorkeraccount());
 				mv.addObject("worker1",worker1);
 				mv.addObject("map",map);

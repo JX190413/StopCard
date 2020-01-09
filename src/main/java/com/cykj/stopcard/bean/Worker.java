@@ -9,8 +9,8 @@ public class Worker
    private String worktime;
    private int stateid;
    private String statename;
-	private byte[] face;
-  private boolean flage;
+   private byte[] face;
+   private boolean flage;
   private int page;
 
 	public Worker()

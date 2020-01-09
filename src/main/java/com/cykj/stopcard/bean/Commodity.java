@@ -10,13 +10,14 @@ public class Commodity
 	private String Jumpurl;
 	private String address;
 	private  int stock;
-	public Commodity(int commodityid, String commodityname, String commoditymoney, String commodityphoto, String commoditydetails)
+	public  Commodity(String Jumpurl,int commodityid, String commodityname, String commoditymoney, String commodityphoto, String commoditydetails)
 	{
 		this.commodityid = commodityid;
 		this.commodityname = commodityname;
 		this.commoditymoney = commoditymoney;
 		this.commodityphoto = commodityphoto;
 		this.commoditydetails = commoditydetails;
+		this.Jumpurl=Jumpurl;
 	}
 
 	public Commodity()

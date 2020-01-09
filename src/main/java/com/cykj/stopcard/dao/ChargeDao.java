@@ -53,5 +53,11 @@ public interface ChargeDao
 	public List<Partation> selpartitio2(int typeid);
 	public List<Commodity> selcommid(String partitionname);
 	public List<Commodity> selcommid2(int commodityid);
+	public List<Commodity> selshop(String commodityname);
 	public List<Partation> selshoplunbo(String typeid,String partitionname);
+	public int insetshopcart (Shoppingcart shoppingcart);
+	public List<Shoppingcart> selshoppingcart(int userid);
+	public List<Shoppingcart> selshoppingcart2(int shopid);
+	public List<Commodity> selinshop();
+	public int upnumber(String number,String name);
 }

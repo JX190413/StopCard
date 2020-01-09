@@ -172,4 +172,32 @@ SELECT * from tbl_user where carnum=#{carnum}
     <select id="selshoplunbo" parameterType="java.lang.String" resultType="Partation">
         SELECT * from tbl_partitio where typeid=#{typeid} and partitionname=#{partitionname}
     </select>
+    <insert id="insetshopcart" parameterType="Shoppingcart">
+INSERT into tbl_shoppingcart (userid,commodityname,commoditynumber,commodityidprice,image,shopid)
+VALUES(#{userid},#{commodityname},#{commoditynumber},#{commodityidprice},#{image},#{shopid})
+    </insert>
+    <select id="selshoppingcart" parameterType="Integer" resultType="Shoppingcart">
+        SELECT * from tbl_shoppingcart where userid=#{userid}
+    </select>
+    <select id="selshoppingcart2" parameterType="Integer" resultType="Shoppingcart">
+        SELECT * from tbl_shoppingcart where shopid=#{shopid}
+    </select>
+
+    <select id="selshop" parameterType="java.lang.String" resultType="Commodity">
+        SELECT * from tbl_commodity where commodityname=#{commodityname}
+    </select>
+    <select id="selinshop" parameterType="java.lang.String" resultMap="epmap2">
+SELECT * from tbl_commodity WHERE commodityname in (SELECT commodityname from tbl_shoppingcart)
+    </select>
+    <resultMap id="epmap2" type="Commodity">
+        <result property="commodityid" column="commodityid"></result>
+        <result property="commodityname" column="commodityname"></result>
+        <result property="commoditymoney" column="commoditymoney"></result>
+        <result property="commodityphoto" column="commodityphoto"></result>
+        <result property="commoditydetails" column="commoditydetails"></result>
+        <result property="address" column="address"></result>
+    </resultMap>
+    <update id="upnumber" parameterType="java.lang.String" >
+        UPDATE  tbl_shoppingcart set commoditynumber=#{number} where commodityname=#{name}
+    </update>
 </mapper>

@@ -324,7 +324,7 @@ public class ChargeController
 		}
 		return modelAndView;
 	}
-	//定时器定时增加
+	//定时器任务
 	@Scheduled(cron="0 0 0,8,16 * * ?")
 	//五秒测试一次
 //	@Scheduled(cron="*/5 * * * * ?")
@@ -721,6 +721,51 @@ if (str.indexOf(".") > 0)
 		map.put("list",list);
 		map.put("list2",list2);
 		map.put("list3",list3);
+		return map;
+		//
+	}
+	@RequestMapping("shopping")
+	@ResponseBody
+	public  String shopping(String id,String price,String shopname,String loginname,String shopBuyCount,String image){
+		String uid=chargeService.selname(loginname).get(0).getUserid();
+		System.out.println("进入购物车");
+		System.out.println(id+price+shopname+shopBuyCount);
+		String msg="2";
+		Shoppingcart shoppingcart=new Shoppingcart();
+		shoppingcart.setUserid(Integer.valueOf(uid));
+		shoppingcart.setCommodityidprice(Integer.valueOf(price));
+		shoppingcart.setCommoditynumber(Integer.valueOf(shopBuyCount));
+		shoppingcart.setCommodityname(shopname);
+		shoppingcart.setImage(image);
+		int  shopid=chargeService.selshop(shopname).get(0).getCommodityid();
+		shoppingcart.setShopid(shopid);
+		int shopid2=chargeService.selshop(shopname).get(0).getCommodityid();
+		List<Shoppingcart> list=chargeService.selshoppingcart2(shopid2);
+		if (list.size()>0){
+			int number=list.get(0).getCommoditynumber()+Integer.valueOf(shopBuyCount);
+			int flay1=chargeService.upnumber(String.valueOf(number),shopname);
+			if (flay1>0){
+				msg="5";
+			}
+		}
+		else {
+			int flay=chargeService.insetshopcart(shoppingcart);
+			if (flay>0){
+				msg="5";
+			}}
+
+		return msg;
+		//
+	}
+	@RequestMapping("shoppingcart")
+	@ResponseBody
+	public  Map<String,Object> shopping1(String loginname){
+		Map<String,Object> map=new HashMap<>();
+		String userid=chargeService.selname(loginname).get(0).getUserid();
+		List<Shoppingcart> list=chargeService.selshoppingcart(Integer.valueOf(userid));
+		List<Commodity> list1=chargeService.selinshop();
+		map.put("list",list);
+		map.put("list1",list1);
 		return map;
 		//
 	}

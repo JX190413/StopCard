@@ -105,5 +105,11 @@ public class ChargeService
 	public List<Partation> selpartitio2(int typeid){return  chargeDao.selpartitio2(typeid);}
 	public List<Commodity> selcommid(String partitionname){return  chargeDao.selcommid(partitionname);}
 	public List<Commodity> selcommid2(int selcommid2){return  chargeDao.selcommid2(selcommid2);}
+	public List<Commodity> selshop(String commodityname){return  chargeDao.selshop(commodityname);}
 	public List<Partation> selshoplunbo(String typeid,String partitionname){return  chargeDao.selshoplunbo(typeid,partitionname);}
+	public  int insetshopcart(Shoppingcart shoppingcart){return chargeDao.insetshopcart(shoppingcart);}
+	public List<Shoppingcart> selshoppingcart(int userid){return  chargeDao.selshoppingcart(userid);}
+	public List<Shoppingcart> selshoppingcart2(int shopid){return  chargeDao.selshoppingcart2(shopid);}
+	public  List<Commodity> selinshop(){return chargeDao.selinshop();}
+	public int upnumber(String number,String name){return chargeDao.upnumber(number,name);}
 }

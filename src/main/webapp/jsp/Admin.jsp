@@ -71,7 +71,7 @@
 					<dd><a href="">安全设置</a></dd>
 				</dl>
 			</li>
-			<li class="layui-nav-item"><a href="">退了</a></li>
+			<li class="layui-nav-item"><a href="<%=servletPath+"/AdminLogin"%>">退了</a></li>
 		</ul>
 	</div>
 
@@ -83,16 +83,16 @@
 
 
 
-<div style="display:none;">
-	<c:choose>
-		<c:when test="${requestScope.flage == '1'}">
-			out.print("<script type='text/javascript'>alert('登录成功');</script>");
-		</c:when>
-		<c:otherwise>
-			<%--			<span><a href="Admin.jsp">登录</a></span>--%>
-		</c:otherwise>
-	</c:choose>
-</div>
+<%--<div style="display:none;">--%>
+<%--	<c:choose>--%>
+<%--		<c:when test="${requestScope.flage == '1'}">--%>
+<%--			out.print("<script type='text/javascript'>alert('登录成功');</script>");--%>
+<%--		</c:when>--%>
+<%--		<c:otherwise>--%>
+<%--			&lt;%&ndash;			<span><a href="Admin.jsp">登录</a></span>&ndash;%&gt;--%>
+<%--		</c:otherwise>--%>
+<%--	</c:choose>--%>
+<%--</div>--%>
 <div class="layui-body">
 	<!-- 内容主体区域 -->
 	<div >

@@ -64,20 +64,7 @@
 </script>
 <script>
 
-	//角色下拉框动态赋值
-	function selectRender(form) {
-		$.post("/StopCard/queryRoleSelect", function (data) {
-			console.log(data);
-			if (data != undefined && data != null && data != "") {
-				var html = "<option ></option>";
-				for (var i = 0; i < data.length; i++) {
-					html += "<option value=" + data[i].rolename + ">" + data[i].rolename + "</option>";
-				}
-				$("#rolename").append(html);
-			}                //重新渲染select
-			form.render();
-		});
-	}
+
 
 	function hoverOpenImg(){//鼠标悬浮显示头像大图
 		var img_show = null; // tips提示

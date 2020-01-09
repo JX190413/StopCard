@@ -76,6 +76,9 @@ public interface AdminDao
 
 	public  List<TreeNode> selectMenuTree(String admin);
 
+	//添加菜单树形ztree数据
+	public  List<zTreeBean> selectAllMenu();
+
 
 	//查询广告
 	public  List<Ad> queryAd(@Param("adid") String adid, @Param("start") Integer start, @Param("pageSize") Integer pageSize);

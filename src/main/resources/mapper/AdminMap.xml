@@ -35,6 +35,12 @@
     <result property="url" column="menuurl"></result>
 
 </resultMap>
+
+    <resultMap id="menu2" type="zTreeBean">
+        <result property="id" column="menuid"></result>
+        <result property="pId" column="fatherid"></result>
+        <result property="name" column="menuname"></result>
+    </resultMap>
     <!--通过登录人员查询树形菜单-->
     <select id="selectMenuTree" resultMap="menu">
         SELECT A.*
@@ -44,6 +50,10 @@
         AND C.roleid=D.rolerid
         AND D.workerid=B.workerid
         AND B.workeraccount=#{admin})A
+    </select>
+ <!--通过登录人员查询树形菜单-->
+    <select id="selectAllMenu" resultMap="menu2">
+       SELECT * FROM tbl_menu
     </select>
 
     <!--通过登录人员查询树形组件一级菜单-->

@@ -66,6 +66,14 @@ public class AdminController
 		return treeNodes;
 	}
 
+	@RequestMapping("/selectzTree")
+	@ResponseBody
+	public List<zTreeBean> selectAllMenu(HttpSession session)
+	{
+
+		return adminService.selectAllMenu();
+	}
+
 
 
 //	//数据权限树形菜单数据回显

@@ -55,6 +55,12 @@ public class AdminService
 		return adminDao.selectMenuTree( admin);
 	}
 
+	//树菜单2
+	public List<zTreeBean> selectAllMenu( ){
+
+		return adminDao.selectAllMenu( );
+	}
+
 
 	//树形组件一级菜单
 	public List<Map<String,Object>> selectTreeParent(String admin)
@@ -126,7 +132,6 @@ public class AdminService
 			}
 
 		}
-		System.out.println("----------------------"+list2.toString());
 		return list2;
 	}
 

@@ -61,6 +61,18 @@ public class ChargeService
 		page2.setPayid(payid);
 		return  chargeDao.selbus3(page2);
 	}
+	public List<Commodity> selbus4(int limit, int page1,String where,String where2){
+		int page=0;
+		if (page1>1){
+			page=(page1-1)*10;
+		}
+		Page page2=new Page();
+		page2.setLimit(limit);
+		page2.setPage(page);
+		page2.setWhere(where);
+	page2.setFast(where2);
+		return  chargeDao.selshopping(page2);
+	}
 	public int  selcormid(String time){
 		return  chargeDao.selcormid(time);
 	}
@@ -76,6 +88,7 @@ public class ChargeService
 	public int selallnumber2(String fast,String last){return chargeDao.selallnumber2(fast,last);}
 	public int selallnumber3(String fast){return chargeDao.selallnumber3(fast);}
 	public int selallnumber4(String where,String payid){return chargeDao.selallnumber4(where,payid);}
+	public int selallnumber5(String where){return chargeDao.selallnumber5(where);}
 	public int selcarid(String statename){return chargeDao.selcarid(statename);}
 	public int upcartype(CardPort cardPort){return chargeDao.upcartype(cardPort);}
 	public int insetdaile(String dailetime,String money,String dailetime2){return chargeDao.insetdaile(dailetime,money,dailetime2);}
@@ -112,4 +125,10 @@ public class ChargeService
 	public List<Shoppingcart> selshoppingcart2(int shopid){return  chargeDao.selshoppingcart2(shopid);}
 	public  List<Commodity> selinshop(){return chargeDao.selinshop();}
 	public int upnumber(String number,String name){return chargeDao.upnumber(number,name);}
+	public int upfenqu(String name,String parname){return chargeDao.upfenqu(name,parname);}
+	public int upfenqu2(String name,String parname){return chargeDao.upfenqu2(name,parname);}
+
+
+
+
 }

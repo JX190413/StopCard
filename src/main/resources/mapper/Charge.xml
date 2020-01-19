@@ -63,6 +63,9 @@ UPDATE tbl_business set cartype=#{cartype} where businessid=#{out_trade_no}
     <select id="selallnumber4" resultType="int" parameterType="java.lang.String">
       SELECT COUNT(*) FROM tbl_inout where carnum like "%"#{where}"%" and payid=#{payid}
     </select>
+    <select id="selallnumber5" resultType="int" parameterType="java.lang.String">
+      SELECT COUNT(*) FROM tbl_commodity where partitionname =#{where}
+    </select>
     <!-- 查看状态id-->
     <select id="selcarid" parameterType="java.lang.String" resultType="Integer">
         SELECT stateid from tbl_state WHERE statename=#{statename}
@@ -104,6 +107,12 @@ SELECT * from tbl_user where carnum=#{carnum}
     <update id="uptypecar" parameterType="java.lang.String">
         UPDATE  tbl_business set cartype=#{cartype} where carnum=#{carnum}
     </update>
+    <update id="upfenqu" parameterType="java.lang.String">
+        UPDATE tbl_commodity set partitionname=#{name} where partitionname=#{parname}
+    </update>
+    <update id="upfenqu2" parameterType="java.lang.String">
+        UPDATE tbl_partitio set partitionname=#{name} where partitionname=#{parname}
+    </update>
     <update id="uptime5" parameterType="java.lang.String">
         UPDATE tbl_business set pasttime=#{time} where carnum=#{carnum} and cartype=#{cartype}
     </update>
@@ -138,6 +147,9 @@ SELECT * from tbl_user where carnum=#{carnum}
     </select>
     <select id="selbus3" resultType="CarInOut" parameterType="Page">
         SELECT * from tbl_inout  where  carnum like "%"#{where}"%" and payid=#{payid} ORDER BY inoutid  LIMIT #{page},#{limit}
+    </select>
+    <select id="selshopping" resultType="Commodity" parameterType="Page">
+        SELECT * from tbl_commodity  where  partitionname like "%"#{where}"%" and  commodityname like "%"#{fast}"%" ORDER BY commodityid  LIMIT #{page},#{limit}
     </select>
     <select id="selpeyid" resultType="int">
         SELECT payid from tbl_pay where paytype='临时'
@@ -200,4 +212,5 @@ SELECT * from tbl_commodity WHERE commodityname in (SELECT commodityname from tb
     <update id="upnumber" parameterType="java.lang.String" >
         UPDATE  tbl_shoppingcart set commoditynumber=#{number} where commodityname=#{name}
     </update>
+
 </mapper>

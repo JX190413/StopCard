@@ -10,6 +10,7 @@ public class Commodity
 	private String Jumpurl;
 	private String address;
 	private  int stock;
+	private  String partitionname;
 	public  Commodity(String Jumpurl,int commodityid, String commodityname, String commoditymoney, String commodityphoto, String commoditydetails)
 	{
 		this.commodityid = commodityid;
@@ -22,6 +23,16 @@ public class Commodity
 
 	public Commodity()
 	{
+	}
+
+	public String getPartitionname()
+	{
+		return partitionname;
+	}
+
+	public void setPartitionname(String partitionname)
+	{
+		this.partitionname = partitionname;
 	}
 
 	public int getStock()

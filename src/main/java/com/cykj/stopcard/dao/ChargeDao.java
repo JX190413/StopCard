@@ -21,6 +21,7 @@ public interface ChargeDao
 	public  int selallnumber2(String fast,String last);
 	public  int selallnumber3(String fast);
 	public  int selallnumber4(String where,String payid);
+	public  int selallnumber5(String where);
 	public int selcarid(String statename);
 	public int upcartype(CardPort cardPort);
 	public List<Cost> selmoney(String fasttime,String nexttime);
@@ -60,4 +61,7 @@ public interface ChargeDao
 	public List<Shoppingcart> selshoppingcart2(int shopid);
 	public List<Commodity> selinshop();
 	public int upnumber(String number,String name);
+	public List<Commodity> selshopping(Page page);
+	public int upfenqu(String name,String parname);
+	public int upfenqu2(String name,String parname);
 }

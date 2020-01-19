@@ -614,6 +614,7 @@ if (str.indexOf(".") > 0)
 
 		return  msg;
 	}
+	//临时车辆查看
 	@RequestMapping("Temporary")
 	@ResponseBody
 	public  Msg Temporary(  String limit,String page ,String id){
@@ -700,6 +701,7 @@ if (str.indexOf(".") > 0)
 		map.put("list2",list2);
 		return map;
 	}
+	//总的商品查询
 	@RequestMapping("shop")
 	@ResponseBody
 	public  List<Commodity> shop(String title){
@@ -708,7 +710,7 @@ if (str.indexOf(".") > 0)
 		List<Commodity> list=chargeService.selcommid(title);
 		return list;
 	}
-
+//获取商品主页面
 	@RequestMapping("shoplunbo")
 	@ResponseBody
 	public  Map<String,Object> shop2(String uid){
@@ -724,6 +726,7 @@ if (str.indexOf(".") > 0)
 		return map;
 		//
 	}
+	//购物车
 	@RequestMapping("shopping")
 	@ResponseBody
 	public  String shopping(String id,String price,String shopname,String loginname,String shopBuyCount,String image){
@@ -757,6 +760,7 @@ if (str.indexOf(".") > 0)
 		return msg;
 		//
 	}
+	//查找用户购物车商品
 	@RequestMapping("shoppingcart")
 	@ResponseBody
 	public  Map<String,Object> shopping1(String loginname){
@@ -769,5 +773,61 @@ if (str.indexOf(".") > 0)
 		return map;
 		//
 	}
+	@RequestMapping("seltitle")
+	public  ModelAndView shopping2(String loginname){
+		ModelAndView modelAndView=new ModelAndView();
+		int typeid=chargeService.selstateid5("导航");
+		List<Partation> list=chargeService.selpartitio(typeid);
+		modelAndView.addObject("List",list);
+		modelAndView.setViewName("Shoping");
+		return modelAndView;
+		//
+	}
+	@RequestMapping("selshopping")
+	@ResponseBody
+	public  Msg shopping3(String limit,String page,String id,String shopname ){
+		System.out.println(shopname);
+		System.out.println(id);
+		String id2="";
+		String name="";
+		if (id==null){
+			id=id2;
+		}
+		if (shopname==null){
+			shopname=name;
+		}
+		Msg msg=new Msg();
+		List<Commodity> list=chargeService.selbus4(Integer.valueOf(limit),Integer.valueOf(page),id,shopname);
+		msg.setData(list);
+		msg.setCode(0);
+		msg.setMsg("");
+		int number=chargeService.selallnumber5(id);
+		msg.setCount(number);
+
+		return msg;
+		//
+	}
+	@RequestMapping("upfenqu")
+	public  ModelAndView upfenqu(String interest1,String selfenqu ){
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.setViewName("Shoping");
+	int flay= chargeService.upfenqu(selfenqu,interest1);
+		int flay2= chargeService.upfenqu2(selfenqu,interest1);
+	if (flay>0&&flay2>0){
+		System.out.println("修改成功");
+	}
+		int typeid=chargeService.selstateid5("导航");
+		List<Partation> list=chargeService.selpartitio(typeid);
+		modelAndView.addObject("List",list);
+		return modelAndView;
+		//
+	}
+	@RequestMapping("upimage")
+	@ResponseBody
+	public String upimage(){
+		System.out.println("进入图片上传");
+		return  null;
+	}
+
 }
 

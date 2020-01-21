@@ -118,6 +118,7 @@ public class ChargeService
 	public List<Partation> selpartitio2(int typeid){return  chargeDao.selpartitio2(typeid);}
 	public List<Commodity> selcommid(String partitionname){return  chargeDao.selcommid(partitionname);}
 	public List<Commodity> selcommid2(int selcommid2){return  chargeDao.selcommid2(selcommid2);}
+	public List<Commodity> selcommid3(){return  chargeDao.selcommid3();}
 	public List<Commodity> selshop(String commodityname){return  chargeDao.selshop(commodityname);}
 	public List<Partation> selshoplunbo(String typeid,String partitionname){return  chargeDao.selshoplunbo(typeid,partitionname);}
 	public  int insetshopcart(Shoppingcart shoppingcart){return chargeDao.insetshopcart(shoppingcart);}
@@ -127,7 +128,7 @@ public class ChargeService
 	public int upnumber(String number,String name){return chargeDao.upnumber(number,name);}
 	public int upfenqu(String name,String parname){return chargeDao.upfenqu(name,parname);}
 	public int upfenqu2(String name,String parname){return chargeDao.upfenqu2(name,parname);}
-
+	public int upimage(String image,String id){return chargeDao.upimage(image,id);}
 
 
 

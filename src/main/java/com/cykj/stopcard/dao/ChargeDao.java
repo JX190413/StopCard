@@ -54,6 +54,7 @@ public interface ChargeDao
 	public List<Partation> selpartitio2(int typeid);
 	public List<Commodity> selcommid(String partitionname);
 	public List<Commodity> selcommid2(int commodityid);
+	public List<Commodity> selcommid3();
 	public List<Commodity> selshop(String commodityname);
 	public List<Partation> selshoplunbo(String typeid,String partitionname);
 	public int insetshopcart (Shoppingcart shoppingcart);
@@ -64,4 +65,5 @@ public interface ChargeDao
 	public List<Commodity> selshopping(Page page);
 	public int upfenqu(String name,String parname);
 	public int upfenqu2(String name,String parname);
+	public int upimage(String image,String id);
 }

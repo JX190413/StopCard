@@ -181,6 +181,9 @@ SELECT * from tbl_user where carnum=#{carnum}
     <select id="selcommid2" resultType="Commodity" parameterType="Integer">
         SELECT * from tbl_commodity where  commodityid=#{commodityid}
     </select>
+    <select id="selcommid3" resultType="Commodity" >
+        SELECT * from tbl_commodity
+    </select>
     <select id="selshoplunbo" parameterType="java.lang.String" resultType="Partation">
         SELECT * from tbl_partitio where typeid=#{typeid} and partitionname=#{partitionname}
     </select>
@@ -212,5 +215,7 @@ SELECT * from tbl_commodity WHERE commodityname in (SELECT commodityname from tb
     <update id="upnumber" parameterType="java.lang.String" >
         UPDATE  tbl_shoppingcart set commoditynumber=#{number} where commodityname=#{name}
     </update>
-
+    <update id="upimage" parameterType="java.lang.String" >
+        UPDATE  tbl_commodity set commodityphoto=#{image} where commodityid=#{id}
+    </update>
 </mapper>

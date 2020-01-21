@@ -22,12 +22,21 @@
 	<script type="text/javascript" src=<%=jsPath+"jquery.js" %>></script>
 	<!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
+<style>
+	#prevModal {
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		display: none;
 
+	}
+
+</style>
 <body>
 
 
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-xs" lay-event="shangchuan" id="shangchuang">上传商品图片</a>
+	<a class="layui-btn layui-btn-xs" lay-event="shangchuan" id="shangchuang">上传/修改商品图片</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">下架商品</a>
 </script>
 
@@ -57,11 +66,13 @@
 <div id="add-main2" style="display: none;">
 	<div class="layui-upload">
 		<button type="button" class="layui-btn" id="test1">上传图片</button>
-		<div class="layui-upload-list">
-			<img class="layui-upload-img" id="demo1">
+		<div class="layui-upload-list" >
+			<img class="layui-upload-img" id="demo1" style="width: 500px;height: 500px">
 			<p id="demoText"></p>
-		</div>
+		</div >
+		<button class="layui-btn" lay-submit lay-filter="save" id="uploadimage" >上传</button>
 	</div>
+	<input type="hidden"  id="hzimage">
 </div>
 
 <div class="demoTable">
@@ -121,7 +132,7 @@
 				{field: 'commodityid', title: 'ID',align: 'center'}
 				,{field: 'commodityname', title: '商品名称',align: 'center'}
 				,{field: 'commoditymoney', title: '商品价格',align: 'center'}
-				,{field: 'commoditymoney', title: '商品图片',templet: "#imgtmp"}
+				,{field: 'commodityphoto', title: '商品图片',templet: "#imgtmp"}
 				,{field: 'partitionname', title: '所属分区',align: 'center'}
 				,{field: 'address', title: '发货地址', align: 'center' }
 				,{field: 'stock', title: '剩余数量', align: 'center' }
@@ -146,6 +157,7 @@
 					layer.close(index);
 				});
 			} else if(obj.event === 'shangchuan'){
+				$("#hzimage").val(data.commodityid);
 				layer.prompt({
 					formType: 2
 					,value: data.email
@@ -206,13 +218,16 @@
 				content: $("#add-main") //这里content是一个普通的String
 			});
 		});
-		$("#shangchuan").click(function () {
-			layer.open({
-				type: 1,
-				area: ['500px', '300px'],
-				content: $("#add-main2") //这里content是一个普通的String
-			});
-		});
+		// $("#shangchuan").click(function () {
+		// 	var id=$("#hzimage").val(data.ID);
+		// 	alert(id);
+		// 	layer.open({
+		// 		type: 1,
+		// 		area: ['500px', '300px'],
+		// 		// content: $("#add-main2") //这里content是一个普通的String
+		//
+		// 	});
+		// });
 	});
 
 </script>
@@ -221,11 +236,17 @@
 	var $ = layui.jquery
 		,upload = layui.upload;
 	//普通图片上传
+
 	var uploadInst = upload.render({
 		elem: '#test1'
-		,url: '<%=path+"/upimage"%>' //改成您自己的上传接口
-		,before: function(obj){
+		,accept: 'images' //允许上传的文件类型
+		,bindAction: '#uploadimage' //指定一个按钮触发上传
+		,url: '/StopCard/shopingview'//改成您自己的上传接口
+		,auto: false //选完文件后不要自动上传
+		,choose: function(obj){
 			//预读本地文件示例，不支持ie8
+			this.data={"id":$("#hzimage").val()};
+
 			obj.preview(function(index, file, result){
 				$('#demo1').attr('src', result); //图片链接（base64）
 			});
@@ -234,6 +255,12 @@
 			//如果上传失败
 			if(res.code > 0){
 				return layer.msg('上传失败');
+			}
+			else {
+				layer.msg('上传成功');
+				window.location.href="seltitle";
+
+
 			}
 			//上传成功
 		}
@@ -249,7 +276,7 @@
 	});
 </script>
 <script type="text/html" id="imgtmp">
-<img src="/StopCard/images/1.jpg" style="width: 100%;height: 100%">
+<img src="{{d.commodityphoto}}" style="width: 100%;height: 100%">
 </script>
 
 </body>

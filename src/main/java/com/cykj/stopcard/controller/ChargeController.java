@@ -15,11 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -774,11 +776,13 @@ if (str.indexOf(".") > 0)
 		//
 	}
 	@RequestMapping("seltitle")
-	public  ModelAndView shopping2(String loginname){
+	public  ModelAndView shopping2(){
 		ModelAndView modelAndView=new ModelAndView();
 		int typeid=chargeService.selstateid5("导航");
 		List<Partation> list=chargeService.selpartitio(typeid);
-		modelAndView.addObject("List",list);
+
+		modelAndView.addObject("list",list);
+
 		modelAndView.setViewName("Shoping");
 		return modelAndView;
 		//
@@ -822,12 +826,37 @@ if (str.indexOf(".") > 0)
 		return modelAndView;
 		//
 	}
-	@RequestMapping("upimage")
-	@ResponseBody
-	public String upimage(){
-		System.out.println("进入图片上传");
-		return  null;
-	}
 
+
+	@RequestMapping("/shopingview")
+	@ResponseBody
+	public String updateAdImg(HttpServletRequest request,Ad ad, MultipartFile file,String id)
+	{
+		String code="20";
+
+		String realPath = request.getSession().getServletContext().getRealPath("/");
+		try
+		{
+			if (null != file && ad != null){
+				String path=realPath+ "\\hzimages\\"+file.getOriginalFilename();
+				ad.setAdimg("img\\ADimg\\"+file.getOriginalFilename());
+				file.transferTo(new File(path));
+				String upath="http://localhost:8080/StopCard/hzimages/";
+				String ipath=upath+file.getOriginalFilename();
+				System.out.println(ipath);
+
+				int flay=chargeService.upimage(ipath,id);
+				if (flay>0){
+					code="0";
+				}
+
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("222"+file.getOriginalFilename());
+		return code;
+	}
 }
 

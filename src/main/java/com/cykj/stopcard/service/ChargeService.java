@@ -130,6 +130,7 @@ public class ChargeService
 	public int upfenqu2(String name,String parname){return chargeDao.upfenqu2(name,parname);}
 	public int upimage(String image,String id){return chargeDao.upimage(image,id);}
 	public  int insetshop(Commodity commodity){return chargeDao.insetshop(commodity);}
-
+	public  int isnetqu( String name,String id){return chargeDao.isnetqu(name,id);}
+	public int deshop(String id){return  chargeDao.deshop(id);}
 
 }

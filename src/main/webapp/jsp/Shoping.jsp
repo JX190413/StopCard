@@ -45,7 +45,7 @@
 	<form class="layui-form" id="add-form"  action="<%=path+"/upfenqu"%>">
 		<div class="layui-form-item center" >
 			<select  name="interest1" lay-filter="aihao" id="demoload3" style="width: 50px;height: 30px">
-				<c:forEach items="${List}" var="list">
+				<c:forEach items="${list}" var="list">
 					<option value="${list.partitionname}">${list.partitionname}</option>--%>
 				</c:forEach>
 
@@ -74,9 +74,21 @@
 	</div>
 	<input type="hidden"  id="hzimage">
 </div>
+<div id="add-main4" style="display: none;">
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role2" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">分区名称</label>
+			<div class="layui-input-block">
+				<input  type="text" id="quname" name="quname"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item " style="padding-left: 200px">
+			<button class="layui-btn"  id="layuibut2" >提交</button>
+		</div>
+	</div>
+</div>
 <div id="add-main3" style="display: none;">
 	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
-
 		<div class="layui-form-item">
 			<label class="layui-form-label">选择分区：</label>
 			<div class="layui-input-block">
@@ -144,6 +156,7 @@
 					</div>
 				</div>
 				<button class="layui-btn" data-type="reload">搜索</button>
+				<button data-method="notice" class="layui-btn" id="xinzeng">新增分区</button>
 				<button data-method="notice" class="layui-btn" id="xiugai">修改分区</button>
 				<button data-method="notice" class="layui-btn" id="shangjia">上架商品</button>
 			</div>
@@ -198,8 +211,27 @@
 			var data = obj.data;
 			//console.log(obj)
 			if(obj.event === 'del'){
-				layer.confirm('真的删除行么', function(index){
-					obj.del();
+				layer.confirm('真的要下架这件商品么', function(index){
+					$.ajax({
+						type:"POST",//提交7/的方式
+						url:"<%=path+"/delshop"%>",//提交的地址
+						data:"id="+data.commodityid,//提交的数据
+						/*	dataType:"text",//希望返回的数据类型*!/*/
+						success:function (msg) {
+							var jsonStr = JSON.stringify(msg);
+							//成功的方法  msg为返回数据
+							if (jsonStr==='"30"'){
+								layer.msg("下架成功");
+								obj.del();
+							}
+							else if (jsonStr==='"20"') {
+								layer.msg("下架失败,请联系管理员");
+							}
+						},
+						error:function () {//错误的方法
+							layer.msg("服务器异常,请联系管理员")
+						}
+					});
 					layer.close(index);
 				});
 			} else if(obj.event === 'shangchuan'){
@@ -271,6 +303,41 @@
 				content: $("#add-main3") //这里content是一个普通的String
 
 			});
+		});
+		$("#xinzeng").click(function () {
+			layer.open({
+				type: 1,
+				area: ['500px', '300px'],
+				content: $("#add-main4") //这里content是一个普通的String
+
+			});
+		});
+		$("#layuibut2").click(function () {
+			var quname=$("#quname").val();
+			if (quname.length===0){
+				layer.msg("分区名不能为空");_
+			} else {
+				$.ajax({
+					type:"POST",//提交7/的方式
+					url:"<%=path+"/addfenqu"%>",//提交的地址
+					data:"quname="+quname,//提交的数据
+					/*	dataType:"text",//希望返回的数据类型*!/*/
+					success:function (msg) {
+						var jsonStr = JSON.stringify(msg);
+						//成功的方法  msg为返回数据
+						if (jsonStr==='"30"'){
+							layer.msg("添加成功");
+							window.location.href="seltitle";
+						}
+						else if (jsonStr==='"20"') {
+							layer.msg("添加失败,请联系管理员");
+						}
+					},
+					error:function () {//错误的方法
+						layer.msg("服务器异常,请联系管理员")
+					}
+				});
+			}
 		});
 		$("#layuibut").click(function () {
 			var adurl=$("#adurl").val();

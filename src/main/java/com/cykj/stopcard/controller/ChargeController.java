@@ -870,10 +870,40 @@ if (str.indexOf(".") > 0)
 		commodity.setCommodityname(adurl);
 		commodity.setPartitionname(demoload5);
 		commodity.setStock(Integer.valueOf(number));
+		commodity.setCommoditydetails("0");
 		int flay=chargeService.insetshop(commodity);
 		if (flay>0){
 			msg="30";
 		}
+		return msg;
+		//
+	}
+	@RequestMapping("addfenqu")
+	@ResponseBody
+	public  String addfenqu(String quname){
+		System.out.println("进入新增分区");
+		String msg="20";
+		System.out.println(quname);
+		int typeid=chargeService.selstateid5("导航");
+		int flay=chargeService.isnetqu(quname,String.valueOf(typeid));
+		if (flay>0){
+			msg="30";
+		}
+		return msg;
+		//
+	}
+	@RequestMapping("delshop")
+	@ResponseBody
+	public  String delshop(String id)
+	{
+		System.out.println("进入下架商品");
+		String msg = "20";
+		System.out.println(id);
+		int flay=chargeService.deshop(id);
+		if (flay>0){
+			msg="30";
+		}
+
 		return msg;
 		//
 	}

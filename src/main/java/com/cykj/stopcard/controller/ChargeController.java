@@ -780,7 +780,7 @@ if (str.indexOf(".") > 0)
 		ModelAndView modelAndView=new ModelAndView();
 		int typeid=chargeService.selstateid5("导航");
 		List<Partation> list=chargeService.selpartitio(typeid);
-
+		System.out.println(list.get(0).getPartitionname());
 		modelAndView.addObject("list",list);
 
 		modelAndView.setViewName("Shoping");
@@ -843,7 +843,7 @@ if (str.indexOf(".") > 0)
 				file.transferTo(new File(path));
 				String upath="http://localhost:8080/StopCard/hzimages/";
 				String ipath=upath+file.getOriginalFilename();
-				System.out.println(ipath);
+
 
 				int flay=chargeService.upimage(ipath,id);
 				if (flay>0){
@@ -857,6 +857,25 @@ if (str.indexOf(".") > 0)
 		}
 		System.out.println("222"+file.getOriginalFilename());
 		return code;
+	}
+	@RequestMapping("addshop")
+	@ResponseBody
+	public  String addshop(String adurl,String place,String number,String adress,String demoload5){
+		String msg="20";
+		System.out.println("进入添加商品界面");
+		System.out.println(adurl+place+adress+demoload5+number);
+		Commodity commodity=new Commodity();
+		commodity.setAddress(adress);
+		commodity.setCommoditymoney(place);
+		commodity.setCommodityname(adurl);
+		commodity.setPartitionname(demoload5);
+		commodity.setStock(Integer.valueOf(number));
+		int flay=chargeService.insetshop(commodity);
+		if (flay>0){
+			msg="30";
+		}
+		return msg;
+		//
 	}
 }
 

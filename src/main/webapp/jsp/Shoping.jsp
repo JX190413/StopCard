@@ -56,9 +56,9 @@
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit lay-filter="save" >提交修改</button>
-				<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >重置</button>
-			</div>
+			<button class="layui-btn" lay-submit lay-filter="save" >提交修改</button>
+			<button type="reset" class="layui-btn layui-btn-primary" id="closeBtn" >重置</button>
+		</div>
 		</div>
 	</form>
 </div>
@@ -74,7 +74,53 @@
 	</div>
 	<input type="hidden"  id="hzimage">
 </div>
+<div id="add-main3" style="display: none;">
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
 
+		<div class="layui-form-item">
+			<label class="layui-form-label">选择分区：</label>
+			<div class="layui-input-block">
+				<select  name="interest" lay-filter="aihao" id="demoload5" style="width: 120px;height: 30px">
+					<option value="请选择" selected="">请选择</option>--%>
+					<c:forEach items="${list}" var="list">
+						<option value="${list.partitionname}">${list.partitionname}</option>--%>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">商品名称</label>
+			<div class="layui-input-block">
+				<input  type="text" id="adurl" name="adurl"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">商品价格</label>
+			<div class="layui-input-block">
+				<input  type="text" id="place" name="place"  class="layui-input" onkeyup="value=value.replace(/[^\d]/g,'') "
+				        onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+				>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">库存数量</label>
+			<div class="layui-input-block">
+				<input  type="text" id="number" name="number"  class="layui-input" onkeyup="value=value.replace(/[^\d]/g,'') "
+				        onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  >
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">发货地址</label>
+			<div class="layui-input-block">
+				<input  type="text" id="adress" name="adress"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item " style="padding-left: 200px">
+		<button class="layui-btn"  id="layuibut" >提交</button>
+	</div>
+
+	</div>
+</div>
 <div class="demoTable">
 	<div class="layui-card">
 		<div class="layui-form layui-card-header layuiadmin-card-header-auto">
@@ -84,7 +130,7 @@
 					<div class="layui-input-block">
 						<select  name="interest" lay-filter="aihao" id="demoload" style="width: 120px;height: 30px">
 							<option value="" selected="">请选择</option>--%>
-							<c:forEach items="${List}" var="list">
+							<c:forEach items="${list}" var="list">
 								<option value="${list.partitionname}">${list.partitionname}</option>--%>
 							</c:forEach>
 						</select>
@@ -94,12 +140,12 @@
 				<div class="layui-inline">
 					<label class="layui-form-label">搜索商品：</label>
 					<div class="layui-input-block">
-						<input type="text"  id="shopname" lay-verify="title" autocomplete="off"  class="layui-input" placeholder="请输入商品名称" >
+						<input  type="text"  id="shopname" lay-verify="title" autocomplete="off"  class="layui-input" placeholder="请输入商品名称" >
 					</div>
 				</div>
 				<button class="layui-btn" data-type="reload">搜索</button>
 				<button data-method="notice" class="layui-btn" id="xiugai">修改分区</button>
-
+				<button data-method="notice" class="layui-btn" id="shangjia">上架商品</button>
 			</div>
 		</div>
 		<div class="layui-card-body">
@@ -218,16 +264,45 @@
 				content: $("#add-main") //这里content是一个普通的String
 			});
 		});
-		// $("#shangchuan").click(function () {
-		// 	var id=$("#hzimage").val(data.ID);
-		// 	alert(id);
-		// 	layer.open({
-		// 		type: 1,
-		// 		area: ['500px', '300px'],
-		// 		// content: $("#add-main2") //这里content是一个普通的String
-		//
-		// 	});
-		// });
+		$("#shangjia").click(function () {
+			layer.open({
+				type: 1,
+				area: ['500px', '300px'],
+				content: $("#add-main3") //这里content是一个普通的String
+
+			});
+		});
+		$("#layuibut").click(function () {
+			var adurl=$("#adurl").val();
+			var place=$("#place").val();
+			var number=$("#number").val();
+			var adress=$("#adress").val();
+			var demoload5=$("#demoload5").val();
+			if (adurl.length===0||place.length===0||number.length===0||adress.length===0||demoload5==='请选择'){
+				layer.msg("不能为空")
+			} else
+			$.ajax({
+				type:"POST",//提交7/的方式
+				url:"<%=path+"/addshop"%>",//提交的地址
+				data:"adurl="+adurl+"&place="+place+"&number="+number+"&adress="+adress+"&demoload5="+demoload5,//提交的数据
+				/*	dataType:"text",//希望返回的数据类型*!/*/
+				success:function (msg) {
+					var jsonStr = JSON.stringify(msg);
+					//成功的方法  msg为返回数据
+					if (jsonStr==='"30"'){
+						layer.msg("上架成功");
+						window.location.href="seltitle";
+					}
+					else if (jsonStr==='"20"') {
+						layer.msg("上架失败,请联系管理员");
+					}
+				},
+				error:function () {//错误的方法
+					layer.msg("服务器异常,请联系管理员")
+				}
+			});
+
+		});
 	});
 
 </script>

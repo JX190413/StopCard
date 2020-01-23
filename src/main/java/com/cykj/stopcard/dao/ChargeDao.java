@@ -66,4 +66,5 @@ public interface ChargeDao
 	public int upfenqu(String name,String parname);
 	public int upfenqu2(String name,String parname);
 	public int upimage(String image,String id);
+	public int insetshop(Commodity commodity);
 }

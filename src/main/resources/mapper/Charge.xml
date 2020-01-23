@@ -218,4 +218,8 @@ SELECT * from tbl_commodity WHERE commodityname in (SELECT commodityname from tb
     <update id="upimage" parameterType="java.lang.String" >
         UPDATE  tbl_commodity set commodityphoto=#{image} where commodityid=#{id}
     </update>
+    <insert id="insetshop" parameterType="Commodity">
+INSERT INTO tbl_commodity (commodityname,commoditymoney,commoditydetails,partitionname,address,stock)
+VALUES(#{commodityname},#{commoditymoney},#{commoditydetails},#{partitionname},#{address},#{stock})
+    </insert>
 </mapper>

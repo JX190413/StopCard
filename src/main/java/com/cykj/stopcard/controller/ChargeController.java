@@ -907,5 +907,22 @@ if (str.indexOf(".") > 0)
 		return msg;
 		//
 	}
+	@RequestMapping("delefenqu")
+	@ResponseBody
+	public  String delefenqu(String quname)
+	{
+		System.out.println("进入删除分区");
+		String msg = "20";
+		System.out.println(quname);
+		int flay=chargeService.delefenqu(quname);
+		if (flay>0){
+			chargeService.delefenqu2(quname);
+				msg="30";
+
+		}
+
+		return msg;
+		//
+	}
 }
 

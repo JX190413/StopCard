@@ -69,4 +69,6 @@ public interface ChargeDao
 	public int insetshop(Commodity commodity);
 	public int isnetqu(String name,String id);
 	public int deshop(String id);
+	public int delefenqu(String name);
+	public int delefenqu2(String name);
 }

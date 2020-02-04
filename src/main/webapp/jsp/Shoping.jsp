@@ -87,6 +87,24 @@
 		</div>
 	</div>
 </div>
+<div id="add-main5" style="display: none;">
+	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role3" style="padding: 20px 30px 0 0;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">请选择分区</label>
+			<div class="layui-input-block">
+				<select  name="interest" lay-filter="aihao" id="demoload6" style="width: 120px;height: 30px">
+
+					<c:forEach items="${list}" var="list">
+						<option value="${list.partitionname}">${list.partitionname}</option>--%>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item " style="padding-left: 200px">
+			<button class="layui-btn"  id="layuibut5" >删除</button>
+		</div>
+	</div>
+</div>
 <div id="add-main3" style="display: none;">
 	<div class="layui-form" lay-filter="layuiadmin-form-role" id="layuiadmin-form-role" style="padding: 20px 30px 0 0;">
 		<div class="layui-form-item">
@@ -158,7 +176,9 @@
 				<button class="layui-btn" data-type="reload">搜索</button>
 				<button data-method="notice" class="layui-btn" id="xinzeng">新增分区</button>
 				<button data-method="notice" class="layui-btn" id="xiugai">修改分区</button>
+				<button data-method="notice" class="layui-btn" id="delefenqu">删除分区</button>
 				<button data-method="notice" class="layui-btn" id="shangjia">上架商品</button>
+
 			</div>
 		</div>
 		<div class="layui-card-body">
@@ -312,10 +332,42 @@
 
 			});
 		});
+		$("#delefenqu").click(function () {
+			layer.open({
+				type: 1,
+				area: ['500px', '300px'],
+				content: $("#add-main5") //这里content是一个普通的String
+
+			});
+		});
+		$("#layuibut5").click(function () {
+			var demoload6=$("#demoload6").val();
+			$.ajax({
+				type:"POST",//提交7/的方式
+				url:"<%=path+"/delefenqu"%>",//提交的地址
+				data:"quname="+demoload6,//提交的数据
+				/*	dataType:"text",//希望返回的数据类型*!/*/
+				success:function (msg) {
+					var jsonStr = JSON.stringify(msg);
+					//成功的方法  msg为返回数据
+					if (jsonStr==='"30"'){
+						layer.msg("删除成功");
+						window.location.href="seltitle";
+					}
+					else if (jsonStr==='"20"') {
+						layer.msg("删除失败,请联系管理员");
+					}
+				},
+				error:function () {//错误的方法
+					layer.msg("服务器异常,请联系管理员")
+				}
+			});
+
+		});
 		$("#layuibut2").click(function () {
 			var quname=$("#quname").val();
 			if (quname.length===0){
-				layer.msg("分区名不能为空");_
+				layer.msg("分区名不能为空");
 			} else {
 				$.ajax({
 					type:"POST",//提交7/的方式

@@ -219,7 +219,7 @@ SELECT * from tbl_commodity WHERE commodityname in (SELECT commodityname from tb
         UPDATE  tbl_commodity set commodityphoto=#{image} where commodityid=#{id}
     </update>
     <insert id="insetshop" parameterType="Commodity">
-INSERT INTO tbl_commodity (commodityname,commoditymoney,commoditydetails,partitionname,address,stock,)
+INSERT INTO tbl_commodity (commodityname,commoditymoney,commoditydetails,partitionname,address,stock)
 VALUES(#{commodityname},#{commoditymoney},#{commoditydetails},#{partitionname},#{address},#{stock})
     </insert>
     <insert id="isnetqu" parameterType="java.lang.String">
@@ -227,5 +227,11 @@ VALUES(#{commodityname},#{commoditymoney},#{commoditydetails},#{partitionname},#
     </insert>
     <delete id="deshop" parameterType="java.lang.String">
 DELETE  from tbl_commodity where commodityid=#{id}
+    </delete>
+    <delete id="delefenqu" parameterType="java.lang.String">
+        DELETE from tbl_partitio WHERE partitionname=#{name}
+    </delete>
+    <delete id="delefenqu2" parameterType="java.lang.String">
+DELETE from tbl_commodity where partitionname=#{name}
     </delete>
 </mapper>

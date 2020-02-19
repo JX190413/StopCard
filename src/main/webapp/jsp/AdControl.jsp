@@ -132,25 +132,7 @@
 
 			if (obj.event === 'del') {
 				layer.confirm('真的删除'+data.rolename+'么?', function (index) {
-					// $.ajax({
-					// 	url: "/StopCard/deleteRole",
-					// 	data: "roleid=" + data.roleid,
-					// 	type: "Post",
-					// 	dataType: "json",
-					// 	success: function (data) {
-					// 		console.log(data);
-					// 		if (eval(data)===1) {
-					// 			table.reload('testReload');
-					// 			return layer.msg("删除成功！");
-					//
-					// 		}else {
-					// 			return layer.msg("删除失败！");
-					// 		}
-					// 	},
-					// 	error: function (data) {
-					// 		layer.msg("连接异常！");
-					// 	}
-					// });
+
 					layer.close(index);
 				});
 			}
@@ -206,46 +188,6 @@
 			}
 		});
 
-		// //事件
-		// var active = {
-		// 	add: function () {
-		// 		layer.open({
-		// 			type: 2
-		// 			, title: '添加新角色'
-		// 			, content: 'RoleAdd.jsp'
-		// 			, area: ['500px', '480px']
-		// 			, btn: ['确定', '取消']
-		// 			, yes: function (index, layero) {
-		// 				var iframeWindow = window['layui-layer-iframe' + index]
-		// 					, submit = layero.find('iframe').contents().find("#LAY-user-role-submit");
-		//
-		// 				//监听提交
-		// 				iframeWindow.layui.form.on('submit(LAY-user-role-submit)', function (data) {
-		// 					var field = data.field; //获取提交的字段
-		// 					//提交 Ajax 成功后，静态更新表格中的数据
-		// 					$.ajax({
-		// 						type: "POST",//提交的方式基本上用post
-		// 						url: "/StopCard/addRole",//提交的地址
-		// 						data: "field=" + JSON.stringify(field),//提交的数据
-		// 						dataType: "Text",//希望返回的数据类型
-		// 						async: true,//异步操作
-		// 						success: function (msg) {//成功的方法  msg为返回数据
-		// 							layer.msg(msg);
-		// 							$("#rolename").remove();
-		// 							selectRender(form);
-		// 							table.reload('testReload');
-		// 							layer.close(index); //关闭弹层
-		// 						},
-		// 						error: function () {//错误的方法
-		// 							alert("服务器正忙!")
-		// 						}
-		// 					});
-		// 				});
-		// 				submit.trigger('click');
-		// 			}
-		// 		});
-		// 	}
-		// };
 
 		$('.layui-btn.layuiadmin-btn-role').on('click', function () {
 			var type = $(this).data('type');

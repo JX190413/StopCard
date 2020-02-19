@@ -1,6 +1,7 @@
 package com.cykj.stopcard.util.CardNumberAnalyze;
 
 
+import com.cykj.stopcard.util.SslUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ public class AuthService
 		// 官网获取的 API Key 更新为你注册的
 		String clientId = "uICwi8oe2nyOTlFgOpYzaIAf";
 		// 官网获取的 Secret Key 更新为你注册的
-		String clientSecret = "dYsldur3zboNVTumAkH5YSCAKwG4r5yF ";
+		String clientSecret = "dYsldur3zboNVTumAkH5YSCAKwG4r5yF";
 		return getAuth(clientId, clientSecret);
 	}
 
@@ -40,6 +41,10 @@ public class AuthService
 				+ "&client_secret=" + sk;
 		try {
 			URL realUrl = new URL(getAccessTokenUrl);
+			//忽略HTTPS请求的SSL证书，必须在openConnection之前调用
+			if("https".equalsIgnoreCase(realUrl.getProtocol())){
+				SslUtils.ignoreSsl();
+			}
 			// 打开和URL之间的连接
 			HttpURLConnection connection = (HttpURLConnection) realUrl.openConnection();
 			connection.setRequestMethod("POST");

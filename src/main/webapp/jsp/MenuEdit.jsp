@@ -102,7 +102,8 @@
 			// console.log(obj.data);
 			console.log(obj);
 			for (var i = 0; i <obj.length ; i++) {
-				if(eval($("#menuid").val())===eval(obj[i].id)){
+				if(eval($("#father" +
+					"").val())===eval(obj[i].id)){
 					obj[i]['checked']="true";
 				}
 			}

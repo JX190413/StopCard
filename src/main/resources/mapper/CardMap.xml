@@ -29,9 +29,8 @@
 
     <!--    反向寻车-->
     <select id="searchCardPort" resultType="CardPort">
-        SELECT A.* FROM tbl_carport A,tbl_inout B
-        WHERE A.portname=B.portname
-        AND  B.portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and stateid='4')
+        SELECT * FROM tbl_carport
+        WHERE portname=(SELECT portname FROM `tbl_inout` WHERE carnum=#{carnum} and stateid='4')
     </select>
 
     <!--    白名单-->
